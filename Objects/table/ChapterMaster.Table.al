@@ -1,0 +1,44 @@
+table 71901 "Chapter Master"
+{
+    Caption = 'Chapter Master';
+    DrillDownPageID = 71905;
+    LookupPageID = 71905;
+
+    fields
+    {
+        field(1; "Code"; Code[20])
+        {
+            Caption = 'Code';
+            NotBlank = true;
+        }
+        field(2; Description; Text[30])
+        {
+            Caption = 'Description';
+        }
+        field(3; "Academic Year"; Code[20])
+        {
+            Caption = 'Academic Year';
+        }
+    }
+
+    keys
+    {
+        key(Key1; "Code")
+        {
+            Clustered = true;
+        }
+    }
+
+    fieldgroups
+    {
+    }
+
+    trigger OnInsert()
+    begin
+        "Academic Year" := EducationVertical.GetAcademicYear;
+    end;
+
+    var
+        EducationVertical: Codeunit "Education Vertical";
+}
+

@@ -1,0 +1,6 @@
+launch.json
+rad.json
+permissionsAnalyzer.json
+*.app
+.alcache*
+.altemplates*
