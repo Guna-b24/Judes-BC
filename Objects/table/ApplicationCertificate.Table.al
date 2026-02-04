@@ -1,40 +1,43 @@
 table 71010 "Application Certificate"
 {
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  19/10/09  VANDHANA  OnInsert                     Code to assign User ID.
-
     Caption = 'Application Certificate';
-    LookupPageID = 71017;
+    DataClassification = CustomerContent;
+    //LookupPageID = 71017;
 
     fields
     {
         field(1; "Application No."; Code[20])
         {
             Caption = 'Application No.';
+            ToolTip = 'Specifies the application number to which the certificate is linked.';
+            DataClassification = CustomerContent;
         }
         field(2; Ceritificate; Code[20])
         {
-            Caption = 'Ceritificate';
+            Caption = 'Certificate';
+            ToolTip = 'Specifies the certificate required or submitted for the application.';
             TableRelation = Certificate;
+            DataClassification = CustomerContent;
         }
         field(3; "Certificate Status"; Option)
         {
             Caption = 'Status';
+            ToolTip = 'Specifies whether the certificate is received or will be submitted later.';
             OptionCaption = ' ,Received,Submit Later';
             OptionMembers = " ",Received,"Submit Later";
+            DataClassification = CustomerContent;
         }
         field(4; "Receipt Date / Submission date"; Date)
         {
-            Caption = 'Receipt Date / Submission date';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            Caption = 'Receipt Date / Submission Date';
+            ToolTip = 'Specifies the date on which the certificate was received or is expected to be submitted.';
+            DataClassification = CustomerContent;
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            ToolTip = 'Specifies the portal identifier associated with this certificate record.';
+            DataClassification = SystemMetadata;
         }
     }
 
@@ -52,11 +55,6 @@ table 71010 "Application Certificate"
 
     trigger OnInsert()
     begin
-        // Start 01. VANDHANA
-
-        "User ID" := UserId;
-
-        // Stop 01. VANDHANA
     end;
 }
 

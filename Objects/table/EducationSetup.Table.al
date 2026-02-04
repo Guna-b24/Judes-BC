@@ -44,7 +44,7 @@ table 71884 "Education Setup"
             Caption = 'Task No.';
             TableRelation = "No. Series";
         }
-        field(8; "Announcement No."; Code[20])
+        field(8; "Announcement No."; Code[10])
         {
             Caption = 'Announcement No.';
             TableRelation = "No. Series";

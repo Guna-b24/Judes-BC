@@ -26,7 +26,7 @@ table 72000 "HR Setup"
             Caption = 'ResumeDB SNo';
             TableRelation = "No. Series";
         }
-        field(4; "Appraisal SNo"; Code[10])
+        field(4; "Appraisal SNo"; Code[20])
         {
             Caption = 'Appraisal SNo';
             TableRelation = "No. Series";

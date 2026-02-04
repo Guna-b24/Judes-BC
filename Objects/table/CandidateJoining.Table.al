@@ -9,8 +9,8 @@ table 72020 "Candidate Joining"
 
     Caption = 'Candidate Joining';
     DataCaptionFields = "No.", "First Name";
-    DrillDownPageID = 72030;
-    LookupPageID = 72030;
+    // DrillDownPageID = 72030;
+    // LookupPageID = 72030;
 
     fields
     {
@@ -117,7 +117,7 @@ table 72020 "Candidate Joining"
         field(16; "Alt. Address Code"; Code[10])
         {
             Caption = 'Alt. Address Code';
-            TableRelation = "Alternative Address".Code WHERE ("Employee No." = FIELD ("No."));
+            TableRelation = "Alternative Address".Code WHERE("Employee No." = FIELD("No."));
         }
         field(17; "Alt. Address Start Date"; Date)
         {
@@ -216,7 +216,7 @@ table 72020 "Candidate Joining"
         {
             CaptionClass = '1,1,1';
             Caption = 'Global Dimension 1 Code';
-            TableRelation = "Dimension Value".Code WHERE ("Global Dimension No." = CONST (1));
+            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
 
             trigger OnValidate()
             begin
@@ -230,7 +230,7 @@ table 72020 "Candidate Joining"
         {
             CaptionClass = '1,1,2';
             Caption = 'Global Dimension 2 Code';
-            TableRelation = "Dimension Value".Code WHERE ("Global Dimension No." = CONST (2));
+            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(2));
 
             trigger OnValidate()
             begin
@@ -243,7 +243,7 @@ table 72020 "Candidate Joining"
         field(38; "Resource No."; Code[20])
         {
             Caption = 'Resource No.';
-            TableRelation = Resource WHERE (Type = CONST (Person));
+            TableRelation = Resource WHERE(Type = CONST(Person));
 
             trigger OnValidate()
             begin
@@ -255,8 +255,8 @@ table 72020 "Candidate Joining"
         }
         field(39; Comment; Boolean)
         {
-            CalcFormula = Exist ("Human Resource Comment Line" WHERE ("Table Name" = CONST (Employee),
-                                                                     "No." = FIELD ("No.")));
+            CalcFormula = Exist("Human Resource Comment Line" WHERE("Table Name" = CONST(Employee),
+                                                                     "No." = FIELD("No.")));
             Caption = 'Comment';
             Editable = false;
             FieldClass = FlowField;
@@ -276,14 +276,14 @@ table 72020 "Candidate Joining"
             CaptionClass = '1,3,1';
             Caption = 'Global Dimension 1 Filter';
             FieldClass = FlowFilter;
-            TableRelation = "Dimension Value".Code WHERE ("Global Dimension No." = CONST (1));
+            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
         }
         field(43; "Global Dimension 2 Filter"; Code[20])
         {
             CaptionClass = '1,3,2';
             Caption = 'Global Dimension 2 Filter';
             FieldClass = FlowFilter;
-            TableRelation = "Dimension Value".Code WHERE ("Global Dimension No." = CONST (2));
+            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(2));
         }
         field(44; "Cause of Absence Filter"; Code[10])
         {
@@ -294,9 +294,9 @@ table 72020 "Candidate Joining"
         field(45; "Total Absence"; Decimal)
         {
             AutoFormatType = 1;
-            CalcFormula = Sum ("Employee Absence".Quantity WHERE ("Employee No." = FIELD ("No."),
-                                                                 "Cause of Absence Code" = FIELD ("Cause of Absence Filter"),
-                                                                 "From Date" = FIELD ("Date Filter")));
+            CalcFormula = Sum("Employee Absence".Quantity WHERE("Employee No." = FIELD("No."),
+                                                                 "Cause of Absence Code" = FIELD("Cause of Absence Filter"),
+                                                                 "From Date" = FIELD("Date Filter")));
             Caption = 'Total Absence';
             Editable = false;
             FieldClass = FlowField;
@@ -541,8 +541,8 @@ table 72020 "Candidate Joining"
         field(71167; "PT Branch Code"; Code[20])
         {
             Caption = 'PT Branch Code';
-            TableRelation = "Professional Tax Header"."Branch Code" WHERE ("Location Code" = FIELD ("Location Code"),
-                                                                           "Salary Plan Code" = FIELD ("Salary Plan Code"));
+            TableRelation = "Professional Tax Header"."Branch Code" WHERE("Location Code" = FIELD("Location Code"),
+                                                                           "Salary Plan Code" = FIELD("Salary Plan Code"));
         }
         field(71168; "Stop Payment"; Boolean)
         {

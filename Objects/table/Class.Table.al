@@ -1,35 +1,34 @@
 table 71041 Class
 {
-    //   No   Date        Sign       Trigger          Description
-    // -----------------------------------------------------------------------------------------------
-    //   01   17/09/09    Kathir                      Table Created by Kathir
-    //   02   19/10/09    VANDHANA   OnInsert         Code to assign User ID.
-
     Caption = 'Class';
-    LookupPageID = 71041;
+    //LookupPageID = 71041;
 
     fields
     {
         field(1; "Code"; Code[10])
         {
             Caption = 'Code';
+            ToolTip = 'Specifies the unique code for the class.';
+            DataClassification = CustomerContent;
             NotBlank = true;
         }
         field(2; Description; Text[30])
         {
             Caption = 'Description';
+            ToolTip = 'Specifies the description of the class.';
+            DataClassification = CustomerContent;
         }
         field(3; Sequence; Integer)
         {
             Caption = 'Sequence';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            ToolTip = 'Specifies the display or processing order of the class.';
+            DataClassification = CustomerContent;
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            ToolTip = 'Specifies the portal reference ID for the class.';
+            DataClassification = CustomerContent;
         }
     }
 
@@ -50,11 +49,7 @@ table 71041 Class
 
     trigger OnInsert()
     begin
-        // Start 02. VANDHANA
 
-        "User ID" := UserId;
-
-        // Stop 02. VANDHANA
     end;
 }
 

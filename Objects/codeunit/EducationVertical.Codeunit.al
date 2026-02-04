@@ -27,7 +27,7 @@ codeunit 71880 "Education Vertical"
         Text004: Label 'Do you want to Assign the academic Year ?';
         Ret: Code[20];
 
-    [Scope('Internal')]
+    //[Scope('Internal')]
     procedure GetAcademicYear(): Code[10]
     begin
         // Start 01.Kathir
@@ -37,15 +37,15 @@ codeunit 71880 "Education Vertical"
         // Stop 01.Kathir
     end;
 
-    [Scope('Internal')]
+    // [Scope('Internal')]
     procedure GetAdmissionYear(): Code[10]
     var
         Admission: Record "Admission Setup";
     begin
         // Start 02.Kathir
-        Admission.GET;
+        Admission.GET();
         Admission.TESTFIELD("Admission Year");
-        EXIT(Admission."Admission Year");
+        exit(Admission."Admission Year");
         // Stop 02.Kathir
     end;
 

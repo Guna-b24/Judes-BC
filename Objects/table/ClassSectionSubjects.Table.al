@@ -1,41 +1,46 @@
 table 71016 "Class Section Subjects"
 {
-    // No   Date      Sign     Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    // 01  26.11.09  VIGNESH   Subject - OnValidate()   Code added to get the Subject description type and Group
-
     Caption = 'Class Section Subjects';
-    DrillDownPageID = 71031;
-    LookupPageID = 71031;
+    // DrillDownPageID = 71031;
+    // LookupPageID = 71031;
 
     fields
     {
-        field(1; Class; Code[10])
+        field(1; Class; Code[20])
         {
             Caption = 'Class';
             TableRelation = Class.Code;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the class.';
         }
         field(2; Section; Code[20])
         {
             Caption = 'Section';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the section of the class.';
         }
         field(3; Curriculum; Code[10])
         {
             Caption = 'Curriculum';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the curriculum.';
         }
         field(4; "Academic Year"; Code[10])
         {
             Caption = 'Academic Year';
             TableRelation = "Academic Year";
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the academic year.';
         }
         field(5; Subject; Code[10])
         {
             Caption = 'Subject';
             TableRelation = Subject;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the subject code.';
 
             trigger OnValidate()
             begin
-                // Start 01.VIGNESH
                 if RecSubject.Get(Subject) then begin
                     Description := RecSubject.Description;
                     Type := RecSubject.Type;
@@ -47,7 +52,6 @@ table 71016 "Class Section Subjects"
                     "Subject Group" := '';
                     "II Lang Type" := 0;
                 end;
-                // Stop 01.VIGNESH
 
                 if ClassSection.Get("Class Code") then begin
                     Class := ClassSection.Class;
@@ -60,12 +64,16 @@ table 71016 "Class Section Subjects"
         field(6; Description; Text[50])
         {
             Caption = 'Description';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the subject description.';
         }
         field(7; Type; Option)
         {
             Caption = 'Type';
-            OptionCaption = 'Scholastic,Non-Scholastic';
             OptionMembers = Scholastic,"Non-Scholastic";
+            OptionCaption = 'Scholastic,Non-Scholastic';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies whether the subject is scholastic or non-scholastic.';
         }
         field(8; "Subject Group"; Code[20])
         {
@@ -108,10 +116,6 @@ table 71016 "Class Section Subjects"
         {
             OptionCaption = ' ,Group1,Group2,Group3,Group4,Group5,Group6';
             OptionMembers = " ",Group1,Group2,Group3,Group4,Group5,Group6;
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
         }
         field(70121; "Portal ID"; Code[20])
         {

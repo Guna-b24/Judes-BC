@@ -1,48 +1,47 @@
 table 71011 "Application Optional Subjects"
 {
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01   29/09/09  KATHIR   Subject - OnValidate()        Code added to get the Subject description
-    //   02   19/10/09  VANDHANA OnInsert                     Code to assign User ID.
-
     Caption = 'Application Optional Subjects';
-    LookupPageID = 71018;
+    //LookupPageID = 71018;
 
     fields
     {
         field(1; "Application No"; Code[20])
         {
             Caption = 'Application No';
+            ToolTip = 'Unique identifier for the application';
+            DataClassification = CustomerContent;
         }
         field(2; "Subject Group"; Code[20])
         {
             Caption = 'Subject Group';
             TableRelation = "Subject Group";
+            ToolTip = 'Group to which the subject belongs';
+            DataClassification = CustomerContent;
         }
         field(3; Subject; Code[20])
         {
             Caption = 'Subject';
-            TableRelation = Subject WHERE ("Subject Group" = FIELD ("Subject Group"));
+            TableRelation = Subject where("Subject Group" = field("Subject Group"));
+            ToolTip = 'Subject selected by the applicant';
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
-                // Start 01.KATHIR
                 if Subjectrec.Get(Subject) then
                     Description := Subjectrec.Description;
-                // Stop 01.KATHIR
             end;
         }
         field(4; Description; Text[50])
         {
             Caption = 'Description';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            ToolTip = 'Name/Description of the subject';
+            DataClassification = CustomerContent;
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            ToolTip = 'Portal identifier for online tracking';
+            DataClassification = CustomerContent;
         }
     }
 
@@ -60,11 +59,7 @@ table 71011 "Application Optional Subjects"
 
     trigger OnInsert()
     begin
-        // Start 02. VANDHANA
 
-        "User ID" := UserId;
-
-        // Stop 02. VANDHANA
     end;
 
     var

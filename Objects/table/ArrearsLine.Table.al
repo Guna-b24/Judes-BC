@@ -9,8 +9,8 @@ table 72094 "Arrears Line"
     // -----------------------------------------------------------------------------------------------
 
     Caption = 'Arrears Line';
-    DrillDownPageID = 72136;
-    LookupPageID = 72136;
+    // DrillDownPageID = 72136;
+    // LookupPageID = 72136;
 
     fields
     {

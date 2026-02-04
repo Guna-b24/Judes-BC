@@ -1,16 +1,5 @@
 table 71054 "Class Grade"
 {
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01   30/09/09  KATHIR   Grade Code - OnValidate()     code added to get grade description
-    //   02  19/10/09  VANDHANA  OnInsert                     Code to assign User ID.
-    //   03  23/11/09   VIGNESH  Class - OnValidate()                Code added to get the Class Section & Curriculum
-    //   04  23/11/09   VIGNESH  Class - OnLookup()                  Code added to get the Class Section & Curriculum
-    //   05  23/11/09   VIGNESH  Section - OnValidate()              Code added to get the Class Section & Curriculum
-    //   06  23/11/09   VIGNESH  Section - OnLookup()                Code added to get the Class Section & Curriculum
-    //   07  23/11/09   VIGNESH  Curriculum - OnValidate()           Code added to get the Class Section & Curriculum
-    //   08  23/11/09   VIGNESH  Curriculum - OnLookup()             Code added to get the Class Section & Curriculum
-
     Caption = 'Class Grade';
 
     fields
@@ -18,15 +7,19 @@ table 71054 "Class Grade"
         field(1; Class; Code[10])
         {
             Caption = 'Class';
+            ToolTip = 'Specifies the class.';
+            TableRelation = Class;
+            DataClassification = CustomerContent;
         }
         field(2; "Grade Code"; Code[20])
         {
             Caption = 'Grade Code';
+            ToolTip = 'Specifies the grade code applicable for the class.';
             TableRelation = Grade;
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
-                // Start 01.KATHIR
                 if Grade.Get("Grade Code") then begin
                     Description := Grade.Description;
                     "Max Percentage" := Grade."Max Percentage";
@@ -36,49 +29,61 @@ table 71054 "Class Grade"
                     "Max Percentage" := 0;
                     "Min Percentage" := 0;
                 end;
-                // Stop 01.KATHIR
             end;
         }
         field(3; Description; Text[50])
         {
             Caption = 'Description';
+            ToolTip = 'Specifies the description of the grade.';
+            Editable = false;
+            DataClassification = CustomerContent;
         }
         field(4; Section; Code[10])
         {
             Caption = 'Section';
+            ToolTip = 'Specifies the section.';
+            DataClassification = CustomerContent;
         }
         field(5; Curriculum; Code[10])
         {
             Caption = 'Curriculum';
+            ToolTip = 'Specifies the curriculum.';
+            TableRelation = Curriculum;
+            DataClassification = CustomerContent;
         }
         field(6; "Academic Year"; Code[10])
         {
             Caption = 'Academic Year';
+            ToolTip = 'Specifies the academic year.';
+            TableRelation = "Academic Year";
+            DataClassification = CustomerContent;
         }
         field(7; "Max Percentage"; Decimal)
         {
             Caption = 'Max Percentage';
+            DataClassification = CustomerContent;
         }
         field(8; "Min Percentage"; Decimal)
         {
             Caption = 'Min Percentage';
+            DataClassification = CustomerContent;
         }
         field(9; Points; Decimal)
         {
             Caption = 'Points';
+            DataClassification = CustomerContent;
         }
         field(10; "Class Code"; Code[20])
         {
             Caption = 'Class Code';
             TableRelation = "Class Section";
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the class section code.';
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = CustomerContent;
         }
     }
 
@@ -102,15 +107,10 @@ table 71054 "Class Grade"
 
     trigger OnInsert()
     begin
-        // Start 02. VANDHANA
-
-        "User ID" := UserId;
-
-        // Stop 02. VANDHANA
     end;
 
     var
         Grade: Record Grade;
-        ClassSectionLook: Record "Class Section";
+    // ClassSectionLook: Record "Class Section";
 }
 

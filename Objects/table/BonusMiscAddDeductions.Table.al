@@ -9,8 +9,8 @@ table 72119 "Bonus Misc Add/Deductions"
     // -----------------------------------------------------------------------------------------------
 
     Caption = 'Bonus Misc Add/Deductions';
-    DrillDownPageID = 72163;
-    LookupPageID = 72163;
+    // DrillDownPageID = 72163;
+    // LookupPageID = 72163;
 
     fields
     {

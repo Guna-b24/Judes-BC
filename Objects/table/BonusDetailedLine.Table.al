@@ -9,8 +9,8 @@ table 72118 "Bonus Detailed Line"
     // -----------------------------------------------------------------------------------------------
 
     Caption = 'Bonus Detailed Line';
-    DrillDownPageID = 72161;
-    LookupPageID = 72161;
+    // DrillDownPageID = 72161;
+    // LookupPageID = 72161;
 
     fields
     {
@@ -35,8 +35,8 @@ table 72118 "Bonus Detailed Line"
         field(5; "Salary Cycle Code"; Code[20])
         {
             Caption = 'Salary Cycle Code';
-            TableRelation = "Payroll Month & Year" WHERE ("Location Code" = FIELD ("Location Code"),
-                                                          "Salary Plan Code" = FIELD ("Salary Plan Code"));
+            TableRelation = "Payroll Month & Year" WHERE("Location Code" = FIELD("Location Code"),
+                                                          "Salary Plan Code" = FIELD("Salary Plan Code"));
         }
         field(6; "Employee No"; Code[20])
         {

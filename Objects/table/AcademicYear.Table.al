@@ -1,15 +1,8 @@
 table 71904 "Academic Year"
 {
-    //   No   Date        Sign       Trigger          Description
-    // -----------------------------------------------------------------------------------------------
-    //   01   17/09/09    Kathir                      Table Created by Kathir
-    //   02   19/10/09    VANDHANA  OnInsert          Code to assign User ID.
-    //   03   07/11/09    GUNA                        New field Sequence has been added
-    //   04   07/11/09    GUNA                        New field CLOSED has been added to close the older entries
-
     Caption = 'Academic Year';
-    DrillDownPageID = 71908;
-    LookupPageID = 71908;
+    // DrillDownPageID = 71908;
+    // LookupPageID = 71908;
 
     fields
     {
@@ -17,35 +10,43 @@ table 71904 "Academic Year"
         {
             Caption = 'Code';
             NotBlank = true;
+            DataClassification = SystemMetadata;
         }
         field(2; Description; Text[30])
         {
             Caption = 'Description';
+            ToolTip = 'Specifies the description of the academic year.';
+            DataClassification = CustomerContent;
         }
         field(3; Sequence; Integer)
         {
             AutoIncrement = true;
             Caption = 'Sequence';
+            DataClassification = SystemMetadata;
         }
         field(4; Closed; Boolean)
         {
             Caption = 'Closed';
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies whether the academic year is closed.';
         }
         field(5; "Start Date"; Date)
         {
             Caption = 'Start Date';
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the start date of the academic year.';
         }
         field(6; "End Date"; Date)
         {
             Caption = 'End Date';
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the end date of the academic year.';
         }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
-        }
+
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = SystemMetadata;
         }
     }
 
@@ -64,23 +65,14 @@ table 71904 "Academic Year"
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 02. VANDHANA
-
-        "User ID" := UserId;
-
-        // Stop 02. VANDHANA
-    end;
-
     trigger OnModify()
     begin
 
         if Closed then
-            Error(Text000);
+            Error(CannotModifyErr);
     end;
 
     var
-        Text000: Label 'Cannot be modified';
+        CannotModifyErr: Label 'Cannot be modified';
 }
 

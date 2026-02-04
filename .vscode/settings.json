@@ -6,9 +6,7 @@
         "${UICop}"
     ],
     "CRS.AlSubFolderName": "Objects",
-    "CRS.OnSaveAlFileAction": "Reorganize",
-    "CRS.ObjectNamePrefix": "SJPS ",
-    "CRS.RemovePrefixFromFilename": false,
+  "CRS.OnSaveAlFileAction": "Rename",
     "CRS.FileNamePatternPageCustomizations": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
     "CRS.FileNamePattern": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
     "CRS.FileNamePatternExtensions": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al"

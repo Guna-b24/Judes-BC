@@ -1,30 +1,28 @@
 table 71893 Certificate
 {
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  19/10/09  VANDHANA  OnInsert                     Code to assign User ID.
-
     Caption = 'Certificate';
-    LookupPageID = 71894;
+    //LookupPageID = 71894;
 
     fields
     {
         field(1; "Code"; Code[20])
         {
             Caption = 'Code';
+            ToolTip = 'Specifies the unique code for the certificate.';
+            DataClassification = CustomerContent;
             NotBlank = true;
         }
         field(2; Description; Text[50])
         {
             Caption = 'Description';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            ToolTip = 'Specifies the description of the certificate.';
+            DataClassification = CustomerContent;
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            ToolTip = 'Specifies the portal reference ID for the certificate.';
+            DataClassification = CustomerContent;
         }
     }
 
@@ -42,9 +40,6 @@ table 71893 Certificate
 
     trigger OnInsert()
     begin
-        // Start 01. VANDHANA
-        "User ID" := UserId;
-        // Stop 01. VANDHANA
     end;
 }
 
