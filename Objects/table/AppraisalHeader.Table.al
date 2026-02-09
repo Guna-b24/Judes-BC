@@ -35,8 +35,8 @@ table 72021 "Appraisal Header"
             begin
                 if Employee.Get("Employee No") then begin
                     "Employee Name" := Employee."First Name" + ' ' + Employee."Middle Name" + ' ' + Employee."Last Name";
-                    "Designation Code" := Employee."Job Title";
-                    "Designation Description" := Employee."Job Title";
+                    "Designation Code" := Employee."Designation Code";
+                    "Designation Description" := Employee."Designation Code";
                     "Department Code" := Employee."Global Dimension 1 Code";
 
                     if Department.Get("Department Code") then

@@ -1,12 +1,8 @@
 table 71898 "Co-Curricular Classification"
 {
-    // No   Date      Sign     Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    // 01  16/10/09  VIGNESH                       Created new table for co curicular classification
-
     Caption = 'Co-Curricular Classification';
-    DrillDownPageID = 71903;
-    LookupPageID = 71903;
+    // DrillDownPageID = 71903;
+    // LookupPageID = 71903;
 
     fields
     {
@@ -14,14 +10,22 @@ table 71898 "Co-Curricular Classification"
         {
             Caption = 'Co-Curricular Code';
             TableRelation = "Co-Curricular Activities";
+            ToolTip = 'Specifies the unique code for the co-curricular.';
+            NotBlank = true;
+            DataClassification = CustomerContent;
         }
         field(2; "Classification Code"; Code[20])
         {
-            Caption = 'Classification Code';
+            Caption = 'Code';
+            ToolTip = 'Specifies the unique code for the co-curricular Classification.';
+            NotBlank = true;
+            DataClassification = CustomerContent;
         }
         field(3; Description; Text[100])
         {
             Caption = 'Description';
+            ToolTip = 'Specifies the description of the co-curricular activity.';
+            DataClassification = CustomerContent;
         }
     }
 

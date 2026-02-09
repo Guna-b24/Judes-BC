@@ -1,13 +1,9 @@
 table 71903 "Exam Code"
 {
-    // 
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  19/10/09  VANDHANA  OnInsert                     Code to assign User ID.
-
     Caption = 'Exam Code';
-    DrillDownPageID = 71907;
-    LookupPageID = 71907;
+    DataClassification = CustomerContent;
+    // DrillDownPageID = 71907;
+    // LookupPageID = 71907;
 
     fields
     {
@@ -15,23 +11,25 @@ table 71903 "Exam Code"
         {
             Caption = 'Code';
             NotBlank = true;
+            DataClassification = CustomerContent;
         }
         field(2; Description; Text[30])
         {
             Caption = 'Description';
+            DataClassification = CustomerContent;
         }
         field(3; "Exam Order"; Integer)
         {
-            BlankZero = true;
             Caption = 'Exam Order';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            BlankZero = true;
+            ToolTip = 'Specifies the sequence in which the exam should be conducted or displayed.';
+            DataClassification = CustomerContent;
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            ToolTip = 'Specifies the portal reference ID for the exam code.';
+            DataClassification = CustomerContent;
         }
     }
 
@@ -50,13 +48,5 @@ table 71903 "Exam Code"
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 01. VANDHANA
-
-        "User ID" := UserId;
-
-        // Stop 01. VANDHANA
-    end;
 }
 

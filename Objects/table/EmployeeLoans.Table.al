@@ -1,16 +1,8 @@
 table 72120 "Employee Loans"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Tables Added for Payroll Module.
-    // -----------------------------------------------------------------------------------------------
-
     Caption = 'Employee Loans';
-    DrillDownPageID = 72166;
-    LookupPageID = 72166;
+    // DrillDownPageID = 72166;
+    // LookupPageID = 72166;
 
     fields
     {
@@ -45,9 +37,9 @@ table 72120 "Employee Loans"
         field(3; "Loan Code"; Code[20])
         {
             Caption = 'Loan Code';
-            TableRelation = "Pay Elements" WHERE ("Location Code" = FIELD ("Location Code"),
-                                                  "Salary Plan Code" = FIELD ("Salary Plan Code"),
-                                                  "Loan Element" = CONST (true));
+            TableRelation = "Pay Elements" WHERE("Location Code" = FIELD("Location Code"),
+                                                  "Salary Plan Code" = FIELD("Salary Plan Code"),
+                                                  "Loan Element" = CONST(true));
 
             trigger OnValidate()
             begin
@@ -69,7 +61,7 @@ table 72120 "Employee Loans"
             Editable = false;
             TableRelation = "Salary Plan";
         }
-        field(6; Name; Text[50])
+        field(6; Name; Text[100])
         {
             Caption = 'Name';
             Editable = false;
@@ -93,7 +85,7 @@ table 72120 "Employee Loans"
             trigger OnValidate()
             begin
                 TestField("Loan Starting Date");
-                ValidateBalanceAmount;
+                ValidateBalanceAmount();
             end;
         }
         field(11; "Deduction Amount"; Decimal)
@@ -102,14 +94,14 @@ table 72120 "Employee Loans"
 
             trigger OnValidate()
             begin
-                ValidateBalanceAmount;
+                ValidateBalanceAmount();
             end;
         }
         field(12; "Total Loans Deducted"; Decimal)
         {
-            CalcFormula = Sum ("Processed Salary"."Payable Amount" WHERE ("Location Code" = FIELD ("Location Code"),
-                                                                         "Employee No" = FIELD ("Employee No"),
-                                                                         "Branch Code" = FIELD ("Loan Id")));
+            CalcFormula = Sum("Processed Salary"."Payable Amount" WHERE("Location Code" = FIELD("Location Code"),
+                                                                         "Employee No" = FIELD("Employee No"),
+                                                                         "Branch Code" = FIELD("Loan Id")));
             Caption = 'Total Loans Deducted';
             Editable = false;
             FieldClass = FlowField;
@@ -129,7 +121,7 @@ table 72120 "Employee Loans"
 
             trigger OnValidate()
             begin
-                ValidateBalanceAmount;
+                ValidateBalanceAmount();
             end;
         }
         field(16; "No Deduction Request"; Boolean)
@@ -143,10 +135,6 @@ table 72120 "Employee Loans"
         field(18; "Created Date"; Date)
         {
             Caption = 'Created Date';
-        }
-        field(19; "Created User Id"; Code[20])
-        {
-            Caption = 'Created User Id';
         }
         field(20; "Modified Date"; Date)
         {
@@ -178,10 +166,6 @@ table 72120 "Employee Loans"
     {
     }
 
-    trigger OnDelete()
-    begin
-        //ERROR('You Cannot Delete Posted Transaction');
-    end;
 
     trigger OnInsert()
     begin
@@ -195,7 +179,6 @@ table 72120 "Employee Loans"
 
         "Loan Sanctioned Date" := Today;
         "Created Date" := Today;
-        "Created User Id" := UserId;
     end;
 
     trigger OnModify()
@@ -207,32 +190,27 @@ table 72120 "Employee Loans"
     var
         HRPayrollSetup: Record "HR & Payroll Setup";
         LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
         Employee: Record Employee;
         PayElements: Record "Pay Elements";
-        EndDate: Date;
+        NoSeriesMgt: Codeunit "No. Series";
 
-    [Scope('Internal')]
+
     procedure AssistEdit(OldEmployeeLoans: Record "Employee Loans"): Boolean
     var
         EmployeeLoans: Record "Employee Loans";
     begin
-        with EmployeeLoans do begin
-            EmployeeLoans := Rec;
-            HRPayrollSetup.Get(UserId);
-            LocationHRPayrollSetup.Get(HRPayrollSetup."Location Code");
-            LocationHRPayrollSetup.TestField("Loan No.");
-            if NoSeriesMgt.SelectSeries(LocationHRPayrollSetup."Loan No.",
-               OldEmployeeLoans."No. Series", "No. Series")
-            then begin
-                NoSeriesMgt.SetSeries("Loan Id");
-                Rec := EmployeeLoans;
-                exit(true);
-            end;
+        EmployeeLoans := Rec;
+        HRPayrollSetup.Get(UserId);
+        LocationHRPayrollSetup.Get(HRPayrollSetup."Location Code");
+        LocationHRPayrollSetup.TestField("Loan No.");
+        if NoSeriesMgt.LookupRelatedNoSeries(LocationHRPayrollSetup."Loan No.",
+           OldEmployeeLoans."No. Series", "No. Series")
+        then begin
+            Rec := EmployeeLoans;
+            exit(true);
         end;
     end;
 
-    [Scope('Internal')]
     procedure ValidateBalanceAmount()
     begin
         CalcFields("Total Loans Deducted");

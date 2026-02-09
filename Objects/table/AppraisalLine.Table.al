@@ -8,15 +8,19 @@ table 72022 "Appraisal Line"
         {
             Caption = 'App No.';
             Editable = false;
+            DataClassification = CustomerContent;
+
         }
         field(2; "Employee No"; Code[20])
         {
             Caption = 'Employee No';
+            DataClassification = CustomerContent;
         }
         field(3; "Objectives Code"; Code[10])
         {
             Caption = 'Objectives Code';
             TableRelation = "Performance Appraisal";
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -28,29 +32,35 @@ table 72022 "Appraisal Line"
         {
             Caption = 'Objectives Description';
             Editable = false;
+            DataClassification = CustomerContent;
         }
         field(5; "Self Rating %"; Decimal)
         {
             Caption = 'Self Rating %';
+            DataClassification = CustomerContent;
         }
         field(6; Performance; Option)
         {
             Caption = 'Performance';
             OptionCaption = ' ,Bad,Average,Good,V.Good,Excellent';
             OptionMembers = " ",Bad,"Average",Good,"V.Good",Excellent;
+            DataClassification = CustomerContent;
         }
         field(7; "Positive Attitude"; Text[30])
         {
             Caption = 'Positive Attitude';
+            DataClassification = CustomerContent;
         }
         field(8; "Future Responsibility"; Text[30])
         {
             Caption = 'Future Responsibility';
+            DataClassification = CustomerContent;
         }
         field(9; "Training Code"; Code[10])
         {
             Caption = 'Training Code';
             TableRelation = Training;
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -62,6 +72,7 @@ table 72022 "Appraisal Line"
         {
             Caption = 'Training Description';
             Editable = false;
+            DataClassification = CustomerContent;
         }
     }
 

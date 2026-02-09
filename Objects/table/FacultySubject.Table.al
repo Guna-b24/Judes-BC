@@ -1,12 +1,9 @@
 table 71150 "Faculty Subject"
 {
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  19/10/09  VANDHANA  OnInsert                     Code to assign User ID.
-
     Caption = 'Faculty Subject';
-    DrillDownPageID = 71150;
-    LookupPageID = 71150;
+    DataClassification = CustomerContent;
+    // DrillDownPageID = 71150;
+    // LookupPageID = 71150;
 
     fields
     {
@@ -14,6 +11,8 @@ table 71150 "Faculty Subject"
         {
             Caption = 'Faculty Code';
             TableRelation = "Employee Alll";
+            DataClassification = CustomerContent;
+            ToolTip = 'Select the faculty for the subject.';
 
             trigger OnValidate()
             begin
@@ -24,68 +23,96 @@ table 71150 "Faculty Subject"
         }
         field(2; Class; Code[20])
         {
-            Caption = 'Class ';
+            Caption = 'Class';
             TableRelation = Class;
+            DataClassification = CustomerContent;
+            ToolTip = 'Select the class for which the faculty is assigned.';
         }
+
         field(3; Curriculum; Code[10])
         {
             Caption = 'Curriculum';
             TableRelation = Curriculum;
+            DataClassification = CustomerContent;
+            ToolTip = 'Curriculum associated with the class and faculty.';
         }
+
         field(4; "Subject Code"; Code[20])
         {
             Caption = 'Subject Code';
             TableRelation = Subject;
+            DataClassification = CustomerContent;
+            ToolTip = 'Select the subject taught by the faculty.';
 
             trigger OnValidate()
             begin
-                if RecSubject.Get("Subject Code") then begin
+                if RecSubject.Get("Subject Code") then
                     "Subject Description" := RecSubject.Description;
-                end else begin
-                    // Description := '';
-                end;
+
             end;
         }
         field(5; "Class Master"; Boolean)
         {
             Caption = 'Class Master';
+            DataClassification = CustomerContent;
+            ToolTip = 'Indicates if the faculty is the class master.';
         }
+
         field(6; "Alloted Hours"; Integer)
         {
             Caption = 'Alloted Hours';
+            DataClassification = CustomerContent;
         }
+
         field(7; "Weekly Hours"; Integer)
         {
             Caption = 'Weekly Hours';
+            DataClassification = CustomerContent;
         }
+
         field(8; "Section Code"; Code[10])
         {
             Caption = 'Section Code';
+            DataClassification = CustomerContent;
         }
         field(9; "Academic Year"; Code[10])
         {
             Caption = 'Academic Year';
+            DataClassification = CustomerContent;
         }
+
         field(10; Available; Boolean)
         {
             Caption = 'Available';
+            DataClassification = CustomerContent;
+            ToolTip = 'Indicates if the faculty is available for assignment.';
         }
+
         field(11; "Subject Type"; Code[20])
         {
             Caption = 'Subject Type';
             TableRelation = "Subject Type";
+            DataClassification = CustomerContent;
+            ToolTip = 'Select the type of subject.';
         }
-        field(12; "Faculty Name"; Text[50])
+
+        field(12; "Faculty Name"; Text[100])
         {
             Caption = 'Faculty Name';
+            DataClassification = CustomerContent;
+            ToolTip = 'Full name of the faculty.';
         }
-        field(13; "Subject Description"; Text[30])
+
+        field(13; "Subject Description"; Text[50])
         {
             Caption = 'Subject Description';
+            DataClassification = CustomerContent;
         }
+
         field(14; "Class Code"; Code[20])
         {
             TableRelation = "Class Section";
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -97,13 +124,10 @@ table 71150 "Faculty Subject"
                 end;
             end;
         }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
-        }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = SystemMetadata;
         }
     }
 
@@ -128,12 +152,6 @@ table 71150 "Faculty Subject"
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 01. VANDHANA
-        "User ID" := UserId;
-        // Stop 01. VANDHANA
-    end;
 
     var
         RecEmployee: Record Employee;

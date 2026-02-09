@@ -137,7 +137,6 @@ table 71006 "Class Card"
         }
         field(32; "Edu. Calendar Code"; Code[20])
         {
-            //TableRelation = Table71921;
             DataClassification = CustomerContent;
         }
         field(70121; "Portal ID"; Code[20])

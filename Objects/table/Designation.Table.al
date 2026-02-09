@@ -1,35 +1,34 @@
 table 72002 Designation
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   SENTHIL                       New Tables Added for HR Module.
-
-    LookupPageID = 72002;
+    //LookupPageID = 72002;
+    Caption = 'Designation';
+    DataClassification = CustomerContent;
 
     fields
     {
         field(1; "Code"; Code[10])
         {
+            Caption = 'Code';
             NotBlank = true;
+            DataClassification = CustomerContent;
         }
-        field(2; Description; Text[50])
+        field(2; Description; Text[30])
         {
+            Caption = 'Description';
             NotBlank = true;
+            DataClassification = CustomerContent;
         }
         field(3; "Active Employees"; Integer)
         {
-            CalcFormula = Count (Employee WHERE ("Designation Code" = FIELD (Code),
-                                                Status = FILTER (Active)));
+            CalcFormula = Count(Employee WHERE("Designation Code" = FIELD(Code),
+                                                Status = FILTER(Active)));
             Editable = false;
             FieldClass = FlowField;
         }
         field(4; "Inactive Employees"; Integer)
         {
-            CalcFormula = Count (Employee WHERE ("Designation Code" = FIELD (Code),
-                                                Status = FILTER (Inactive)));
+            CalcFormula = Count(Employee WHERE("Designation Code" = FIELD(Code),
+                                                Status = FILTER(Inactive)));
             Editable = false;
             FieldClass = FlowField;
         }

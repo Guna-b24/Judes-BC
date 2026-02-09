@@ -1,32 +1,29 @@
 table 72088 "Employee Loan Details"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Tables Added for Payroll Module.
-    // -----------------------------------------------------------------------------------------------
 
     Caption = 'Employee Loan Details';
-    DrillDownPageID = 72120;
-    LookupPageID = 72120;
+    // DrillDownPageID = 72120;
+    // LookupPageID = 72120;
 
     fields
     {
         field(1; "Location Code"; Code[20])
         {
             Caption = 'Location Code';
+            DataClassification = CustomerContent;
         }
+
         field(2; "Salary Plan Code"; Code[20])
         {
             Caption = 'Salary Plan Code';
             TableRelation = "Salary Plan";
+            DataClassification = CustomerContent;
         }
         field(3; "Employee No"; Code[20])
         {
             Caption = 'Employee No';
             TableRelation = Employee;
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -40,74 +37,89 @@ table 72088 "Employee Loan Details"
         field(4; "Loan Code"; Code[20])
         {
             Caption = 'Loan Code';
-            TableRelation = "Pay Elements" WHERE ("Location Code" = FIELD ("Location Code"),
-                                                  "Salary Plan Code" = FIELD ("Salary Plan Code"),
-                                                  "Loan Element" = CONST (true));
+            TableRelation = "Pay Elements" WHERE("Location Code" = FIELD("Location Code"),
+                                                  "Salary Plan Code" = FIELD("Salary Plan Code"),
+                                                  "Loan Element" = CONST(true));
         }
         field(5; "Salary Process Date"; Date)
         {
             Caption = 'Salary Process Date';
+            DataClassification = CustomerContent;
         }
+
         field(6; "Line No."; Integer)
         {
             Caption = 'Line No.';
+            DataClassification = SystemMetadata;
         }
-        field(7; Name; Text[50])
+
+        field(7; Name; Text[100])
         {
             Caption = 'Name';
+            DataClassification = CustomerContent;
         }
         field(8; "Loan Amount"; Decimal)
         {
             Caption = 'Loan Amount';
+            DataClassification = CustomerContent;
         }
+
         field(9; "Payment Due"; Decimal)
         {
             Caption = 'Payment Due';
+            DataClassification = CustomerContent;
         }
+
         field(10; "EMI Deducted"; Decimal)
         {
             Caption = 'EMI Deducted';
+            DataClassification = CustomerContent;
         }
+
         field(11; "EMI Amount"; Decimal)
         {
             Caption = 'EMI Amount';
+            DataClassification = CustomerContent;
         }
+
         field(12; Interest; Decimal)
         {
             Caption = 'Interest';
+            DataClassification = CustomerContent;
         }
+
         field(13; Principal; Decimal)
         {
             Caption = 'Principal';
+            DataClassification = CustomerContent;
         }
         field(14; "Balance Amount"; Decimal)
         {
             Caption = 'Balance Amount';
-
-            trigger OnValidate()
-            begin
-                /*
-                IF "Repayment Date" = 0 THEN
-                  "Loan Closed" := TRUE;
-                */
-
-            end;
+            DataClassification = CustomerContent;
         }
+
         field(15; "Repayment Date"; Date)
         {
             Caption = 'Repayment Date';
+            DataClassification = CustomerContent;
         }
+
         field(16; "Loan Closed"; Boolean)
         {
             Caption = 'Loan Closed';
+            DataClassification = CustomerContent;
         }
         field(17; "Loan Deduction Interval"; DateFormula)
         {
             Caption = 'Loan Deduction Interval';
+            DataClassification = CustomerContent;
         }
+
         field(18; LoanId; Code[20])
         {
-            Caption = 'LoanId';
+            Caption = 'Loan Id';
+            DataClassification = CustomerContent;
         }
     }
 
@@ -117,7 +129,7 @@ table 72088 "Employee Loan Details"
         {
             Clustered = true;
         }
-        key(Key2; "Location Code", "Salary Plan Code", "Employee No", "Loan Code", "Loan Closed")
+        key(Key2; "Location Code", "Salary Plan Code", "Loan Code", "Employee No", "Loan Closed")
         {
             SumIndexFields = "EMI Amount";
         }

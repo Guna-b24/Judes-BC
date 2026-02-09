@@ -1,8 +1,9 @@
 table 71920 "Family Code"
 {
     Caption = 'Family Code';
-    DrillDownPageID = 71926;
-    LookupPageID = 71926;
+    // DrillDownPageID = 71926;
+    // LookupPageID = 71926;
+    DataClassification = CustomerContent;
 
     fields
     {
@@ -10,10 +11,15 @@ table 71920 "Family Code"
         {
             Caption = 'Code';
             NotBlank = true;
+            DataClassification = CustomerContent;
+            ToolTip = 'Unique code identifying the family.';
         }
+
         field(2; Name; Text[50])
         {
             Caption = 'Name';
+            DataClassification = CustomerContent;
+            ToolTip = 'Full name or description of the family.';
         }
     }
 

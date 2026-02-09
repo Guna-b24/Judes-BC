@@ -1,36 +1,31 @@
 table 72029 Divisions
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   SENTHIL                       New Tables Added for HR Module.
-
-    DrillDownPageID = 72039;
-    LookupPageID = 72039;
+    // DrillDownPageID = 72039;
+    // LookupPageID = 72039;
 
     fields
     {
         field(1; "Code"; Code[10])
         {
             NotBlank = true;
+            DataClassification = CustomerContent;
         }
         field(2; Description; Text[50])
         {
             NotBlank = true;
+            DataClassification = CustomerContent;
         }
         field(3; "Active Employees"; Integer)
         {
-            CalcFormula = Count (Employee WHERE ("Division Code" = FIELD (Code),
-                                                Status = FILTER (Active)));
+            CalcFormula = Count(Employee WHERE("Division Code" = FIELD(Code),
+                                                Status = FILTER(Active)));
             Editable = false;
             FieldClass = FlowField;
         }
         field(4; "Inactive Employees"; Integer)
         {
-            CalcFormula = Count (Employee WHERE ("Division Code" = FIELD (Code),
-                                                Status = FILTER (Inactive)));
+            CalcFormula = Count(Employee WHERE("Division Code" = FIELD(Code),
+                                                Status = FILTER(Inactive)));
             Editable = false;
             FieldClass = FlowField;
         }

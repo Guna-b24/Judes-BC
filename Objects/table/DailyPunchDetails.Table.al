@@ -1,6 +1,7 @@
 table 72028 "Daily Punch Details"
 {
     Caption = 'Daily Punch Details';
+    DataClassification = CustomerContent;
 
     fields
     {
@@ -8,22 +9,26 @@ table 72028 "Daily Punch Details"
         {
             Caption = 'Location Code';
             TableRelation = "Location HR & Payroll Setup";
+            DataClassification = CustomerContent;
         }
         field(2; "Salary Plan Code"; Code[20])
         {
             Caption = 'Salary Plan Code';
+            DataClassification = CustomerContent;
             TableRelation = "Salary Plan";
         }
         field(3; "Salary Cyclic Code"; Code[20])
         {
             Caption = 'Salary Cyclic Code';
-            TableRelation = "Payroll Month & Year"."Salary Cyclic Code" WHERE ("Location Code" = FIELD ("Location Code"),
-                                                                               "Salary Plan Code" = FIELD ("Salary Plan Code"));
+            DataClassification = CustomerContent;
+            TableRelation = "Payroll Month & Year"."Salary Cyclic Code" WHERE("Location Code" = FIELD("Location Code"),
+                                                                               "Salary Plan Code" = FIELD("Salary Plan Code"));
         }
         field(4; "Employee No."; Code[20])
         {
             Caption = 'Employee No.';
             TableRelation = Employee;
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -37,19 +42,23 @@ table 72028 "Daily Punch Details"
         field(5; "Attendance Date"; Date)
         {
             Caption = 'Attendance Date';
+            DataClassification = CustomerContent;
         }
         field(6; "Line No."; Integer)
         {
             Caption = 'Line No.';
+            DataClassification = CustomerContent;
         }
-        field(7; Name; Text[50])
+        field(7; Name; Text[100])
         {
             Caption = 'Name';
             Editable = false;
+            DataClassification = CustomerContent;
         }
         field(8; "In Punch DateTime"; DateTime)
         {
             Caption = 'In Punch DateTime';
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -59,6 +68,7 @@ table 72028 "Daily Punch Details"
         field(9; "Out Punch DateTime"; DateTime)
         {
             Caption = 'Out Punch DateTime';
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -72,20 +82,24 @@ table 72028 "Daily Punch Details"
         {
             Caption = 'Total Hours In Mins';
             Editable = false;
+            DataClassification = CustomerContent;
         }
         field(11; "Total Hours"; Decimal)
         {
             Caption = 'Total Hours';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(12; "No of Pieces"; Decimal)
         {
             Caption = 'No of Pieces';
+            DataClassification = CustomerContent;
         }
         field(13; "Department Code"; Code[10])
         {
             Caption = 'Department Code';
             TableRelation = Departments;
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -98,11 +112,13 @@ table 72028 "Daily Punch Details"
         field(14; "Department Name"; Text[50])
         {
             Caption = 'Department Name';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(15; "Attendance Verified"; Boolean)
         {
             Caption = 'Attendance Verified';
+            DataClassification = CustomerContent;
         }
     }
 
@@ -123,7 +139,7 @@ table 72028 "Daily Punch Details"
         Employee: Record Employee;
         Departments: Record Departments;
 
-    [Scope('Internal')]
+
     procedure "Convert Mins To Hours"(TotalHrsMins: Decimal): Decimal
     var
         ConvertHours: Decimal;
@@ -140,7 +156,6 @@ table 72028 "Daily Punch Details"
         exit(ConvertHours);
     end;
 
-    [Scope('Internal')]
     procedure "Convert Hours To Mins"(TotalHrsMins: Decimal): Decimal
     var
         ConvertHours: Decimal;

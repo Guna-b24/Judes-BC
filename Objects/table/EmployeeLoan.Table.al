@@ -1,31 +1,30 @@
 table 72087 "Employee Loan"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Tables Added for Payroll Module.
-    // -----------------------------------------------------------------------------------------------
-
     Caption = 'Employee Loan';
-    DrillDownPageID = 72119;
-    LookupPageID = 72119;
+    // DrillDownPageID = 72119;
+    // LookupPageID = 72119;
 
     fields
     {
         field(1; "Location Code"; Code[20])
         {
             Caption = 'Location Code';
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the location associated with the employee loan.';
         }
+
         field(2; "Salary Plan Code"; Code[20])
         {
             Caption = 'Salary Plan Code';
             TableRelation = "Salary Plan";
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the salary plan under which the loan is issued.';
         }
         field(3; "Loan Id"; Code[20])
         {
             Caption = 'Loan Id';
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the unique identifier of the loan.';
 
             trigger OnValidate()
             begin
@@ -33,16 +32,18 @@ table 72087 "Employee Loan"
                     HRPayrollSetup.Get(UserId);
                     LocationHRPayrollSetup.Get(HRPayrollSetup."Location Code");
                     NoSeriesMgt.TestManual(LocationHRPayrollSetup."Loan No.");
-                    "No. Series" := '';
+                    "Loan No. Series" := '';
                 end;
             end;
         }
         field(4; "Loan Code"; Code[20])
         {
             Caption = 'Loan Code';
-            TableRelation = "Pay Elements" WHERE ("Location Code" = FIELD ("Location Code"),
-                                                  "Salary Plan Code" = FIELD ("Salary Plan Code"),
-                                                  "Loan Element" = CONST (true));
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the loan pay element code.';
+            TableRelation = "Pay Elements" WHERE("Location Code" = FIELD("Location Code"),
+                                                  "Salary Plan Code" = FIELD("Salary Plan Code"),
+                                                  "Loan Element" = CONST(true));
 
             trigger OnValidate()
             begin
@@ -52,11 +53,14 @@ table 72087 "Employee Loan"
                     "Loan Balance Amount" := "Total Loan Amount";
                 end;
             end;
+
         }
         field(5; "Employee No"; Code[20])
         {
             Caption = 'Employee No';
             TableRelation = Employee;
+            DataClassification = EndUserIdentifiableInformation;
+            ToolTip = 'Specifies the employee number for whom the loan is issued.';
 
             trigger OnValidate()
             begin
@@ -70,45 +74,73 @@ table 72087 "Employee Loan"
         field(6; Name; Text[50])
         {
             Caption = 'Name';
+            DataClassification = EndUserIdentifiableInformation;
+            ToolTip = 'Specifies the name of the employee.';
         }
+
         field(7; "Total Loan Amount"; Decimal)
         {
             Caption = 'Total Loan Amount';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the total sanctioned loan amount.';
         }
+
+
         field(8; "Loan Type"; Option)
         {
             Caption = 'Loan Type';
             OptionCaption = ' ,Interest Free,Flat Rate,Dimnishing Rate';
             OptionMembers = " ","Interest Free","Flat Rate","Dimnishing Rate";
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the type of interest calculation for the loan.';
         }
+
         field(9; "Rate of Interest"; Decimal)
         {
             Caption = 'Rate of Interest';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the rate of interest applicable to the loan.';
         }
         field(10; "No of Installment"; Integer)
         {
             Caption = 'No of Installment';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the total number of installments.';
         }
+
         field(11; "Purpose of loan"; Text[50])
         {
             Caption = 'Purpose of loan';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the purpose for which the loan is taken.';
         }
+
         field(12; "Loan Ref. No"; Code[50])
         {
             Caption = 'Loan Ref. No';
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the external reference number of the loan.';
         }
+
         field(13; "Loan Ref. Date"; Date)
         {
             Caption = 'Loan Ref. Date';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the reference date of the loan.';
         }
+
         field(14; "Loan Sanction Date"; Date)
         {
             Caption = 'Loan Sanction Date';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the date on which the loan was sanctioned.';
         }
+
         field(15; "Loan Starting Date"; Date)
         {
             Caption = 'Loan Starting Date';
-
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the date from which loan repayment starts.';
             trigger OnValidate()
             begin
                 "Loan End Date" := "Loan Starting Date";
@@ -120,11 +152,15 @@ table 72087 "Employee Loan"
         field(16; "Loan End Date"; Date)
         {
             Caption = 'Loan End Date';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the date on which loan repayment ends.';
         }
+
         field(17; "Installment Amount"; Decimal)
         {
             Caption = 'Installment Amount';
-
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the amount to be deducted per installment.';
             trigger OnValidate()
             begin
                 TestField("Installment Amount");
@@ -136,37 +172,58 @@ table 72087 "Employee Loan"
         {
             Caption = 'Total Interest Amount';
             Editable = false;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the total interest calculated for the loan.';
         }
+
         field(19; "Loan Balance Amount"; Decimal)
         {
             Caption = 'Loan Balance Amount';
             Editable = false;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the remaining loan balance amount.';
         }
+
         field(20; "No Deduction Request"; Boolean)
         {
             Caption = 'No Deduction Request';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies whether deduction is temporarily stopped.';
         }
         field(21; "Partial Deduction"; Boolean)
         {
             Caption = 'Partial Deduction';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies whether partial deduction is allowed.';
         }
+
         field(22; Completed; Boolean)
         {
             Caption = 'Completed';
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies whether the loan is fully settled.';
         }
-        field(23; "No. Series"; Code[20])
+
+        field(23; "Loan No. Series"; Code[20])
         {
-            Caption = 'No. Series';
-            TableRelation = "No. Series";
+            Caption = 'Loan No. Series';
+            TableRelation = "No. Series".Code;
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the number series used for loan identification.';
         }
         field(24; "Loan Date Interval"; DateFormula)
         {
             Caption = 'Loan Date Interval';
             Editable = false;
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the interval between loan installments.';
         }
+
         field(25; "Opening Loan Amount"; Decimal)
         {
             Caption = 'Opening Loan Amount';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the opening loan amount at the start.';
 
             trigger OnValidate()
             begin
@@ -181,11 +238,11 @@ table 72087 "Employee Loan"
         }
         field(26; "Total Loans Deducted"; Decimal)
         {
-            CalcFormula = Sum ("Employee Loan Details"."EMI Amount" WHERE ("Location Code" = FIELD ("Location Code"),
-                                                                          "Salary Plan Code" = FIELD ("Salary Plan Code"),
-                                                                          "Loan Code" = FIELD ("Loan Code"),
-                                                                          "Employee No" = FIELD ("Employee No"),
-                                                                          "Loan Closed" = FILTER (true)));
+            CalcFormula = Sum("Employee Loan Details"."EMI Amount" WHERE("Location Code" = FIELD("Location Code"),
+                                                                          "Salary Plan Code" = FIELD("Salary Plan Code"),
+                                                                          "Loan Code" = FIELD("Loan Code"),
+                                                                          "Employee No" = FIELD("Employee No"),
+                                                                          "Loan Closed" = FILTER(true)));
             Caption = 'Total Loans Deducted';
             Editable = false;
             FieldClass = FlowField;
@@ -194,6 +251,8 @@ table 72087 "Employee Loan"
         {
             Caption = 'Closing Balance Amount';
             Editable = false;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the remaining balance after deductions.';
 
             trigger OnValidate()
             begin
@@ -224,10 +283,10 @@ table 72087 "Employee Loan"
         }
         field(29; "Loans Deducted"; Decimal)
         {
-            CalcFormula = Sum ("Processed Salary"."Payable Amount" WHERE ("Location Code" = FIELD ("Location Code"),
-                                                                         "Salary Plan Code" = FIELD ("Salary Plan Code"),
-                                                                         "Employee No" = FIELD ("Employee No"),
-                                                                         "Pay Element Code" = FIELD ("Loan Code")));
+            CalcFormula = Sum("Processed Salary"."Payable Amount" WHERE("Location Code" = FIELD("Location Code"),
+                                                                         "Salary Plan Code" = FIELD("Salary Plan Code"),
+                                                                         "Employee No" = FIELD("Employee No"),
+                                                                         "Pay Element Code" = FIELD("Loan Code")));
             Caption = 'Loans Deducted';
             Editable = false;
             FieldClass = FlowField;
@@ -252,33 +311,34 @@ table 72087 "Employee Loan"
             HRPayrollSetup.Get(UserId);
             LocationHRPayrollSetup.Get(HRPayrollSetup."Location Code");
             LocationHRPayrollSetup.TestField("Loan No.");
-            NoSeriesMgt.InitSeries(LocationHRPayrollSetup."Loan No.", xRec."No. Series", 0D, "Loan Id", "No. Series");
+            "Loan No. Series" := LocationHRPayrollSetup."Loan No.";
+            "Loan Id" := NoSeriesMgt.GetNextNo("Loan No. Series");
         end;
     end;
 
     var
         HRPayrollSetup: Record "HR & Payroll Setup";
         LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+
         Employee: Record Employee;
         EmployeeLoan: Record "Employee Loan";
         PayElements: Record "Pay Elements";
-        EndDate: Date;
+        NoSeriesMgt: Codeunit "No. Series";
 
-    [Scope('Internal')]
+
     procedure AssistEdit(OldEmployeeLoan: Record "Employee Loan"): Boolean
     begin
-        with EmployeeLoan do begin
-            EmployeeLoan := Rec;
-            HRPayrollSetup.Get(UserId);
-            LocationHRPayrollSetup.Get(HRPayrollSetup."Location Code");
-            LocationHRPayrollSetup.TestField("Loan No.");
-            if NoSeriesMgt.SelectSeries(LocationHRPayrollSetup."Loan No.", OldEmployeeLoan."No. Series", "No. Series") then begin
-                NoSeriesMgt.SetSeries("Loan Id");
-                Rec := EmployeeLoan;
-                exit(true);
-            end;
+
+        EmployeeLoan := Rec;
+        HRPayrollSetup.Get(UserId);
+        LocationHRPayrollSetup.Get(HRPayrollSetup."Location Code");
+        LocationHRPayrollSetup.TestField("Loan No.");
+        if NoSeriesMgt.LookupRelatedNoSeries(LocationHRPayrollSetup."Loan No.", OldEmployeeLoan."Loan No. Series", "Loan No. Series") then begin
+            EmployeeLoan."Loan Id" := NoSeriesMgt.GetNextNo(EmployeeLoan."Loan No. Series");
+            Rec := EmployeeLoan;
+            exit(true);
         end;
     end;
+
 }
 

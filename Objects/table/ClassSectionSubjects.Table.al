@@ -78,48 +78,71 @@ table 71016 "Class Section Subjects"
         field(8; "Subject Group"; Code[20])
         {
             Caption = 'Subject Group';
+            ToolTip = 'Specifies the subject group to which this subject belongs.';
             TableRelation = "Subject Group";
+            DataClassification = CustomerContent;
         }
         field(9; "Maximum Mark"; Decimal)
         {
-            BlankZero = true;
             Caption = 'Maximum Mark';
+            ToolTip = 'Specifies the maximum marks that can be scored for this subject.';
+            BlankZero = true;
+            DataClassification = CustomerContent;
         }
         field(10; "Pass Mark"; Decimal)
         {
-            BlankZero = true;
             Caption = 'Pass Mark';
+            ToolTip = 'Specifies the minimum marks required to pass this subject.';
+            BlankZero = true;
+            DataClassification = CustomerContent;
         }
         field(11; "Group Code old"; Code[10])
         {
             Caption = 'Group Code';
+            ToolTip = 'Specifies the old group code maintained for reference.';
+            DataClassification = CustomerContent;
         }
         field(12; "Subject Teacher"; Code[10])
         {
             Caption = 'Subject Teacher';
+            ToolTip = 'Specifies the employee code of the teacher handling this subject.';
             TableRelation = Employee;
+            DataClassification = CustomerContent;
         }
         field(13; "Class Code"; Code[20])
         {
             Caption = 'Class Code';
+            ToolTip = 'Specifies the class associated with this subject.';
+            DataClassification = CustomerContent;
         }
         field(20; "Group Code"; Code[20])
         {
+            Caption = 'Group Code';
+            ToolTip = 'Specifies the class group assigned to this subject.';
             TableRelation = "Class Group";
+            DataClassification = CustomerContent;
         }
         field(50; "II Lang Type"; Option)
         {
+            Caption = 'Second Language Type';
+            ToolTip = 'Specifies the second language selected for the subject.';
             OptionCaption = ' ,Tamil,Hindi,Telugu,Malayalam,Kannada,French,Thai';
             OptionMembers = " ",Tamil,Hindi,Telugu,Malayalam,Kannada,French,Thai;
+            DataClassification = CustomerContent;
         }
         field(51; "Class IX and  X Group"; Option)
         {
+            Caption = 'Class IX and X Group';
+            ToolTip = 'Specifies the group classification applicable for Class IX and X.';
             OptionCaption = ' ,Group1,Group2,Group3,Group4,Group5,Group6';
             OptionMembers = " ",Group1,Group2,Group3,Group4,Group5,Group6;
+            DataClassification = CustomerContent;
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            ToolTip = 'Specifies the portal reference ID for this subject record.';
+            DataClassification = CustomerContent;
         }
     }
 

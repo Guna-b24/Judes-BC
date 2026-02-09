@@ -2,8 +2,8 @@ table 72080 "Daily Attendance"
 {
     Caption = 'Daily Attendance';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Salary Cyclic Code", "Employee No", Name;
-    DrillDownPageID = 72112;
-    LookupPageID = 72112;
+    // DrillDownPageID = 72112;
+    // LookupPageID = 72112;
 
     fields
     {
@@ -11,34 +11,41 @@ table 72080 "Daily Attendance"
         {
             Caption = 'Location Code';
             TableRelation = "Location HR & Payroll Setup";
+            DataClassification = CustomerContent;
         }
         field(2; "Salary Plan Code"; Code[20])
         {
             Caption = 'Salary Plan Code';
             TableRelation = "Salary Plan";
+            DataClassification = CustomerContent;
         }
         field(3; "Salary Cyclic Code"; Code[20])
         {
             Caption = 'Salary Cyclic Code';
-            TableRelation = "Payroll Month & Year"."Salary Cyclic Code" WHERE ("Location Code" = FIELD ("Location Code"),
-                                                                               "Salary Plan Code" = FIELD ("Salary Plan Code"));
+            DataClassification = CustomerContent;
+            TableRelation = "Payroll Month & Year"."Salary Cyclic Code" WHERE("Location Code" = FIELD("Location Code"),
+                                                                               "Salary Plan Code" = FIELD("Salary Plan Code"));
         }
         field(4; "Employee No"; Code[20])
         {
             Caption = 'Employee No';
             TableRelation = Employee;
+            DataClassification = CustomerContent;
         }
         field(5; Name; Text[50])
         {
             Caption = 'Name';
+            DataClassification = CustomerContent;
         }
         field(6; "Attendance Date"; Date)
         {
             Caption = 'Attendance Date';
+            DataClassification = CustomerContent;
         }
         field(7; "In Time"; Time)
         {
             Caption = 'In Time';
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -48,6 +55,7 @@ table 72080 "Daily Attendance"
         field(8; "Out Time"; Time)
         {
             Caption = 'Out Time';
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             var
@@ -76,7 +84,7 @@ table 72080 "Daily Attendance"
                 end;
 
                 if ("In Time" <> 0T) and ("Out Time" <> 0T) then
-                    CalculateAllHours;
+                    CalculateAllHours();
 
                 if not "Non Working Day" then
                     if ("In Time" = 0T) and ("Out Time" = 0T) then begin
@@ -109,97 +117,116 @@ table 72080 "Daily Attendance"
         field(9; "Hours Worked"; Decimal)
         {
             Caption = 'Hours Worked';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(10; "Actual Hrs"; Decimal)
         {
             Caption = 'Actual Hrs';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(11; "Total OT In Mins"; Decimal)
         {
             Caption = 'Total OT In Mins';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(12; "OT Approved Hrs"; Decimal)
         {
             Caption = 'OT Approved Hrs';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(13; "Total Hours Worked"; Decimal)
         {
             Caption = 'Total Hours Worked';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(14; "First Half Attendance Type"; Option)
         {
             Caption = 'First Half Attendance Type';
+            DataClassification = CustomerContent;
             OptionCaption = ' ,Present,Absent,Leave,Weekly Off,Holiday,On-Duty,Not Joined,Relieved,Lay Off';
             OptionMembers = " ",Present,Absent,Leave,"Weekly Off",Holiday,"On-Duty","Not Joined",Relieved,"Lay Off";
 
             trigger OnValidate()
             begin
-                ValidateAttendanceType;
+                ValidateAttendanceType();
             end;
         }
         field(15; "Second Half Attendance Type"; Option)
         {
             Caption = 'Second Half Attendance Type';
+            DataClassification = CustomerContent;
             OptionCaption = ' ,Present,Absent,Leave,Weekly Off,Holiday,On-Duty,Not Joined,Relieved,Lay Off';
             OptionMembers = " ",Present,Absent,Leave,"Weekly Off",Holiday,"On-Duty","Not Joined",Relieved,"Lay Off";
 
             trigger OnValidate()
             begin
-                ValidateAttendanceType;
+                ValidateAttendanceType();
             end;
         }
         field(16; "Leave Code"; Code[20])
         {
             Caption = 'Leave Code';
+            DataClassification = CustomerContent;
         }
         field(17; Present; Decimal)
         {
             Caption = 'Present';
+            DataClassification = CustomerContent;
         }
         field(18; Absent; Decimal)
         {
             Caption = 'Absent';
+            DataClassification = CustomerContent;
         }
         field(19; Leave; Decimal)
         {
             Caption = 'Leave';
+            DataClassification = CustomerContent;
         }
         field(20; "Weekly Off"; Decimal)
         {
             Caption = 'Weekly Off';
+            DataClassification = CustomerContent;
         }
         field(21; Holiday; Decimal)
         {
             Caption = 'Holiday';
+            DataClassification = CustomerContent;
         }
         field(22; "On-Duty"; Decimal)
         {
             Caption = 'On-Duty';
+            DataClassification = CustomerContent;
         }
         field(23; "Not Joined"; Decimal)
         {
             Caption = 'Not Joined';
+            DataClassification = CustomerContent;
         }
         field(24; Relieved; Decimal)
         {
             Caption = 'Relieved';
+            DataClassification = CustomerContent;
         }
         field(25; "Payable Days"; Decimal)
         {
             Caption = 'Payable Days';
+            DataClassification = CustomerContent;
         }
         field(26; "Non Payable Days"; Decimal)
         {
             Caption = 'Non Payable Days';
+            DataClassification = CustomerContent;
         }
         field(27; "Permission (Yes/No)"; Boolean)
         {
             Caption = 'Permission (Yes/No)';
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -212,6 +239,7 @@ table 72080 "Daily Attendance"
         field(28; "Total Permission In Mins"; Decimal)
         {
             Caption = 'Total Permission In Mins';
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -228,26 +256,30 @@ table 72080 "Daily Attendance"
         field(29; Reason; Text[30])
         {
             Caption = 'Reason';
+            DataClassification = CustomerContent;
         }
         field(30; "Actual Time In"; Time)
         {
             Caption = 'Actual Time In';
+            DataClassification = CustomerContent;
         }
         field(31; "Actual Time Out"; Time)
         {
             Caption = 'Actual Time Out';
+            DataClassification = CustomerContent;
         }
         field(32; "Total Break Hours"; Decimal)
         {
             Caption = 'Total Break Hours';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(33; Activity; Integer)
         {
-            CalcFormula = Count ("Time Sheet" WHERE ("Location Code" = FIELD ("Location Code"),
-                                                    "Salary Plan Code" = FIELD ("Salary Plan Code"),
-                                                    "Employee No" = FIELD ("Employee No"),
-                                                    "Attend Date" = FIELD ("Attendance Date")));
+            CalcFormula = Count("Time Sheet" WHERE("Location Code" = FIELD("Location Code"),
+                                                    "Salary Plan Code" = FIELD("Salary Plan Code"),
+                                                    "Employee No" = FIELD("Employee No"),
+                                                    "Attend Date" = FIELD("Attendance Date")));
             Caption = 'Activity';
             Editable = false;
             FieldClass = FlowField;
@@ -255,91 +287,110 @@ table 72080 "Daily Attendance"
         field(34; "Shift Code"; Code[20])
         {
             Caption = 'Shift Code';
+            DataClassification = CustomerContent;
             TableRelation = Shift;
         }
         field(35; "Day No."; Integer)
         {
             Caption = 'Day No.';
+            DataClassification = CustomerContent;
         }
         field(36; "Week No"; Integer)
         {
             Caption = 'Week No';
+            DataClassification = CustomerContent;
         }
         field(37; Year; Integer)
         {
             Caption = 'Year';
+            DataClassification = CustomerContent;
         }
         field(38; Month; Integer)
         {
             Caption = 'Month';
+            DataClassification = CustomerContent;
             ValuesAllowed = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
         }
         field(39; "Leave Year Code"; Code[10])
         {
             Caption = 'Leave Year Code';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(40; Synchronize; Boolean)
         {
             Caption = 'Synchronize';
+            DataClassification = CustomerContent;
         }
         field(41; "Late Coming Hours"; Decimal)
         {
             Caption = 'Late Coming Hours';
+            DataClassification = CustomerContent;
         }
         field(42; "Early Going Hours"; Decimal)
         {
             Caption = 'Early Going Hours';
+            DataClassification = CustomerContent;
         }
         field(43; "Early OT Hours"; Decimal)
         {
             Caption = 'Early OT Hours';
+            DataClassification = CustomerContent;
         }
         field(44; "Late OT Hours"; Decimal)
         {
             Caption = 'Late OT Hours';
+            DataClassification = CustomerContent;
         }
         field(45; "Weekly Off Status"; Boolean)
         {
             Caption = 'Weekly Off Status';
+            DataClassification = CustomerContent;
         }
         field(46; "Holiday Status"; Boolean)
         {
             Caption = 'Holiday Status';
+            DataClassification = CustomerContent;
         }
         field(47; "Non Working Day"; Boolean)
         {
             Caption = 'Non Working Day';
+            DataClassification = CustomerContent;
         }
         field(48; "Employee Category"; Option)
         {
             Caption = 'Employee Category';
+            DataClassification = CustomerContent;
             OptionCaption = ' ,Staff Permanent,Staff Temporary,Class IV Permanent,Class IV Temporary,Class III Permanent,Class III Temporary';
             OptionMembers = " ","Staff Permanent","Staff Temporary","Class IV Permanent","Class IV Temporary","Class III Permanent","Class III Temporary";
         }
         field(49; "Lay Off"; Decimal)
         {
             Caption = 'Lay Off';
+            DataClassification = CustomerContent;
         }
         field(50; "Manual Entry"; Boolean)
         {
             Caption = 'Manual Entry';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(51; "System Entry"; Boolean)
         {
             Caption = 'System Entry';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(52; "Attendance Verified"; Boolean)
         {
             Caption = 'Attendance Verified';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(53; "Lay Off (Yes/No)"; Boolean)
         {
             Caption = 'Lay Off (Yes/No)';
-
+            DataClassification = CustomerContent;
             trigger OnValidate()
             begin
                 if "Lay Off (Yes/No)" then begin
@@ -358,18 +409,24 @@ table 72080 "Daily Attendance"
         field(54; "Comp Off Date"; Date)
         {
             Caption = 'Comp Off Date';
+            DataClassification = CustomerContent;
         }
         field(55; "Punch Total Mins Worked"; Decimal)
         {
             Caption = 'Punch Total Mins Worked';
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(56; "Salary Processed"; Boolean)
         {
+            Caption = 'Salary Processed';
+            DataClassification = CustomerContent;
         }
         field(57; "Leave Type"; Option)
         {
             Editable = false;
+            Caption = 'Leave Type';
+            DataClassification = CustomerContent;
             OptionCaption = ' ,Full Day,First Half Day,Second Half Day';
             OptionMembers = " ","Full Day","First Half Day","Second Half Day";
 
@@ -391,9 +448,13 @@ table 72080 "Daily Attendance"
         field(58; "Leave Application No"; Code[20])
         {
             Editable = false;
+            Caption = 'Leave Application No';
+            DataClassification = CustomerContent;
         }
         field(59; "Leave Availed"; Decimal)
         {
+            Caption = 'Leave Availed';
+            DataClassification = CustomerContent;
         }
     }
 
@@ -425,28 +486,24 @@ table 72080 "Daily Attendance"
     }
 
     var
-        CheckTime: Time;
-        StartDateTime: DateTime;
-        EndDateTime: DateTime;
         Shift: Record Shift;
         HRPayrollSetup: Record "HR & Payroll Setup";
         LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
 
-    [Scope('Internal')]
     procedure TotalHoursCalculation(TotalDuration: Integer): Decimal
     var
-        TotalMins: Integer;
+        // TotalMins: Integer;
         TotalHrsMins: Decimal;
-        TotalMiliSec: Integer;
+        //  TotalMiliSec: Integer;
         TotalRestSec: Integer;
-        TotalSec: Integer;
+        // TotalSec: Integer;
         TotalRestMin: Integer;
         TotalMin: Integer;
         TotalRestHour: Integer;
     begin
-        TotalMiliSec := TotalDuration mod 1000;
+        //TotalMiliSec := TotalDuration mod 1000;
         TotalRestSec := TotalDuration div 1000;
-        TotalSec := TotalRestSec mod 60;
+        // TotalSec := TotalRestSec mod 60;
         TotalRestMin := TotalRestSec div 60;
         TotalMin := TotalRestMin mod 60;
         TotalRestHour := TotalRestMin div 60;
@@ -455,9 +512,9 @@ table 72080 "Daily Attendance"
         exit(TotalHrsMins);
     end;
 
-    [Scope('Internal')]
     procedure CalculateAllHours()
     var
+        Employee: Record Employee;
         PersonInoutTotalDuration: Integer;
         BreakTotalDuration: Integer;
         PersonInOutDuration: Integer;
@@ -466,7 +523,6 @@ table 72080 "Daily Attendance"
         EarlyGoingDuration: Integer;
         EarlyOTDuration: Integer;
         LateOTDuration: Integer;
-        Employee: Record Employee;
         TotalOTHours: Decimal;
     begin
         HRPayrollSetup.Get(UserId);
@@ -626,25 +682,9 @@ table 72080 "Daily Attendance"
             Validate("Second Half Attendance Type");
         end;
 
-        /*
-        IF "Early Going Hours" > LocationHRPayrollSetup."Early Going Permission Limit" THEN BEGIN
-          "First Half Attendance Type" := "First Half Attendance Type"::Present;
-          "Second Half Attendance Type" := "Second Half Attendance Type"::Absent;
-          VALIDATE("First Half Attendance Type");
-          VALIDATE("Second Half Attendance Type");
-        END;
-        
-        IF "Late Coming Hours" > LocationHRPayrollSetup."Late Coming Permission Limit" THEN BEGIN
-          "First Half Attendance Type" := "First Half Attendance Type"::Absent;
-          "Second Half Attendance Type" := "Second Half Attendance Type"::Present;
-          VALIDATE("First Half Attendance Type");
-          VALIDATE("Second Half Attendance Type");
-        END;
-        */
 
     end;
 
-    [Scope('Internal')]
     procedure ValidateAttendanceType()
     begin
         Present := 0;
@@ -823,7 +863,6 @@ table 72080 "Daily Attendance"
         end;
     end;
 
-    [Scope('Internal')]
     procedure "Convert Mins To Hours"(TotalHrsMins: Decimal): Decimal
     var
         ConvertHours: Decimal;
@@ -842,7 +881,6 @@ table 72080 "Daily Attendance"
         exit(ConvertHours);
     end;
 
-    [Scope('Internal')]
     procedure "Convert Hours To Mins"(TotalHrsMins: Decimal): Decimal
     var
         ConvertHours: Decimal;

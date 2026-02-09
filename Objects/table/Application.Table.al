@@ -276,6 +276,7 @@ table 71002 Application
                 Postcode.LookupPostCode(Citytxt, "Post Code", Statetxt, Country);
                 Validate(City, Citytxt);
                 Validate(State, Statetxt);
+                //Validate(field,value);
             end;
 
             trigger OnValidate()

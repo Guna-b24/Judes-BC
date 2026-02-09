@@ -1,45 +1,50 @@
 table 72107 "Arrears Header Line"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Tables Added for Payroll Module.
-    // -----------------------------------------------------------------------------------------------
-
     Caption = 'Arrears Header Line';
+    DataClassification = CustomerContent;
 
     fields
     {
         field(1; "Arrears Id"; Code[20])
         {
             Caption = 'Arrears Id';
+            ToolTip = 'Specifies the unique identifier for the arrears document.';
+            DataClassification = CustomerContent;
         }
         field(2; "Location Code"; Code[20])
         {
             Caption = 'Location Code';
+            ToolTip = 'Specifies the location associated with the arrears.';
+            DataClassification = CustomerContent;
         }
         field(3; "Salary Plan Code"; Code[20])
         {
             Caption = 'Salary Plan Code';
+            ToolTip = 'Specifies the salary plan applicable for the arrears.';
             TableRelation = "Salary Plan";
+            DataClassification = CustomerContent;
         }
         field(4; "Employee No"; Code[20])
         {
             Caption = 'Employee No';
+            ToolTip = 'Specifies the employee number for whom the arrears are calculated.';
             NotBlank = true;
             TableRelation = Employee;
+            DataClassification = CustomerContent;
         }
         field(5; Name; Text[50])
         {
             Caption = 'Name';
+            ToolTip = 'Specifies the name of the employee.';
+            Editable = false;
+            DataClassification = CustomerContent;
         }
         field(6; "Total Arrear Amount"; Decimal)
         {
-            CalcFormula = Sum ("Arrears Line"."Arrear Amount" WHERE ("Arrears Id" = FIELD ("Arrears Id"),
-                                                                    "Employee No" = FIELD ("Employee No")));
             Caption = 'Total Arrear Amount';
+            ToolTip = 'Shows the total arrear amount calculated from arrears lines.';
+            CalcFormula = sum("Arrears Line"."Arrear Amount" where("Arrears Id" = field("Arrears Id"),
+                                                                    "Employee No" = field("Employee No")));
             Editable = false;
             FieldClass = FlowField;
         }
@@ -50,6 +55,7 @@ table 72107 "Arrears Header Line"
         key(Key1; "Arrears Id", "Location Code", "Salary Plan Code", "Employee No")
         {
             Clustered = true;
+
         }
     }
 
@@ -59,20 +65,10 @@ table 72107 "Arrears Header Line"
 
     trigger OnDelete()
     begin
-        /*
-        IF CONFIRM('Are Sure to Delete the Records <Yes/No> Delete All Lines..!!') THEN BEGIN
-          ArrearsLine.RESET;
-          ArrearsLine.SETRANGE("Arrears Id", "Arrears Id");
-          IF ArrearsLine.FINDFIRST THEN BEGIN
-            ArrearsLine.LOCKTABLE;
-            ArrearsLine.DELETEALL;
-          END;
-        END;
-        */
 
     end;
 
     var
-        ArrearsLine: Record "Final Settlement Line";
+    //ArrearsLine: Record "Final Settlement Line";
 }
 

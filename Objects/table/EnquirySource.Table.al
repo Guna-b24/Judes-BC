@@ -1,12 +1,7 @@
 table 71883 "Enquiry Source"
 {
-    //   No   Date        Sign       Trigger          Description
-    // -----------------------------------------------------------------------------------------------
-    //   01   17/09/09    Kathir                      Table Created by Kathir
-    //   02   19/10/09    VANDHANA   OnInsert         Code to assign User ID.
-
     Caption = 'Enquiry Source';
-    LookupPageID = 71883;
+    // LookupPageID = 71883;
 
     fields
     {
@@ -14,18 +9,17 @@ table 71883 "Enquiry Source"
         {
             Caption = 'Code';
             NotBlank = true;
+            DataClassification = CustomerContent;
         }
         field(2; Description; Text[30])
         {
             Caption = 'Description';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            DataClassification = CustomerContent;
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = SystemMetadata;
         }
     }
 
@@ -41,11 +35,5 @@ table 71883 "Enquiry Source"
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 02. VANDHANA
-        "User ID" := UserId;
-        // Stop 02. VANDHANA
-    end;
 }
 

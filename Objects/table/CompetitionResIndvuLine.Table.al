@@ -1,57 +1,73 @@
 table 71086 "Competition Res Indvu Line"
 {
     Caption = 'Competition Res Indvu Line';
+    DataClassification = CustomerContent;
 
     fields
     {
         field(1; "Document No."; Code[20])
         {
             Caption = 'Document No.';
+            DataClassification = CustomerContent;
         }
+
         field(3; "Student No."; Code[20])
         {
             Caption = 'Student No.';
             Editable = true;
+            DataClassification = CustomerContent;
         }
+
         field(4; "Student Name"; Text[50])
         {
             Caption = 'Student Name';
             Editable = true;
+            DataClassification = CustomerContent;
         }
         field(5; Age; Decimal)
         {
             Caption = 'Age';
             DecimalPlaces = 0 : 0;
             Editable = true;
+            DataClassification = CustomerContent;
         }
+
         field(6; House; Code[20])
         {
             Caption = 'House';
-            Editable = true;
             TableRelation = House;
+            Editable = true;
+            DataClassification = CustomerContent;
         }
+
         field(7; "Participant Type"; Option)
         {
             Caption = 'Participant Type';
-            OptionCaption = ' ,Main,Substitute';
             OptionMembers = " ",Main,Substitute;
+            OptionCaption = ' ,Main,Substitute';
+            DataClassification = CustomerContent;
         }
         field(8; "Competition Type"; Code[20])
         {
             Caption = 'Competition Type';
-            Editable = true;
             TableRelation = "Competition Type";
+            Editable = true;
+            DataClassification = CustomerContent;
         }
+
         field(9; "Competition Name"; Text[50])
         {
             Caption = 'Competition Name';
             Editable = true;
+            DataClassification = CustomerContent;
         }
+
         field(10; "Student Division"; Code[20])
         {
             Caption = 'Student Division';
-            Editable = true;
             TableRelation = "Student Division";
+            Editable = true;
+            DataClassification = CustomerContent;
         }
         field(11; Position; Option)
         {
@@ -61,23 +77,18 @@ table 71086 "Competition Res Indvu Line"
 
             trigger OnValidate()
             begin
-                // Start 04.VIGNESH
-
                 if CompetitionResultIndividual.Get("Document No.") and CompetitionResultIndividual."Update Results" then
                     Error(Text000);
-
-
-
                 if CoCurricularPointsSetup.Get("Competition Type") then begin
                     case Position of
                         Position::"1st Place":
-                            begin
-                                if xRec.Position = Position::"1st Place" then begin
-                                    Points := (CoCurricularPointsSetup."1st Place" + CoCurricularPointsSetup."2nd Place") / 2;
-                                    xRec.Points := Points
-                                end else
-                                    Points := CoCurricularPointsSetup."1st Place";
-                            end;
+
+                            if xRec.Position = Position::"1st Place" then
+                                Points := (CoCurricularPointsSetup."1st Place" + CoCurricularPointsSetup."2nd Place") / 2
+                            //  xRec.Points := Points
+                            else
+                                Points := CoCurricularPointsSetup."1st Place";
+
                         Position::"2nd Place":
                             Points := CoCurricularPointsSetup."2nd Place";
                         Position::"3rd Place":
@@ -94,28 +105,34 @@ table 71086 "Competition Res Indvu Line"
                     if Points = 0 then
                         Error(Text001, "Competition Type");
                 end;
-
-                // Stop 04.VIGNESH
             end;
         }
         field(12; Points; Decimal)
         {
             Caption = 'Points';
             Editable = true;
+            BlankZero = true;
+            DataClassification = CustomerContent;
         }
         field(13; "Academic Year"; Code[20])
         {
             Caption = 'Academic Year';
+            TableRelation = "Academic Year";
+            Editable = false;
+            DataClassification = CustomerContent;
         }
         field(14; "Competition Entry No."; Code[20])
         {
             Caption = 'Competition Entry No.';
+            Editable = false;
+            DataClassification = CustomerContent;
         }
         field(15; Months; Decimal)
         {
             Caption = 'Months';
             DecimalPlaces = 0 : 0;
             Editable = false;
+            DataClassification = CustomerContent;
         }
         field(17; "Event Type"; Option)
         {
@@ -123,26 +140,38 @@ table 71086 "Competition Res Indvu Line"
             Editable = true;
             OptionCaption = ' ,Individual,Team';
             OptionMembers = " ",Individual,Team;
+            DataClassification = CustomerContent;
         }
         field(20; Class; Code[10])
         {
+            Caption = 'Class';
+            TableRelation = Class;
+            Editable = false;
+            DataClassification = CustomerContent;
         }
         field(50000; "Details NUM"; Decimal)
         {
+            Caption = 'Details NUM';
+            BlankZero = true;
+            Editable = false;
         }
         field(50001; "Details TXT"; Text[140])
         {
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            Caption = 'Details TXT';
+            Editable = false;
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            Editable = false;
+            DataClassification = CustomerContent;
         }
         field(70123; Section; Code[10])
         {
+            Caption = 'Section';
+            TableRelation = Section;
+            Editable = false;
+            DataClassification = CustomerContent;
         }
     }
 

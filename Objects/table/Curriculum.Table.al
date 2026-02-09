@@ -1,12 +1,8 @@
 table 71042 Curriculum
 {
-    //   No   Date        Sign       Trigger          Description
-    // -----------------------------------------------------------------------------------------------
-    //   01   17/09/09    Kathir                      Table Created by Kathir
-    //   02   19/10/09    VANDHANA  OnInsert          Code to assign User ID.
-
     Caption = 'Curriculum';
-    LookupPageID = 71042;
+    DataClassification = CustomerContent;
+    // LookupPageID = 71042;
 
     fields
     {
@@ -14,18 +10,22 @@ table 71042 Curriculum
         {
             Caption = 'Code';
             NotBlank = true;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the unique code for the curriculum.';
         }
+
         field(2; Description; Text[30])
         {
             Caption = 'Description';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the description of the curriculum.';
         }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
-        }
+
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the portal identifier linked to this curriculum.';
         }
     }
 
@@ -41,13 +41,5 @@ table 71042 Curriculum
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 02. VANDHANA
-
-        "User ID" := UserId;
-
-        // Stop 02. VANDHANA
-    end;
 }
 

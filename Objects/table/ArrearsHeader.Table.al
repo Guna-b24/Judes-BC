@@ -1,13 +1,5 @@
 table 72093 "Arrears Header"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Tables Added for Payroll Module.
-    // -----------------------------------------------------------------------------------------------
-
     Caption = 'Arrears Header';
     // DrillDownPageID = 72141;
     // LookupPageID = 72141;
@@ -17,28 +9,34 @@ table 72093 "Arrears Header"
         field(1; "Arrears Id"; Code[20])
         {
             Caption = 'Arrears Id';
+            DataClassification = CustomerContent;
+
         }
         field(2; "Arrears Process Date"; Date)
         {
             Caption = 'Arrears Process Date';
             Editable = false;
+            DataClassification = CustomerContent;
         }
         field(3; "Location Code"; Code[20])
         {
             Caption = 'Location Code';
             Editable = false;
             TableRelation = "Location HR & Payroll Setup";
+            DataClassification = CustomerContent;
         }
         field(4; "Salary Plan Code"; Code[20])
         {
             Caption = 'Salary Plan Code';
             Editable = false;
             TableRelation = "Salary Plan";
+            DataClassification = CustomerContent;
         }
         field(5; "Pay Revision Id"; Code[20])
         {
             Caption = 'Pay Revision Id';
             Editable = false;
+            DataClassification = CustomerContent;
         }
     }
 
@@ -57,11 +55,11 @@ table 72093 "Arrears Header"
     trigger OnDelete()
     begin
         if Confirm('Are Sure to Delete the Records <Yes/No> Delete All Lines..!!') then begin
-            ArrearsLine.Reset;
+            ArrearsLine.Reset();
             ArrearsLine.SetRange("Arrears Id", "Arrears Id");
-            if ArrearsLine.FindFirst then begin
-                ArrearsLine.LockTable;
-                ArrearsLine.DeleteAll;
+            if ArrearsLine.FindFirst() then begin
+                ArrearsLine.LockTable();
+                ArrearsLine.DeleteAll();
             end;
         end;
     end;
