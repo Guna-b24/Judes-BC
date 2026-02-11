@@ -2,8 +2,8 @@ table 72077 "Payroll Employee Posting Group"
 {
     Caption = 'Payroll Employee Posting Group';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Code", Description;
-    DrillDownPageID = 72106;
-    LookupPageID = 72106;
+    // DrillDownPageID = 72106;
+    // LookupPageID = 72106;
 
     fields
     {

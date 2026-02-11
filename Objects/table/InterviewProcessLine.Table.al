@@ -1,12 +1,5 @@
 table 72017 "Interview Process Line"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   SENTHIL                       New Tables Added for HR Module.
-
     Caption = 'Interview Process Line';
 
     fields

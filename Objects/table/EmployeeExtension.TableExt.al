@@ -49,12 +49,17 @@ tableextension 50001 "Employee Extension" extends Employee
         }
         field(50108; "Location Code"; code[20])
         {
-            Caption = 'Division Code';
+            Caption = 'Location Code';
             DataClassification = CustomerContent;
         }
         field(50109; "Salary Plan Code"; code[20])
         {
-            Caption = 'Division Code';
+            Caption = 'Salary Plan Code';
+            DataClassification = CustomerContent;
+        }
+        field(50110; "Date of Relieving"; Date)
+        {
+            Caption = 'Date of Relieving';
             DataClassification = CustomerContent;
         }
 

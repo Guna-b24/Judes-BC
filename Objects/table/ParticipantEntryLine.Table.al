@@ -1,58 +1,52 @@
 table 71084 "Participant Entry Line"
 {
-    // No   Date      Sign     Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    // 01   15.12.09  VIGNESH  OnInsert()                      Code added to enter the User id,Competition name,type & division
-    // 02   15.12.09  VIGNESH  Student No. - OnLookup()        Code added to validate & look up the students based on age
-    // 03   15.12.09  VIGNESH  Participant Type - OnValidate() Code added for validating Particioant type
-    // 04   15.12.09  VIGNESH  Position - OnValidate()         Code added to get the points based on position
-    // 05   15.12.09  VIGNESH  Update Results - OnValidate()   Code added for validating Update Results
-
     Caption = 'Participant Entry Line';
-    DrillDownPageID = 71102;
-    LookupPageID = 71102;
+    DataClassification = ToBeClassified;
+    // DrillDownPageID = 71102;
+    // LookupPageID = 71102;
 
     fields
     {
         field(1; "Document No."; Code[20])
         {
             Caption = 'Document No.';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Reference to the participant entry header document.';
         }
         field(3; "Student No."; Code[20])
         {
             Caption = 'Student No.';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Student number for this entry.';
 
             trigger OnLookup()
             begin
-                // Start 02.VIGNESH
-                //TESTFIELD(House);
-                //TESTFIELD("Academic Year");
-                EducationSetup.Get;
+                EducationSetup.Get();
                 EducationSetup.TestField("Academic Year");
-                Student.ClearMarks;
+                Student.ClearMarks();
                 if ParticipantEntryHeader.Get("Document No.") then;
 
-                if CompType.Get(ParticipantEntryHeader."Competition Type") then begin
+                if CompType.Get(ParticipantEntryHeader."Competition Type") then
                     if CompType."Entire Class" = false then begin
-                        CompetitionEntryLine.Reset;
+                        CompetitionEntryLine.Reset();
                         CompetitionEntryLine.SetRange("Document No.", ParticipantEntryHeader."Competition Entry No.");
                         CompetitionEntryLine.SetRange("Student Division", ParticipantEntryHeader."Student Division");
-                        if CompetitionEntryLine.FindFirst then begin
+                        if CompetitionEntryLine.FindFirst() then begin
                             CompetitionEntryLine.TestField("Min Age");
                             CompetitionEntryLine.TestField("Max Age");
                             CompetitionEntryLine.TestField("Cut Off Date");
-                            Student.ClearMarks;
-                            Student.Reset;
+                            Student.ClearMarks();
+                            Student.Reset();
                             Student.SetRange("Student Status", Student."Student Status"::Student);
 
-                            //added by prakash
+
                             if ParticipantEntryHeader.Gender <> 3 then
                                 Student.SetRange(Gender, ParticipantEntryHeader.Gender);
 
                             if ParticipantEntryHeader.House <> '' then
                                 Student.SetRange(House, ParticipantEntryHeader.House);
                             Student.SetRange("Academic Year", EducationSetup."Academic Year");
-                            if Student.FindSet then
+                            if Student.FindSet() then
                                 repeat
                                     LocalAge := 0;
                                     TempAge := 0;
@@ -64,14 +58,14 @@ table 71084 "Participant Entry Line"
                                         Months1 := Round(Age2 / 30, 1, '=');
                                         LocalAge := TempAge;
                                     end;
-                                    if (LocalAge >= CompetitionEntryLine."Min Age") and (LocalAge <= CompetitionEntryLine."Max Age") then begin
+                                    if (LocalAge >= CompetitionEntryLine."Min Age") and (LocalAge <= CompetitionEntryLine."Max Age") then
                                         if (LocalAge = CompetitionEntryLine."Max Age") and (Months1 < 0) then
                                             Student.Mark(true)
                                         else
                                             if LocalAge < CompetitionEntryLine."Max Age" then
                                                 Student.Mark(true);
-                                    end;
-                                until Student.Next = 0;
+
+                                until Student.Next() = 0;
                             Student.MarkedOnly(true);
                             if PAGE.RunModal(0, Student) = ACTION::LookupOK then begin
                                 "Student No." := Student."No.";
@@ -88,7 +82,7 @@ table 71084 "Participant Entry Line"
                             end;
                         end;
                     end else begin
-                        Student.Reset;
+                        Student.Reset();
                         Student.SetRange(Student.Class, ParticipantEntryHeader.Class);
                         Student.SetRange(Student.Section, ParticipantEntryHeader.Section);
                         if PAGE.RunModal(0, Student) = ACTION::LookupOK then begin
@@ -99,8 +93,6 @@ table 71084 "Participant Entry Line"
                             Gender := Student.Gender;
                         end;
                     end;
-
-                end;
             end;
 
             trigger OnValidate()
@@ -110,24 +102,17 @@ table 71084 "Participant Entry Line"
                         Error(Text001);
                     ParticipantEntryHeader.TestField("Competition Entry No.");
                     ParticipantEntryHeader.TestField("Student Division");
-                    // IF ParticipantEntryHeader."Event Type" <> ParticipantEntryHeader."Event Type"::Team THEN BEGIN
-                    //ParticipantEntryHeader.TESTFIELD(ParticipantEntryHeader.House);
-                    // ParticipantEntryLine.RESET;
-                    //ParticipantEntryLine.SETRANGE("Document No.","Document No.");
-                    //IF ParticipantEntryLine.FINDFIRST THEN
-                    //ERROR(Text000);
-                    //END;
 
-                    CompetitionEntryLine.Reset;
+                    CompetitionEntryLine.Reset();
                     CompetitionEntryLine.SetRange("Document No.", ParticipantEntryHeader."Competition Entry No.");
                     CompetitionEntryLine.SetRange("Student Division", ParticipantEntryHeader."Student Division");
 
-                    if CompetitionEntryLine.FindFirst then begin
+                    if CompetitionEntryLine.FindFirst() then begin
                         CompetitionEntryLine.TestField("Min Age");
                         CompetitionEntryLine.TestField("Max Age");
                         CompetitionEntryLine.TestField("Cut Off Date");
-                        Student.Reset;
-                        if Student.Get("Student No.") then begin
+                        Student.Reset();
+                        if Student.Get("Student No.") then
                             if Student."Date Of Birth" <> 0D then begin
                                 LocalAge1 := CompetitionEntryLine."Cut Off Date" - Student."Date Of Birth";
                                 TempAge1 := Round(LocalAge1 / 365, 1, '<');
@@ -136,49 +121,53 @@ table 71084 "Participant Entry Line"
                                 Age := TempAge1;
                                 Months := Months2;
                                 Student.TestField(House);
-                                // House :=Student.House;
                             end else begin
                                 Age := 0;
                                 Months := 0;
                             end;
-                        end;
                     end;
                 end;
             end;
+
         }
         field(4; "Student Name"; Text[50])
         {
             Caption = 'Student Name';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Name of the student.';
         }
         field(5; Age; Decimal)
         {
             Caption = 'Age';
+            DataClassification = ToBeClassified;
             DecimalPlaces = 0 : 0;
+            ToolTip = 'Age of the student at cutoff date.';
         }
         field(6; House; Code[20])
         {
             Caption = 'House';
+            DataClassification = ToBeClassified;
+            ToolTip = 'House of the student.';
             TableRelation = House;
         }
         field(7; "Participant Type"; Option)
         {
             Caption = 'Participant Type';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Indicates main or substitute participant.';
             OptionCaption = ' ,Main,Substitute';
             OptionMembers = " ",Main,Substitute;
 
             trigger OnValidate()
             begin
-                // Start 03.VIGNESH
+
                 ParticipantEntryHeader.Get("Document No.");
                 if ParticipantEntryHeader."Update Entry" then
                     Error(Text001);
-
-                //IF ParticipantEntryHeader."Event Type" <> ParticipantEntryHeader."Event Type"::Team THEN
-                //  ERROR(Text002);
-                if ParticipantEntryHeader."Event Type" = ParticipantEntryHeader."Event Type"::Team then begin
+                if ParticipantEntryHeader."Event Type" = ParticipantEntryHeader."Event Type"::Team then
                     if CompetitionEntryLine.Get(ParticipantEntryHeader."Competition Entry No.", ParticipantEntryHeader."Student Division") then begin
                         CompetitionEntryLine.TestField("Team Size");
-                        ParticipantEntryLine.Reset;
+                        ParticipantEntryLine.Reset();
                         ParticipantEntryLine.SetRange("Document No.", "Document No.");
                         if "Participant Type" = "Participant Type"::Main then begin
                             ParticipantEntryLine.SetRange("Participant Type", ParticipantEntryLine."Participant Type"::Main);
@@ -191,8 +180,7 @@ table 71084 "Participant Entry Line"
                                     Error(Text004, CompetitionEntryLine.Substitute);
                             end;
                     end;
-                end;
-                // Stop 03.VIGNESH
+
                 if "Participant Type" <> 0 then begin
                     if ParticipantEntryHeader.Get("Document No.") then;
                     "Team No." := ParticipantEntryHeader."Team No.";
@@ -204,47 +192,65 @@ table 71084 "Participant Entry Line"
         field(8; "Competition Type"; Code[20])
         {
             Caption = 'Competition Type';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Type of competition.';
             Editable = true;
             TableRelation = "Competition Type";
         }
         field(9; "Competition Name"; Text[50])
         {
             Caption = 'Competition Name';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Name of the competition.';
             Editable = true;
         }
         field(10; "Student Division"; Code[20])
         {
             Caption = 'Student Division';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Student division of the participant.';
             Editable = true;
             TableRelation = "Student Division";
         }
         field(11; Position; Option)
         {
             Caption = 'Position';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Final position in the competition.';
             OptionCaption = ',1st Place,2nd Place,3rd Place,4th place,5th place,6th place,Participation';
             OptionMembers = ,"1st Place","2nd Place","3rd Place","4th place","5th place","6th place",Participation;
         }
         field(12; Points; Decimal)
         {
             Caption = 'Points';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Points awarded for this entry.';
             Editable = true;
         }
         field(13; "Academic Year"; Code[20])
         {
             Caption = 'Academic Year';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Academic year of the competition.';
         }
         field(14; "Competition Entry No."; Code[20])
         {
             Caption = 'Competition Entry No.';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Reference to the competition entry.';
         }
         field(15; Months; Decimal)
         {
             Caption = 'Months';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Additional months of age.';
             DecimalPlaces = 0 : 0;
         }
         field(17; "Event Type"; Option)
         {
             Caption = 'Event Type';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Type of event (Individual or Team).';
             Editable = true;
             OptionCaption = ' ,Individual,Team';
             OptionMembers = " ",Individual,Team;
@@ -252,44 +258,64 @@ table 71084 "Participant Entry Line"
         field(18; "Team No."; Code[20])
         {
             Caption = 'Team No.';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Team number for the participant.';
         }
         field(19; "Update Results"; Boolean)
         {
             Caption = 'Update Results';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Indicates whether results are updated.';
         }
         field(20; Class; Code[10])
         {
+            Caption = 'Class';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Class of the student.';
             TableRelation = Class;
         }
         field(21; "Event Code"; Code[20])
         {
+            Caption = 'Event Code';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Code of the event.';
             TableRelation = "Event Master";
         }
         field(50000; "Details NUM"; Decimal)
         {
+            Caption = 'Details NUM';
+            DataClassification = ToBeClassified;
         }
         field(50001; "Details TXT"; Text[140])
         {
+            Caption = 'Details TXT';
+            DataClassification = ToBeClassified;
         }
         field(50002; "Update Entry"; Boolean)
         {
             Caption = 'Update Entry';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Indicates whether the entry can be updated.';
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Portal reference ID for external systems.';
         }
         field(70122; Gender; Option)
         {
+            Caption = 'Gender';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Gender of participant.';
             OptionCaption = ' ,Male,Female,Both';
             OptionMembers = " ",Male,Female,Both;
         }
         field(70123; Section; Code[10])
         {
+            Caption = 'Section';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Section of the student.';
             TableRelation = Section;
         }
     }
@@ -337,38 +363,6 @@ table 71084 "Participant Entry Line"
     {
     }
 
-    trigger OnInsert()
-    begin
-        /*
-        // Start 01.VIGNESH
-        IF "Student No." = '' THEN
-          DELETE;
-        "User ID" := USERID;
-        EducationSetup.GET;
-        EducationSetup.TESTFIELD("Academic Year");
-        "Academic Year" := EducationSetup."Academic Year";
-        IF ParticipantEntryHeader.GET("Document No.") THEN BEGIN
-          ParticipantEntryHeader.TESTFIELD("No.");
-          ParticipantEntryHeader.TESTFIELD("Competition Entry No.");
-          ParticipantEntryHeader.TESTFIELD("Student Division");
-          IF ParticipantEntryHeader."Event Type" <> ParticipantEntryHeader."Event Type"::Team THEN BEGIN
-            ParticipantEntryHeader.TESTFIELD(House);
-            ParticipantEntryLine.RESET;
-            ParticipantEntryLine.SETRANGE("Document No.","Document No.");
-            IF ParticipantEntryLine.FINDFIRST THEN
-              ERROR(Text000);
-          END;
-          "Competition Type" := ParticipantEntryHeader."Competition Type";
-          "Competition Name" := ParticipantEntryHeader."Competition Name";
-          "Student Division" := ParticipantEntryHeader."Student Division";
-          "Competition Entry No." := ParticipantEntryHeader."Competition Entry No.";
-          "Event Type" := ParticipantEntryHeader."Event Type";
-          "Team No." := ParticipantEntryHeader."Team No.";
-        END;
-        // Stop 01.VIGNESH
-         */
-
-    end;
 
     var
         EducationSetup: Record "Education Setup";
@@ -376,6 +370,8 @@ table 71084 "Participant Entry Line"
         Student: Record Student;
         ParticipantEntryLine: Record "Participant Entry Line";
         CompetitionEntryLine: Record "Competition Entry Line";
+        CompType: Record "Competition Type";
+
         LocalAge: Decimal;
         TempAge: Decimal;
         LocalAge1: Decimal;
@@ -384,12 +380,11 @@ table 71084 "Participant Entry Line"
         Months1: Decimal;
         Age3: Decimal;
         Months2: Decimal;
-        CoCurricularPointsSetup: Record "Co-Curricular Points Setup";
         Text000: Label 'You can enter only one student for an individual.';
         Text001: Label 'You cannot modify the enttry, entry is updated.';
         Text002: Label 'Only for the Team Event, participant type is  required.';
         Text003: Label 'Only %1 students can be added in main list';
         Text004: Label 'Only %1 students can be added in substitute list.';
-        CompType: Record "Competition Type";
-}
 
+
+}

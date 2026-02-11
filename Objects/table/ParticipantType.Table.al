@@ -1,31 +1,31 @@
 table 71074 "Participant Type"
 {
-    // No   Date      Sign     Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    // 01   15.12.09  VIGNESH  OnInsert()                 Code added to enter the User id
 
     Caption = 'Participant Type';
-    DrillDownPageID = 71083;
-    LookupPageID = 71083;
+    // DrillDownPageID = 71083;
+    // LookupPageID = 71083;
+    DataClassification = ToBeClassified;
 
     fields
     {
         field(1; "Code"; Code[20])
         {
             Caption = 'Code';
+            DataClassification = ToBeClassified;
             NotBlank = true;
+            ToolTip = 'Unique code for the participant type.';
         }
         field(2; Description; Text[50])
         {
             Caption = 'Description';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Description of the participant type.';
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Portal reference ID for external integration.';
         }
     }
 
@@ -41,11 +41,5 @@ table 71074 "Participant Type"
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 01.VIGNESH
-        "User ID" := UserId;
-        // Stop 01.VIGNESH
-    end;
 }
 

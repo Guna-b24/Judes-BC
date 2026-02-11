@@ -20,7 +20,7 @@ codeunit 71880 "Education Vertical"
         Text001: Label 'Do you want to receive this Application %1?';
         RecApplication: Record Application;
         Academics: Codeunit Academics;
-        AcademicsCOLLEGE: Codeunit Codeunit71350;
+        // AcademicsCOLLEGE: Codeunit Codeunit71350;
         Text000: Label 'Academic Year Already Closed';
         Text002: Label 'Academic Year Has Been Assigned';
         Text003: Label 'Do you want to Close the academic Year ?';

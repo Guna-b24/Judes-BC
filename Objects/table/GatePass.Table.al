@@ -1,8 +1,8 @@
 table 72112 "Gate Pass"
 {
     Caption = 'Gate Pass';
-    DrillDownPageID = 72148;
-    LookupPageID = 72148;
+    // DrillDownPageID = 72148;
+    // LookupPageID = 72148;
 
     fields
     {
@@ -38,7 +38,7 @@ table 72112 "Gate Pass"
         field(5; "Employee No."; Code[10])
         {
             Caption = 'Employee No.';
-            TableRelation = Employee WHERE (Status = FILTER (Active));
+            TableRelation = Employee WHERE(Status = FILTER(Active));
 
             trigger OnValidate()
             begin
@@ -85,7 +85,7 @@ table 72112 "Gate Pass"
         field(13; "Sanction In-Charge"; Code[20])
         {
             Caption = 'Sanction In-Charge';
-            TableRelation = Employee WHERE (Status = FILTER (Active));
+            TableRelation = Employee WHERE(Status = FILTER(Active));
 
             trigger OnValidate()
             begin
@@ -103,7 +103,7 @@ table 72112 "Gate Pass"
         field(15; "Authorized Person"; Code[20])
         {
             Caption = 'Authorized Person';
-            TableRelation = Employee WHERE (Status = FILTER (Active));
+            TableRelation = Employee WHERE(Status = FILTER(Active));
 
             trigger OnValidate()
             begin

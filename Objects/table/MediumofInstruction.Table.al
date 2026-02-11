@@ -1,13 +1,8 @@
 table 71880 "Medium of Instruction"
 {
-    // 
-    //   No   Date        Sign      Trigger           Description
-    // -----------------------------------------------------------------------------------------------
-    //   01   17/09/09    Kathir                      Table Created by Kathir
-    //   02   19/10/09    VANDHANA  OnInsert          Code to assign User ID.
-
     Caption = 'Medium of Instruction';
-    LookupPageID = 71880;
+    DataClassification = CustomerContent;
+    //LookupPageID = 71880;
 
     fields
     {
@@ -15,18 +10,20 @@ table 71880 "Medium of Instruction"
         {
             Caption = 'Code';
             NotBlank = true;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the unique code for the medium of instruction.';
         }
         field(2; Description; Text[30])
         {
             Caption = 'Description';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the description of the medium of instruction.';
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the Portal ID for this medium.';
         }
     }
 
@@ -42,13 +39,5 @@ table 71880 "Medium of Instruction"
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 02. VANDHANA
-
-        "User ID" := UserId;
-
-        // Stop 02. VANDHANA
-    end;
 }
 

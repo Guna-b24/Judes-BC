@@ -1,48 +1,46 @@
 table 71044 KeyStages
 {
-    // 
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  19/10/09  VANDHANA  OnInsert                     Code to assign User ID.
-
     Caption = 'KeyStages';
-    DrillDownPageID = 71044;
-    LookupPageID = 71044;
+    DataClassification = CustomerContent;
+    // DrillDownPageID = 71044;
+    // LookupPageID = 71044;
 
     fields
     {
         field(1; "Divison Code"; Code[20])
         {
-            Caption = 'Divison Code';
+            Caption = 'Division Code';
+            ToolTip = 'Specifies the division to which this key stage belongs.';
             TableRelation = Divsion."Division Code";
+            DataClassification = CustomerContent;
         }
-        field(2; "Code"; Code[10])
+
+        field(2; Code; Code[10])
         {
             Caption = 'Code';
+            ToolTip = 'Specifies the key stage code.';
             TableRelation = Class;
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
-                // Start 02.VIGNESH
                 if Class.Get(Code) then
                     Description := Class.Description
                 else
                     Description := '';
-
-                // Stop 02.VIGNESH
             end;
         }
         field(3; Description; Text[30])
         {
             Caption = 'Description';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            ToolTip = 'Specifies the description of the key stage.';
+            DataClassification = CustomerContent;
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            ToolTip = 'Specifies the portal reference ID associated with this key stage.';
+            DataClassification = CustomerContent;
         }
     }
 
@@ -57,15 +55,6 @@ table 71044 KeyStages
     fieldgroups
     {
     }
-
-    trigger OnInsert()
-    begin
-        // Start 01. VANDHANA
-
-        "User ID" := UserId;
-
-        // Stop 01. VANDHANA
-    end;
 
     var
         Class: Record Class;

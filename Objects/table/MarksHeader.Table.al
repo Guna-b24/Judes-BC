@@ -1,28 +1,7 @@
 table 71052 "Marks Header"
 {
-    //   No   Date      Sign     Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  30/09/09   KATHIR   OnInsert()                  Code added to generate Number Series
-    //   02  30/09/09   KATHIR   OnInsert()                  Code added to get Current Acadmemic Year
-    //   03  30/09/09   KATHIR   No. - OnValidate()          Code added to generate Number Series
-    //   04  30/09/09   KATHIR   Subject - OnValidate()      Code added to check Current Combination of class & Section already entered
-    //   05  30/09/09   KATHIR   Pass Mark - OnValidate()    Code added to restrict pass mark with Max mark
-    //   06  30/09/09   KATHIR   Subject - OnValidate()      Code added to get Subject Description
-    //   07  30/09/09   KATHIR   AssistEdit()                Code added to generate Number Series
-    //   08  01/10/09   KATHIR   OnInsert()                  Code added to Insert Current UserID
-    //   09  01/10/09   KATHIR   Subject - OnValidate()      Code added to get Max mark and pass mark from class subjects
-    //   10  01/10/09   KATHIR   Exam Type - OnValidate()    Code added to get exam type's description
-    //   11  11/10/09   KATHIR   Teacher - OnValidate()      Code added to get teacher Name
-    //   12  23/11/09   VIGNESH  Class - OnValidate()        Code added to get the Class Section & Curriculum
-    //   13  23/11/09   VIGNESH  Class - OnLookup()          Code added to get the Class Section & Curriculum
-    //   14  23/11/09   VIGNESH  Curriculum - OnValidate()   Code added to get the Class Section & Curriculum
-    //   15  23/11/09   VIGNESH  Curriculum - OnLookup()     Code added to get the Class Section & Curriculum
-    //   16  23/11/09   VIGNESH  Section - OnValidate()      Code added to get the Class Section & Curriculum
-    //   17  23/11/09   VIGNESH  Section - OnLookup()        Code added to get the Class Section & Curriculum
-    //   18  25/11/09   VIGNESH  Subject - OnValidate()      SetCurrent key Modified based on section
-
     Caption = 'Marks Header';
-    LookupPageID = 71055;
+   / // LookupPageID = 71055;
 
     fields
     {
@@ -32,14 +11,12 @@ table 71052 "Marks Header"
 
             trigger OnValidate()
             begin
-                // Start 03.KATHIR
-                if "No." <> xRec."No." then begin
+                           if "No." <> xRec."No." then begin
                     AcademicsSetup.Get;
                     NoSeriesMgt.TestManual(AcademicsSetup."Marks No.");
                     "No. Series" := '';
                 end;
-                // Stop 03.KATHIR
-            end;
+                            end;
         }
         field(2; Class; Code[20])
         {
@@ -75,10 +52,9 @@ table 71052 "Marks Header"
 
             trigger OnValidate()
             begin
-                // Start 05.KATHIR
                 if "Pass Mark" >= "Max Mark" then
                     Error(Text001);
-                // Stop 05.KATHIR
+               
             end;
         }
         field(10; Subject; Code[20])
@@ -88,20 +64,18 @@ table 71052 "Marks Header"
             trigger OnLookup()
             begin
                 FacultySubject.Reset;
-                //Faculty Code,Class,Curriculum,Section Code,Subject Code,Academic Year
-                FacultySubject.SetCurrentKey("Faculty Code", Class, "Academic Year");
+                               FacultySubject.SetCurrentKey("Faculty Code", Class, "Academic Year");
                 FacultySubject.SetRange(FacultySubject."Faculty Code", Teacher);
                 FacultySubject.SetRange(FacultySubject.Class, Class);
                 FacultySubject.SetRange(FacultySubject."Academic Year", "Academic Year");
-                if PAGE.RunModal(0, FacultySubject) = ACTION::LookupOK then begin
+                if page.RunModal(72010, FacultySubject) = action::LookupOK then begin
                     Subject := FacultySubject."Subject Code";
                 end;
             end;
 
             trigger OnValidate()
             begin
-                // Start 06.KATHIR
-                TestField(Class);
+                              TestField(Class);
                 TestField(Section);
                 TestField("Academic Year");
                 TestField(Curriculum);
@@ -111,15 +85,10 @@ table 71052 "Marks Header"
                     "Subject Description" := RecSubject.Description
                 else
                     "Subject Description" := '';
-                // Stop 06.KATHIR
-
-                // Start 09.KATHIR
+              
                 ClassSubjects.Reset;
-                // Start 18.VIGNESH
-                //ClassSubjects.SETCURRENTKEY("Class Code",Section,Curriculum,"Academic Year",Subject);
-                ClassSubjects.SetCurrentKey(Class, Curriculum, "Academic Year", Subject);
-                // Stop 18.VIGNESH
-                ClassSubjects.SetRange(Class, Class);
+                             ClassSubjects.SetCurrentKey(Class, Curriculum, "Academic Year", Subject);
+                             ClassSubjects.SetRange(Class, Class);
                 ClassSubjects.SetRange(Curriculum, Curriculum);
                 ClassSubjects.SetRange("Academic Year", "Academic Year");
                 ClassSubjects.SetRange(Subject, Subject);
@@ -130,8 +99,7 @@ table 71052 "Marks Header"
                     "Max Mark" := 0;
                     "Pass Mark" := 0;
                 end;
-                // Stop 09.KATHIR
-                //Start 04.KATHIR
+                
                 MarksHeader.Reset;
                 MarksHeader.SetCurrentKey(Class, Section, Curriculum, "Academic Year", "Exam Type", Subject);
                 MarksHeader.SetRange(Class, Class);
@@ -142,7 +110,7 @@ table 71052 "Marks Header"
                 MarksHeader.SetRange(Subject, Subject);
                 if MarksHeader.FindFirst then
                     Error(TEXT002);
-                //Stop 04.KATHIR
+              
             end;
         }
         field(11; "Subject Description"; Text[50])
@@ -161,10 +129,10 @@ table 71052 "Marks Header"
 
             trigger OnValidate()
             begin
-                // Start 10.KATHIR
+             
                 if ExamCode.Get("Exam Type") then
                     "Exam Description" := ExamCode.Description;
-                // Stop 10.KATHIR
+               
             end;
         }
         field(14; "Exam Description"; Text[50])
@@ -182,10 +150,10 @@ table 71052 "Marks Header"
 
             trigger OnValidate()
             begin
-                // Start 11.KATHIR
+             
                 if Employee.Get(Teacher) then
                     "Teacher Name" := Employee."First Name";
-                // Stop 11.KATHIR
+                
             end;
         }
         field(17; "Entry Completed"; Boolean)
@@ -207,12 +175,7 @@ table 71052 "Marks Header"
                 end;
             end;
         }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
-            Editable = false;
-        }
-        field(70121; "Portal ID"; Code[20])
+                field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
         }
@@ -246,54 +209,52 @@ table 71052 "Marks Header"
     }
 
     trigger OnInsert()
-    begin
-        // Start 01.KATHIR
-        AcademicsSetup.Get;
-        if "No. Series" = '' then begin
+    begin      
+       
+        if "No." = '' then begin
+             AcademicsSetup.Get;
             AcademicsSetup.TestField("Marks No.");
-            NoSeriesMgt.InitSeries(AcademicsSetup."Marks No.", xRec."No. Series", 0D, "No.", "No. Series");
+            "No. Series" := AcademicsSetup.Marks No.;
+            "No." := noseries.GetNextNo("No. Series");
+
+            
         end;
-        // Stop 01.KATHIR
-
-        // Start 02.KATHIR
-        "Academic Year" := Educationvertical.GetAcademicYear;
-        // Stop 02.KATHIR
-
-        // Start 08.KATHIR
-        "User ID" := UserId;
-        // Stop 08.KATHIR
+       
+        "Academic Year" := Educationvertical.GetAcademicYear;     
+      
     end;
 
     var
-        Text001: Label 'Pass Mark Cannot be greater than Max Mark';
+       
         RecSubject: Record Subject;
         Educationvertical: Codeunit "Education Vertical";
+
         AcademicsSetup: Record "Academics Setup";
         NoSeriesMgt: Codeunit NoSeriesManagement;
+
         MarksHeader: Record "Marks Header";
-        TEXT002: Label 'Marks Header already Generated for this Class and for this subject';
+      
         ClassSubjects: Record "Class Subjects";
         ExamCode: Record "Exam Code";
         Employee: Record Employee;
         ClassSectionLook: Record "Class Section";
         ClassSection: Record "Class Section";
         FacultySubject: Record "Faculty Subject";
+        TEXT002: Label 'Marks Header already Generated for this Class and for this subject';
+        Text001: Label 'Pass Mark Cannot be greater than Max Mark';
 
-    [Scope('Internal')]
+   
     procedure Assistedit(OldMarks: Record "Marks Header"): Boolean
     begin
-        // Start 07.KATHIR
-        with OldMarks do begin
+       
             OldMarks := Rec;
             AcademicsSetup.Get;
             AcademicsSetup.TestField("Marks No.");
             if NoSeriesMgt.SelectSeries(AcademicsSetup."Marks No.", OldMarks."No. Series", "No. Series") then begin
-                NoSeriesMgt.SetSeries("No.");
-                Rec := OldMarks;
+                             Rec := OldMarks;
                 exit(true);
             end;
         end;
-        // Stop 07.KATHIR
-    end;
+      
 }
 

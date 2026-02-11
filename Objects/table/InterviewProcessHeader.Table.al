@@ -1,16 +1,9 @@
 table 72016 "Interview Process Header"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   SENTHIL                       New Tables Added for HR Module.
-
     Caption = 'Interview Process Header';
     DataCaptionFields = No;
-    DrillDownPageID = 72025;
-    LookupPageID = 72025;
+    // DrillDownPageID = 72025;
+    // LookupPageID = 72025;
 
     fields
     {
@@ -21,7 +14,7 @@ table 72016 "Interview Process Header"
             trigger OnValidate()
             begin
                 if No <> xRec.No then begin
-                    HRSetup.Get;
+                    HRSetup.Get();
                     NoSeriesMgt.TestManual(HRSetup."Interview SNo");
                     "No. Series" := '';
                 end;
@@ -138,8 +131,8 @@ table 72016 "Interview Process Header"
         }
         field(24; Comment; Boolean)
         {
-            CalcFormula = Exist ("Human Resource Comment Line" WHERE ("Table Name" = CONST ("10"),
-                                                                     "No." = FIELD (No)));
+            CalcFormula = Exist("Human Resource Comment Line" WHERE("Table Name" = CONST("10"),
+                                                                     "No." = FIELD(No)));
             Caption = 'Comment';
             Editable = false;
             FieldClass = FlowField;
