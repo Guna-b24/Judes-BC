@@ -1,38 +1,40 @@
 table 71153 "Time Table Setup"
 {
-    //   No   Date        Sign       Trigger          Description
-    // ------------------------------------------------------------------------------------------
-    //   01  17/09/09    VIGNESH                     Table Created by Vignesh
-    //   02  19/10/09    VANDHANA    OnInsert        Code to assign User ID.
-
     Caption = 'Time Table Setup';
+    DataClassification = CustomerContent;
 
     fields
     {
         field(1; "Primary Key"; Code[10])
         {
             Caption = 'Primary Key';
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the primary key for the timetable setup record.';
         }
         field(2; "Academic Year"; Code[10])
         {
             Caption = 'Academic Year';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the academic year for the timetable setup.';
             TableRelation = "Academic Year";
         }
         field(3; "Time Table Theory Code"; Code[20])
         {
             Caption = 'Time Table Theory Code';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the code used for theory periods in the timetable.';
         }
         field(4; "Time Table Lab Code"; Code[20])
         {
             Caption = 'Time Table Lab Code';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the code used for lab periods in the timetable.';
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the portal identifier associated with the record.';
         }
     }
 
@@ -48,13 +50,5 @@ table 71153 "Time Table Setup"
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 02. VANDHANA
-
-        "User ID" := UserId;
-
-        // Stop 02. VANDHANA
-    end;
 }
 

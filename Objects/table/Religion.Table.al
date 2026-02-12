@@ -1,12 +1,9 @@
 table 71886 Religion
 {
-    //   No   Date        Sign       Trigger          Description
-    // -----------------------------------------------------------------------------------------------
-    //   01   18/09/09    Kathir                      Table Created by Kathir
-    //   02   19/10/09    VANDHANA   OnInsert         Code to assign User ID.
 
     Caption = 'Religion';
-    LookupPageID = 71886;
+    DataClassification = CustomerContent;
+    // LookupPageID = 71886;
 
     fields
     {
@@ -14,18 +11,21 @@ table 71886 Religion
         {
             Caption = 'Code';
             NotBlank = true;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the unique code for the religion.';
         }
+
         field(2; Description; Text[30])
         {
             Caption = 'Description';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the description or name of the religion.';
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the portal identifier associated with this religion.';
         }
     }
 
@@ -41,13 +41,5 @@ table 71886 Religion
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 02. VANDHANA
-
-        "User ID" := UserId;
-
-        // Stop 02. VANDHANA
-    end;
 }
 

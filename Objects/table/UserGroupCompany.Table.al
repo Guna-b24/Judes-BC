@@ -2,7 +2,8 @@ table 71896 "User Group Company"
 {
     Caption = 'User Group Company';
     DataPerCompany = false;
-    LookupPageID = 71899;
+    DataClassification = CustomerContent;
+    //  LookupPageID = 71899;
 
     fields
     {
@@ -10,11 +11,15 @@ table 71896 "User Group Company"
         {
             Caption = 'User Group';
             TableRelation = "User Groups";
+            DataClassification = EndUserIdentifiableInformation;
+            ToolTip = 'Specifies the user group that is granted access.';
         }
         field(2; "Company Access"; Text[30])
         {
             Caption = 'Company Access';
             TableRelation = Company;
+            DataClassification = OrganizationIdentifiableInformation;
+            ToolTip = 'Specifies the company that the user group has access to.';
         }
     }
 

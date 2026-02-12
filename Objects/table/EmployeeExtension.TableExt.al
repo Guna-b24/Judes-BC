@@ -62,6 +62,11 @@ tableextension 50001 "Employee Extension" extends Employee
             Caption = 'Date of Relieving';
             DataClassification = CustomerContent;
         }
+        field(50111; "Section Code"; code[10])
+        {
+            Caption = 'Section Code';
+            DataClassification = CustomerContent;
+        }
 
     }
 

@@ -1,19 +1,8 @@
 table 71055 "Student Mark Header"
 {
-    // 
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  19/10/09  VANDHANA  OnInsert                     Code to assign User ID.
-    //   02  23/11/09   VIGNESH  Class - OnValidate()                Code added to get the Class Section & Curriculum
-    //   03  23/11/09   VIGNESH  Class - OnLookup()                  Code added to get the Class Section & Curriculum
-    //   04  23/11/09   VIGNESH  Curriculum - OnValidate()           Code added to get the Class Section & Curriculum
-    //   05  23/11/09   VIGNESH  Curriculum - OnLookup()             Code added to get the Class Section & Curriculum
-    //   06  23/11/09   VIGNESH  Section - OnValidate()              Code added to get the Class Section & Curriculum
-    //   07  23/11/09   VIGNESH  Section - OnLookup()                Code added to get the Class Section & Curriculum
-    //   08  13/1/10    KAVITHA                                      Added 2 new fields GPA Points and GPA Grade.
-
     Caption = 'Student Mark Header';
-    LookupPageID = 71067;
+    DataClassification = CustomerContent;
+    // LookupPageID = 71067;
 
     fields
     {
@@ -22,111 +11,165 @@ table 71055 "Student Mark Header"
             Caption = 'Student No.';
             Editable = false;
             TableRelation = Student;
+            ToolTip = 'Specifies the student number.';
+            DataClassification = EndUserIdentifiableInformation;
         }
+
         field(2; Name; Text[50])
         {
             Caption = 'Name';
             Editable = false;
+            ToolTip = 'Specifies the name of the student.';
+            DataClassification = EndUserIdentifiableInformation;
         }
         field(3; Class; Code[20])
         {
             Caption = 'Class';
             Editable = false;
+            ToolTip = 'Specifies the class of the student.';
+            DataClassification = CustomerContent;
         }
+
         field(4; Section; Code[20])
         {
             Caption = 'Section';
             Editable = false;
+            ToolTip = 'Specifies the section of the student.';
+            DataClassification = CustomerContent;
         }
         field(5; "Academic Year"; Code[20])
         {
             Caption = 'Academic Year';
             Editable = false;
+            ToolTip = 'Specifies the academic year.';
+            DataClassification = CustomerContent;
         }
+
         field(6; "Exam Type"; Code[20])
         {
             Caption = 'Exam Type';
             Editable = false;
             TableRelation = "Exam Code";
+            ToolTip = 'Specifies the exam type.';
+            DataClassification = CustomerContent;
         }
+
         field(7; Curriculum; Code[20])
         {
             Caption = 'Curriculum';
-            Editable = true;
+            ToolTip = 'Specifies the curriculum followed by the student.';
+            DataClassification = CustomerContent;
         }
+
         field(8; "Total Marks"; Decimal)
         {
-            BlankZero = true;
             Caption = 'Total Marks';
-            Editable = true;
-        }
-        field(9; "Average"; Decimal)
-        {
             BlankZero = true;
+            ToolTip = 'Specifies the total marks obtained.';
+            DataClassification = CustomerContent;
+        }
+
+        field(9; Average; Decimal)
+        {
             Caption = 'Average';
-            Editable = true;
+            BlankZero = true;
+            ToolTip = 'Specifies the average marks.';
+            DataClassification = CustomerContent;
         }
         field(10; Rank; Integer)
         {
-            BlankZero = true;
             Caption = 'Rank';
-            Editable = true;
+            BlankZero = true;
+            ToolTip = 'Specifies the rank secured by the student.';
+            DataClassification = CustomerContent;
         }
+
         field(11; Grade; Code[10])
         {
             Caption = 'Grade';
             Editable = false;
+            ToolTip = 'Specifies the grade assigned to the student.';
+            DataClassification = CustomerContent;
         }
+
         field(12; "Total No of Subject Failed"; Integer)
         {
-            Caption = 'Total No of Subject Failed';
+            Caption = 'Total No. of Subjects Failed';
             Editable = false;
+            ToolTip = 'Specifies the total number of subjects failed.';
+            DataClassification = CustomerContent;
         }
         field(13; Failed; Boolean)
         {
             Caption = 'Failed';
             Editable = false;
+            ToolTip = 'Specifies whether the student has failed.';
+            DataClassification = CustomerContent;
         }
+
         field(14; Remarks; Text[200])
         {
             Caption = 'Remarks';
+            ToolTip = 'Specifies general remarks about the student performance.';
+            DataClassification = EndUserIdentifiableInformation;
         }
         field(15; Height; Decimal)
         {
-            BlankZero = true;
             Caption = 'Height';
+            BlankZero = true;
+            ToolTip = 'Specifies the height of the student.';
+            DataClassification = EndUserIdentifiableInformation;
         }
+
         field(16; Weight; Decimal)
         {
-            BlankZero = true;
             Caption = 'Weight';
+            BlankZero = true;
+            ToolTip = 'Specifies the weight of the student.';
+            DataClassification = EndUserIdentifiableInformation;
         }
         field(17; "GPA Grade"; Code[10])
         {
             Caption = 'GPA Grade';
+            ToolTip = 'Specifies the GPA grade.';
+            DataClassification = CustomerContent;
         }
+
         field(18; "GPA Points"; Decimal)
         {
             Caption = 'GPA Points';
+            ToolTip = 'Specifies the GPA points.';
+            DataClassification = CustomerContent;
         }
+
         field(19; "Percentage Scored"; Decimal)
         {
             Caption = 'Percentage Scored';
             Editable = false;
+            ToolTip = 'Specifies the percentage scored by the student.';
+            DataClassification = CustomerContent;
         }
+
         field(20; "Total Marks Conducted"; Decimal)
         {
             Caption = 'Total Marks Conducted';
+            ToolTip = 'Specifies the total marks conducted.';
+            DataClassification = CustomerContent;
         }
         field(21; "Average Attendance Percent"; Decimal)
         {
-            BlankZero = true;
             Caption = 'Average Attendance Percent';
+            BlankZero = true;
+            ToolTip = 'Specifies the average attendance percentage.';
+            DataClassification = CustomerContent;
         }
+
         field(22; "Class Code"; Code[20])
         {
             Caption = 'Class Code';
             TableRelation = "Class Section";
+            ToolTip = 'Specifies the class section code.';
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -140,82 +183,143 @@ table 71055 "Student Mark Header"
         }
         field(23; "Total No of Subject Absent"; Integer)
         {
+            Caption = 'Total No. of Subjects Absent';
+            ToolTip = 'Specifies the total number of subjects absent.';
+            DataClassification = CustomerContent;
         }
+
         field(50000; "Principal Comment2"; Text[250])
         {
+            Caption = 'Principal Comment 2';
+            ToolTip = 'Specifies additional comments from the principal.';
+            DataClassification = EndUserIdentifiableInformation;
         }
+
         field(50001; "Class Teacher Comment2"; Text[250])
         {
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            Caption = 'Class Teacher Comment 2';
+            ToolTip = 'Specifies additional comments from the class teacher.';
+            DataClassification = EndUserIdentifiableInformation;
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            ToolTip = 'Specifies the portal identifier for integration.';
+            DataClassification = SystemMetadata;
         }
+
         field(70122; Regularity; Option)
         {
+            Caption = 'Regularity';
             OptionCaption = ' ,Very Good,Good,Average,Poor';
             OptionMembers = " ","Very Good",Good,"Average",Poor;
+            ToolTip = 'Specifies the regularity assessment.';
+            DataClassification = CustomerContent;
         }
+
         field(70123; Effort; Option)
         {
+            Caption = 'Effort';
             OptionCaption = ' ,Very Good,Good,Average,Poor';
             OptionMembers = " ","Very Good",Good,"Average",Poor;
+            ToolTip = 'Specifies the effort assessment.';
+            DataClassification = CustomerContent;
         }
         field(70124; Discipline; Option)
         {
+            Caption = 'Discipline';
             OptionCaption = ' ,Very Good,Good,Average,Poor';
             OptionMembers = " ","Very Good",Good,"Average",Poor;
+            ToolTip = 'Specifies the discipline assessment.';
+            DataClassification = CustomerContent;
         }
+
         field(70125; "Etiquette Manners"; Option)
         {
+            Caption = 'Etiquette & Manners';
             OptionCaption = ' ,Very Good,Good,Average,Poor';
             OptionMembers = " ","Very Good",Good,"Average",Poor;
+            ToolTip = 'Specifies the etiquette and manners assessment.';
+            DataClassification = CustomerContent;
         }
+
         field(70126; "Principal Comment"; Text[200])
         {
+            Caption = 'Principal Comment';
+            ToolTip = 'Specifies the principal’s remarks.';
+            DataClassification = EndUserIdentifiableInformation;
         }
+
         field(70127; "Extra Curr Excellence"; Option)
         {
+            Caption = 'Extra Curricular Excellence';
             OptionCaption = ' ,School Level,District Level,State Level';
             OptionMembers = " ","School Level","District Level","State Level";
+            ToolTip = 'Specifies the level of extra curricular excellence.';
+            DataClassification = CustomerContent;
         }
+
         field(70128; "Personal Traits"; Option)
         {
+            Caption = 'Personal Traits';
             OptionCaption = ' ,Pleasant,Systematic,Smart,A Bit Moody,Temperamental,Sensitive';
             OptionMembers = " ",Pleasant,Systematic,Smart,"A Bit Moody",Temperamental,Sensitive;
+            ToolTip = 'Specifies the personal traits assessment.';
+            DataClassification = EndUserIdentifiableInformation;
         }
+
         field(70129; "Social Movement"; Option)
         {
+            Caption = 'Social Movement';
             OptionCaption = ' ,A,B,C,D';
             OptionMembers = " ",A,B,C,D;
+            ToolTip = 'Specifies the social movement grading.';
+            DataClassification = CustomerContent;
         }
         field(70130; Hospitability; Option)
         {
+            Caption = 'Hospitability';
             OptionCaption = ' ,A,B,C,D';
             OptionMembers = " ",A,B,C,D;
+            ToolTip = 'Specifies the hospitability grading.';
+            DataClassification = CustomerContent;
         }
+
         field(70131; Leadership; Option)
         {
+            Caption = 'Leadership';
             OptionCaption = ' ,A,B,C,D';
             OptionMembers = " ",A,B,C,D;
+            ToolTip = 'Specifies the leadership grading.';
+            DataClassification = CustomerContent;
         }
+
         field(70132; "Class Teacher Comment"; Text[200])
         {
+            Caption = 'Class Teacher Comment';
+            ToolTip = 'Specifies remarks from the class teacher.';
+            DataClassification = EndUserIdentifiableInformation;
         }
         field(70133; Description; Text[200])
         {
+            Caption = 'Description';
+            ToolTip = 'Specifies additional description.';
+            DataClassification = CustomerContent;
         }
+
         field(70134; Published; Boolean)
         {
-            Description = 'Coding added by kathir on 2nd aug 11 for web portal';
+            Caption = 'Published';
+            ToolTip = 'Specifies whether the marks are published to the portal.';
+            DataClassification = SystemMetadata;
         }
+
         field(70135; "Maximum Working Days"; Decimal)
         {
+            Caption = 'Maximum Working Days';
             BlankZero = true;
+            ToolTip = 'Specifies the maximum working days considered.';
+            DataClassification = CustomerContent;
         }
     }
 
@@ -238,15 +342,7 @@ table 71055 "Student Mark Header"
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 01. VANDHANA
-        "User ID" := UserId;
-        // Stop 01. VANDHANA
-    end;
-
     var
-        ClassSectionLook: Record "Class Section";
         ClassSection: Record "Class Section";
 }
 

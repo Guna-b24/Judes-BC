@@ -1,15 +1,7 @@
 table 71058 "Promotion Weightage"
 {
-    //   No   Date      Sign     Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  06/10/09  KATHIR   Weightage - OnValidate()      Code added to Check the Overall weightage not to exceed 100.
-    //   02  19/10/09  VANDHANA  OnInsert                     Code to assign User ID.
-    //   03  23/11/09 VIGNESH  Class Code - OnValidate()      Code added to get the Look up value for Class & Curriculum
-    //   04  23/11/09 VIGNESH  Class Code - OnLookup()        Code added to get the Look up value for Class & Curriculum
-    //   05  23/11/09 VIGNESH  Curriculum Code - OnValidate() Code added to get the Look up value for Class&Curriculum last attend
-    //   06  23/11/09 VIGNESH  Curriculum Code - OnLookup()   Code added to get the Look up value for Class&Curriculum last attend
-
     Caption = 'Promotion Weightage';
+    DataClassification = CustomerContent;
 
     fields
     {
@@ -17,52 +9,61 @@ table 71058 "Promotion Weightage"
         {
             Caption = 'Class Code';
             TableRelation = "Class Card".Class;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the class for which the promotion weightage is defined.';
         }
+
         field(2; "Curriculum Code"; Code[10])
         {
             Caption = 'Curriculum Code';
             TableRelation = "Class Card".Curriculum;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the curriculum applicable for the class.';
         }
         field(3; "Academic Year Code"; Code[10])
         {
             Caption = 'Academic Year Code';
             TableRelation = "Academic Year";
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the academic year for which the weightage is defined.';
         }
+
         field(4; "Exam Type Code"; Code[10])
         {
             Caption = 'Exam Type Code';
             TableRelation = "Exam Code";
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the exam type for which weightage is assigned.';
         }
         field(5; Weightage; Decimal)
         {
             Caption = 'Weightage';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the percentage weightage assigned to the selected exam type. Total weightage per class and year cannot exceed 100%.';
 
             trigger OnValidate()
             begin
-                // Start 01.KATHIR
                 WeigAge := 0;
-                PromotionWeight.Reset;
+                PromotionWeight.Reset();
                 PromotionWeight.SetCurrentKey("Class Code", "Curriculum Code", "Academic Year Code", "Exam Type Code");
                 PromotionWeight.SetRange("Class Code", "Class Code");
                 PromotionWeight.SetRange("Curriculum Code", "Curriculum Code");
                 PromotionWeight.SetRange("Academic Year Code", "Academic Year Code");
-                if PromotionWeight.FindSet then
+                if PromotionWeight.FindSet() then
                     repeat
                         WeigAge += PromotionWeight.Weightage;
-                    until PromotionWeight.Next = 0;
+                    until PromotionWeight.Next() = 0;
 
                 if (WeigAge + Weightage - xRec.Weightage) > 100 then
                     Error(Text000);
-                // Stop 01.KATHIR
             end;
         }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
-        }
+
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the portal identifier associated with this record.';
         }
     }
 
@@ -78,13 +79,6 @@ table 71058 "Promotion Weightage"
     fieldgroups
     {
     }
-
-    trigger OnInsert()
-    begin
-        // Start 02. VANDHANA
-        "User ID" := UserId;
-        // Stop 02. VANDHANA
-    end;
 
     var
         PromotionWeight: Record "Promotion Weightage";

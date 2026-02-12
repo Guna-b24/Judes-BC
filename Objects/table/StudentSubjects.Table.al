@@ -1,12 +1,8 @@
 table 71049 "Student Subjects"
 {
-    // 
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  19/10/09  VANDHANA  OnInsert                     Code to assign User ID.
-
     Caption = 'Student Subjects';
-    LookupPageID = 71059;
+    DataClassification = CustomerContent;
+    //LookupPageID = 71059;
 
     fields
     {
@@ -15,17 +11,23 @@ table 71049 "Student Subjects"
             Caption = 'Student No.';
             Editable = false;
             TableRelation = Student;
+            ToolTip = 'Specifies the student number.';
+            DataClassification = EndUserIdentifiableInformation;
         }
+
         field(2; "Academic Year"; Code[20])
         {
             Caption = 'Academic Year';
             TableRelation = "Academic Year";
+            ToolTip = 'Specifies the academic year.';
+            DataClassification = CustomerContent;
         }
         field(3; Subject; Code[20])
         {
             Caption = 'Subject';
             TableRelation = Subject;
-
+            ToolTip = 'Specifies the subject assigned to the student.';
+            DataClassification = CustomerContent;
             trigger OnValidate()
             begin
                 if RecSubject.Get(Subject) then begin
@@ -39,9 +41,6 @@ table 71049 "Student Subjects"
                         Section := ClassSection1.Section;
                         Curriculum := ClassSection1.Curriculum;
                     end;
-                    //END ELSE BEGIN
-                    // Description := '';
-                    // "Subject Group" := '';
                 end;
             end;
         }
@@ -50,99 +49,113 @@ table 71049 "Student Subjects"
             Caption = 'Subject Type';
             OptionCaption = 'Scholastic,Non-Scholastic';
             OptionMembers = Scholastic,"Non-Scholastic";
+            ToolTip = 'Specifies whether the subject is scholastic or non-scholastic.';
+            DataClassification = CustomerContent;
         }
+
         field(5; "Subject Group"; Code[20])
         {
             Caption = 'Subject Group';
             TableRelation = "Subject Group";
+            ToolTip = 'Specifies the subject group.';
+            DataClassification = CustomerContent;
         }
-        field(6; Class; Code[10])
+        field(6; Class; Code[20])
         {
             Caption = 'Class';
             TableRelation = Class;
+            ToolTip = 'Specifies the class of the student.';
+            DataClassification = CustomerContent;
         }
+
         field(7; Section; Code[10])
         {
             Caption = 'Section';
             TableRelation = Section;
+            ToolTip = 'Specifies the section of the student.';
+            DataClassification = CustomerContent;
         }
+
         field(8; Curriculum; Code[20])
         {
             Caption = 'Curriculum';
             TableRelation = Curriculum;
+            ToolTip = 'Specifies the curriculum followed by the student.';
+            DataClassification = CustomerContent;
         }
         field(9; Description; Text[50])
         {
             Caption = 'Description';
-
-            trigger OnValidate()
-            begin
-                /*
-                IF RecSubject.GET(Subject) THEN
-                BEGIN
-                    Description := RecSubject.Description;
-                END;
-                */
-                /*
-                IF RecSubject.GET(Subject) THEN BEGIN
-                  Class := ClassSection1.Class;
-                  Section := ClassSection1.Section;
-                   Curriculum := ClassSection1.Curriculum;
-                  "Academic Year" := ClassSection1."Academic Year";
-                   Description := RecSubject.Description;
-                END;
-                 */
-
-            end;
+            ToolTip = 'Specifies the subject description.';
+            DataClassification = CustomerContent;
         }
+
         field(10; "Student Status"; Option)
         {
-            CalcFormula = Lookup (Student."Student Status" WHERE ("No." = FIELD ("Student No.")));
             Caption = 'Student Status';
             Editable = false;
-            FieldClass = FlowField;
             OptionCaption = ' ,Student,Inactive,Alumni';
             OptionMembers = " ",Student,Inactive,Alumni;
+            ToolTip = 'Displays the current status of the student.';
+            DataClassification = CustomerContent;
         }
+
         field(11; Mark; Decimal)
         {
             Caption = 'Mark';
+            ToolTip = 'Specifies the mark obtained in the subject.';
+            DataClassification = CustomerContent;
         }
+
         field(12; Grade; Code[10])
         {
             Caption = 'Grade';
+            ToolTip = 'Specifies the grade obtained in the subject.';
+            DataClassification = CustomerContent;
         }
         field(13; "Attendance Percentage"; Decimal)
         {
             Caption = 'Attendance Percentage';
+            ToolTip = 'Specifies the attendance percentage for the subject.';
+            DataClassification = CustomerContent;
         }
+
         field(14; "Student Name"; Text[50])
         {
-            CalcFormula = Lookup (Student.Name WHERE ("No." = FIELD ("Student No.")));
             Caption = 'Student Name';
             Editable = false;
-            FieldClass = FlowField;
+            ToolTip = 'Displays the name of the student.';
+            DataClassification = CustomerContent;
+
         }
+
         field(15; "Attendance % as on Date"; Date)
         {
             Caption = 'Attendance % as on Date';
+            ToolTip = 'Specifies the date on which attendance percentage is calculated.';
+            DataClassification = CustomerContent;
         }
+
         field(16; "Class Code"; Code[20])
         {
             Caption = 'Class Code';
+            ToolTip = 'Specifies the class section code.';
+            DataClassification = CustomerContent;
         }
+
         field(20; "Student Gender"; Option)
         {
+            Caption = 'Student Gender';
             OptionCaption = ' ,Male,Female';
             OptionMembers = " ",Male,Female;
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            ToolTip = 'Specifies the gender of the student.';
+            DataClassification = EndUserIdentifiableInformation;
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            ToolTip = 'Specifies the portal identifier for integration.';
+            DataClassification = SystemMetadata;
         }
     }
 
@@ -163,11 +176,7 @@ table 71049 "Student Subjects"
 
     trigger OnInsert()
     begin
-        // Start 01. VANDHANA
-        "User ID" := UserId;
-        // Stop 01. VANDHANA
-
-        Edusetup.Get;
+        Edusetup.Get();
         "Academic Year" := Edusetup."Academic Year";
     end;
 

@@ -1,12 +1,9 @@
 table 71076 "Student Division"
 {
-    // No   Date      Sign     Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    // 01   15.12.09  VIGNESH  OnInsert()                 Code added to enter the User id
-
     Caption = 'Student Division';
-    DrillDownPageID = 71086;
-    LookupPageID = 71086;
+    DataClassification = CustomerContent;
+    // DrillDownPageID = 71086;
+    // LookupPageID = 71086;
 
     fields
     {
@@ -14,27 +11,42 @@ table 71076 "Student Division"
         {
             Caption = 'Code';
             NotBlank = true;
+            ToolTip = 'Specifies the unique code for the student division.';
+            DataClassification = CustomerContent;
         }
         field(2; Description; Text[50])
         {
             Caption = 'Description';
+            ToolTip = 'Specifies the description of the student division.';
+            DataClassification = CustomerContent;
         }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
-        }
+
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            ToolTip = 'Specifies the portal identifier for integration purposes.';
+            DataClassification = SystemMetadata;
         }
+
         field(70122; IsAcademicDivision; Boolean)
         {
+            Caption = 'Academic Division';
+            ToolTip = 'Specifies whether this division is an academic division.';
+            DataClassification = CustomerContent;
         }
+
         field(70123; Class; Integer)
         {
+            Caption = 'Class';
+            ToolTip = 'Specifies the class number associated with the division.';
+            DataClassification = CustomerContent;
         }
+
         field(70124; Section; Text[5])
         {
+            Caption = 'Section';
+            ToolTip = 'Specifies the section associated with the division.';
+            DataClassification = CustomerContent;
         }
     }
 
@@ -50,11 +62,5 @@ table 71076 "Student Division"
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 01.VIGNESH
-        "User ID" := UserId;
-        // Stop 01.VIGNESH
-    end;
 }
 

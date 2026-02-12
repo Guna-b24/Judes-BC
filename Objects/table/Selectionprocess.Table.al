@@ -1,116 +1,114 @@
 table 71013 "Selection process"
 {
-    //    No     Date    Sign     Trigger                 Description
-    // -----------------------------------------------------------------------------------------------
-    //   01     07/10/09 VANDHANA OnInsert()            Code added for No.series
-    //   02     07/10/09 VANDHANA OnValidate()          Code added for No.series
-    //   03     07/10/09 VANDHANA Assistedit()          Code added for No.series
-    //   04     07/10/09 VANDHANA OnInsert()            Code to insert the Academic Year.
-    //   05     19/10/09 VANDHANA OnInser()             Code to insert the User ID.
-    //   06     16/11/09 GUNA                           New field added interview DATE
-    //   07     23/11/09 VIGNESH  Class - OnValidate()            Code added to get the Class & Curriculum value
-    //   08     23/11/09 VIGNESH  Class - OnLookup()              Code added to get the Class & Curriculum value
-    //   09     23/11/09 VIGNESH  Curriculum - OnValidate()       Code added to get the Class & Curriculum value
-    //   10     23/11/09 VIGNESH  Curriculum - OnLookup()         Code added to get the Class & Curriculum value
-    //   11     24/11/09 VIGNESH  getSeatVacant                    Code added to get the seat vacant
-
     Caption = 'Selection process';
-    LookupPageID = 71024;
+    DataClassification = CustomerContent;
+    //LookupPageID = 71024;
 
     fields
     {
         field(1; Class; Code[10])
         {
             Caption = 'Class';
+            DataClassification = CustomerContent;
             TableRelation = "Class Card".Class;
+            ToolTip = 'Specifies the class for which the selection process is conducted.';
 
             trigger OnLookup()
             begin
-                // Start 08.VIGNESH
+
                 ClassCardLook.LookUpClass(Class, Curriculum, "Academic Year");
-                getSeatVacant;
-                // Stop 08.VIGNESH
+                getSeatVacant();
             end;
 
             trigger OnValidate()
             begin
-                // Start 07.VIGNESH
+
                 ClassCardLook.ValidateClass(Class, Curriculum, "Academic Year");
-                getSeatVacant;
-                // Stop 07.VIGNESH
+                getSeatVacant();
             end;
         }
-        field(2; Curriculum; Code[10])
+        field(2; Curriculum; Code[20])
         {
             Caption = 'Curriculum';
+            DataClassification = CustomerContent;
             TableRelation = "Class Card".Curriculum;
+            ToolTip = 'Specifies the curriculum for the selected class.';
+
 
             trigger OnLookup()
             begin
-                // Start 10.VIGNESH
+
                 ClassCardLook.LookUpCurriculum(Class, Curriculum, "Academic Year");
-                getSeatVacant;
-                // Stop 10.VIGNESH
+                getSeatVacant();
+
             end;
 
             trigger OnValidate()
             begin
-                // Start 09.VIGNESH
+
                 ClassCardLook.ValidateCurriculum(Class, Curriculum, "Academic Year");
-                getSeatVacant;
-                // Stop 09.VIGNESH
+                getSeatVacant();
+
             end;
         }
-        field(3; "Academic Year"; Code[10])
+        field(3; "Academic Year"; Code[20])
         {
             Caption = 'Academic Year';
+            DataClassification = CustomerContent;
             TableRelation = "Academic Year";
+            ToolTip = 'Specifies the academic year.';
         }
         field(4; "Seats Vacant"; Integer)
         {
             Caption = 'Seats Vacant';
+            DataClassification = CustomerContent;
             Editable = false;
+            ToolTip = 'Shows the number of vacant seats available.';
         }
-        field(5; "Selection No."; Code[10])
+        field(5; "Selection No."; Code[20])
         {
             Caption = 'Selection No.';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the unique number of the selection process.';
 
             trigger OnValidate()
             begin
-                // Start 02 VANDHANA
+
                 if "Selection No." <> xRec."Selection No." then begin
-                    ADMSetup.Get;
+                    ADMSetup.Get();
                     NoseriesMgt.TestManual(ADMSetup."Selection No.");
                     "No Series" := '';
                 end;
-                // Stop 02 VANDHANA
+
             end;
         }
         field(6; "No Series"; Code[20])
         {
             Caption = 'No Series';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the number series used for the selection process.';
         }
         field(7; "Interview Date"; Date)
         {
             Caption = 'Interview Date';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the interview date for the selection process.';
         }
         field(8; "Total Selected"; Integer)
         {
-            CalcFormula = Count (Application WHERE ("Application Status" = CONST (Selected),
-                                                   Class = FIELD (Class),
-                                                   "Curriculum Intrested" = FIELD (Curriculum),
-                                                   "Academic Year" = FIELD ("Academic Year")));
             Caption = 'Total Selected';
+            CalcFormula = Count(Application WHERE("Application Status" = CONST(Selected),
+                                                   Class = FIELD(Class),
+                                                   "Curriculum Intrested" = FIELD(Curriculum),
+                                                   "Academic Year" = FIELD("Academic Year")));
             Editable = false;
             FieldClass = FlowField;
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the portal identifier.';
         }
     }
 
@@ -131,60 +129,50 @@ table 71013 "Selection process"
 
     trigger OnInsert()
     begin
-        // Start 01 VANDHANA
-        ADMSetup.Get;
-        if "No Series" = '' then begin
+
+
+        if "Selection No." = '' then begin
+            ADMSetup.Get();
             ADMSetup.TestField("Selection No.");
-            NoseriesMgt.InitSeries(ADMSetup."Selection No.", xRec."No Series", 0D, "Selection No.", "No Series");
+            "No Series" := ADMSetup."Selection No.";
+            "Selection No." := NoseriesMgt.GetNextNo("No Series");
+
         end;
-        //Stop 01 VANDHANA
+        "Academic Year" := EduVertical.GetAdmissionYear();
 
-        // Start 04 VANDHANA
-        "Academic Year" := EduVertical.GetAdmissionYear;
-        // Stop 04 VANDHANA
-
-        // Start 05. VANDHANA
-        "User ID" := UserId;
-        // Stop 05. VANDHANA
     end;
 
     var
         ADMSetup: Record "Admission Setup";
-        NoseriesMgt: Codeunit NoSeriesManagement;
-        SelectionProcess: Record "Selection process";
-        EduVertical: Codeunit "Education Vertical";
-        ClassCard: Record "Class Card";
         ClassCardLook: Record "Class Card";
+        NoseriesMgt: Codeunit "No. Series";
 
-    [Scope('Internal')]
+        EduVertical: Codeunit "Education Vertical";
+
+
     procedure Assistedit(Oldsel: Record "Selection process"): Boolean
     begin
-        // Start 03 VANDHANA
-        with Oldsel do begin
-            Oldsel := Rec;
-            ADMSetup.Get;
-            ADMSetup.TestField("Selection No.");
-            if NoseriesMgt.SelectSeries(ADMSetup."Selection No.", Oldsel."No Series", "No Series") then begin
-                NoseriesMgt.SetSeries("Selection No.");
-                Rec := Oldsel;
-                exit(true);
-            end;
+
+        Oldsel := Rec;
+        ADMSetup.Get();
+        ADMSetup.TestField("Selection No.");
+        if NoseriesMgt.LookupRelatedNoSeries(ADMSetup."Selection No.", Oldsel."No Series", "No Series") then begin
+            Oldsel."Selection No." := NoseriesMgt.GetNextNo(Oldsel."No Series");
+            Rec := Oldsel;
+            exit(true);
         end;
-        // Stop 03 VANDHANA
     end;
 
-    [Scope('Internal')]
+
     procedure getSeatVacant()
     var
         ClassCard1: Record "Class Card";
-        Student: Record Student;
     begin
-        // Start 11.VIGNESH
+
         ClassCard1.Get(Class, Curriculum);
         ClassCard1.CalcFields(Capacity);
         ClassCard1.CalcFields("Present Strength");
         "Seats Vacant" := ClassCard1.Capacity - ClassCard1."Present Strength";
-        // Stop 11.VIGNESH
     end;
 }
 

@@ -1,16 +1,5 @@
 codeunit 71880 "Education Vertical"
 {
-    //    No     Date         Sign          Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    //   01     18/09/09     KATHIR      GetAcademicYear()         Function added to get academic year
-    //   02     25.09.09     VIGNESH     GetAdmissionYearCOLLEGE() Function Added to get admission Year for College
-    //   03     03.10.09     VIGNESH     RankSelection()           Function added to create Rank Generation
-    //   04     03/10/09     VIGNESH     GetAdmissionYear()        Function added to get admission year
-    //   05     30/12/09       ABK       CloseAdmissionYear()      Function added to close the previous admission year
-    //   06     03/10/09       ABK       AssignAdmissionYear()     Function added to assign the current admission year
-    //   07     03/10/09       ABK       GetCBCSBatch()            Function added to get the current CBCS Batch
-
-
     trigger OnRun()
     begin
     end;

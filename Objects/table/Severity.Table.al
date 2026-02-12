@@ -1,31 +1,30 @@
 table 71915 Severity
 {
-    // No   Date      Sign     Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    // 01  02.03.10  Ankesh   OnInsert()                Code added for user id.
-
     Caption = 'Severity';
-    DrillDownPageID = 71920;
-    LookupPageID = 71920;
+    DataClassification = CustomerContent;
+    // DrillDownPageID = 71920;
+    // LookupPageID = 71920;
 
     fields
     {
         field(1; "Code"; Code[20])
         {
             Caption = 'Code';
+            DataClassification = CustomerContent;
             NotBlank = true;
+            ToolTip = 'Specifies the unique code for the severity.';
         }
         field(2; Description; Text[250])
         {
             Caption = 'Description';
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the description of the severity.';
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the portal identifier.';
         }
     }
 
@@ -41,11 +40,5 @@ table 71915 Severity
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 01.Ankesh
-        "User ID" := UserId;
-        // Stop 01.Ankesh
-    end;
 }
 

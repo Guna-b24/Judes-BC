@@ -1,17 +1,7 @@
 table 71154 "Time Table Generation"
 {
-    // 
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  19/10/09  VANDHANA  OnInsert                     Code to assign User ID.
-    //   02  23/11/09   VIGNESH  Class - OnValidate()                Code added to get the Class Section & Curriculum
-    //   03  23/11/09   VIGNESH  Class - OnLookup()                  Code added to get the Class Section & Curriculum
-    //   04  23/11/09   VIGNESH  Curriculum - OnValidate()           Code added to get the Class Section & Curriculum
-    //   05  23/11/09   VIGNESH  Curriculum - OnLookup()             Code added to get the Class Section & Curriculum
-    //   06  23/11/09   VIGNESH  Section - OnValidate()              Code added to get the Class Section & Curriculum
-    //   07  23/11/09   VIGNESH  Section - OnLookup()                Code added to get the Class Section & Curriculum
-
     Caption = 'Time Table Generation';
+    DataClassification = CustomerContent;
 
     fields
     {
@@ -19,60 +9,83 @@ table 71154 "Time Table Generation"
         {
             AutoIncrement = true;
             Caption = 'Entry No.';
+            DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the unique entry number of the timetable generation record.';
         }
         field(2; Class; Code[10])
         {
             Caption = 'Class';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the class for which the timetable is generated.';
         }
         field(3; Section; Code[10])
         {
             Caption = 'Section';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the section of the class.';
         }
         field(4; Curriculum; Code[10])
         {
             Caption = 'Curriculum';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the curriculum associated with the class.';
         }
         field(5; "Day No"; Integer)
         {
             Caption = 'Day No';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the day number in the timetable cycle.';
         }
         field(6; "Hour No"; Integer)
         {
             Caption = 'Hour No';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the hour or period number.';
         }
         field(7; Subject; Code[20])
         {
             Caption = 'Subject';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the subject assigned for the period.';
         }
         field(8; "Employee Code"; Code[20])
         {
             Caption = 'Employee Code';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the employee assigned to the period.';
         }
         field(9; "Generate Date"; Date)
         {
             Description = 'Asc Time Table';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the date on which the timetable was generated.';
         }
         field(10; "Academic Year"; Code[20])
         {
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the academic year for the timetable.';
         }
         field(11; Joint; Boolean)
         {
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies whether the period is a joint class.';
         }
         field(12; "Period Length"; Integer)
         {
-            CalcFormula = Lookup (Subject."Period Length" WHERE (Code = FIELD (Subject)));
+            CalcFormula = Lookup(Subject."Period Length" WHERE(Code = FIELD(Subject)));
             FieldClass = FlowField;
+            ToolTip = 'Displays the period length defined for the selected subject.';
         }
         field(13; Archived; Boolean)
         {
-        }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies whether the timetable entry is archived.';
         }
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the portal identifier associated with the record.';
         }
     }
 
@@ -93,15 +106,11 @@ table 71154 "Time Table Generation"
 
     trigger OnInsert()
     begin
-        // Start 01. VANDHANA
-        "User ID" := UserId;
-        // Stop 01. VANDHANA
-        EduSetup.Get;
+        EduSetup.Get();
         "Academic Year" := EduSetup."Academic Year";
     end;
 
     var
-        ClassSectionLook: Record "Class Section";
         EduSetup: Record "Education Setup";
 }
 
