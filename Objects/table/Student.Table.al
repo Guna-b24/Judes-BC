@@ -529,7 +529,7 @@ table 71046 Student
         field(10002; Quota; Code[10])
         {
             Caption = 'Quota';
-            TableRelation = Quota;
+            //TableRelation = Quota;
             DataClassification = CustomerContent;
             ToolTip = 'Specifies the admission quota of the student.';
         }

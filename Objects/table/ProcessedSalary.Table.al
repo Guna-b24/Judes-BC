@@ -270,7 +270,7 @@ table 72090 "Processed Salary"
         field(39; "Loan Id"; Code[20])
         {
             Caption = 'Loan Id';
-            TableRelation = "Employee Loans";
+            //TableRelation = "Employee Loans";
             DataClassification = CustomerContent;
         }
     }

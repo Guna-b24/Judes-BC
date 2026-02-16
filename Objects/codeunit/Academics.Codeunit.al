@@ -1,22 +1,5 @@
 codeunit 71040 Academics
 {
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  29/09/09   KATHIR   Insert Student Subjects()     Function added to Insert student academic Subjects
-    //   02  29/09/09   KATHIR   Check Student Opt Subjects()  Function added to Validate Optional subjects for the student
-    //   03  30/09/09   KATHIR   Insert Stud Opt Subjects()    Function added to Insert Student optional Subjects
-    //   04  01/10/09   KATHIR   Copy Grades()                 Function added to copy Grade Master to all Classes and Curriculum
-    //   05  16/10/09   VIGNESH  Copy Grades()                 code modifiy to all the points field
-    //   06  23/11/09   VIGNESH  Insert Student Subjects()     Section Feild is removed from Parmeters
-    //   07  25/11/09   VIGNESH  Copy Subjects                  Code added to copy the subjects for all sections
-    //   08  18/01/10   Ankesh   UpdateStudentCPGAGrade()      Code to update CPGA grade.
-    //   09  29/06/10   Ankesh   ApplicationSanctionOrCancel() Code to change the status of the student leave application
-
-
-    trigger OnRun()
-    begin
-    end;
-
     var
         Student: Record Student;
         FacultyClassPlanHeader: Record "Faculty Class Plan Header";
@@ -40,7 +23,7 @@ codeunit 71040 Academics
         VarCnt1: Integer;
         VarVal1: Integer;
 
-    [Scope('Internal')]
+
     procedure "Insert Student Subjects"(ClassCode: Code[20])
     var
         StudentSubjects: Record "Student Subjects";
@@ -48,24 +31,23 @@ codeunit 71040 Academics
         StudentSubjects1: Record "Student Subjects";
         ClassSectionSubjects: Record "Class Section Subjects";
     begin
-        // Start 01.VIGNESH
-        Student.Reset;
+        Student.Reset();
         Student.SetRange("Class Code", ClassCode);
-        if Student.FindSet then begin
+        if Student.FindSet() then begin
             repeat
-                StudentSubjects.Reset;
+                StudentSubjects.Reset();
                 StudentSubjects.SetRange("Student No.", Student."No.");
                 StudentSubjects.SetRange("Class Code", ClassCode);
-                StudentSubjects.DeleteAll;
+                StudentSubjects.DeleteAll();
 
-                ClassSectionSubjects.Reset;
+                ClassSectionSubjects.Reset();
                 ClassSectionSubjects.SetRange("Class Code", ClassCode);
                 ClassSectionSubjects.SetRange("Subject Group", 'MAJOR');
                 ClassSectionSubjects.SetRange(ClassSectionSubjects."Group Code", Student."Subject Group");
-                if ClassSectionSubjects.FindSet then
+                if ClassSectionSubjects.FindSet() then
                     repeat
                         if not StudentSubjects1.Get(Student."No.", Student."Academic Year", ClassSectionSubjects.Subject) then begin
-                            StudentSubjects.Init;
+                            StudentSubjects.Init();
                             StudentSubjects."Student No." := Student."No.";
                             StudentSubjects."Academic Year" := Student."Academic Year";
                             StudentSubjects.Subject := ClassSectionSubjects.Subject;
@@ -76,20 +58,19 @@ codeunit 71040 Academics
                             StudentSubjects.Description := ClassSectionSubjects.Description;
                             StudentSubjects."Student Gender" := Student.Gender;
                             StudentSubjects."Class Code" := ClassCode;
-                            StudentSubjects.Insert;
+                            StudentSubjects.Insert();
                         end;
-                    until ClassSectionSubjects.Next = 0;
+                    until ClassSectionSubjects.Next() = 0;
 
-                //Coding Added by kathir - for II Language - Start
 
-                ClassSectionSubjects.Reset;
+                ClassSectionSubjects.Reset();
                 ClassSectionSubjects.SetRange("Class Code", ClassCode);
                 ClassSectionSubjects.SetRange("Subject Group", 'SEC LANG');
                 ClassSectionSubjects.SetRange(ClassSectionSubjects."II Lang Type", Student."Second Language");
-                if ClassSectionSubjects.FindSet then
+                if ClassSectionSubjects.FindSet() then
                     repeat
                         if not StudentSubjects1.Get(Student."No.", Student."Academic Year", ClassSectionSubjects.Subject) then begin
-                            StudentSubjects.Init;
+                            StudentSubjects.Init();
                             StudentSubjects."Student No." := Student."No.";
                             StudentSubjects."Academic Year" := Student."Academic Year";
                             StudentSubjects.Subject := ClassSectionSubjects.Subject;
@@ -100,19 +81,16 @@ codeunit 71040 Academics
                             StudentSubjects.Description := ClassSectionSubjects.Description;
                             StudentSubjects."Student Gender" := Student.Gender;
                             StudentSubjects."Class Code" := ClassCode;
-                            StudentSubjects.Insert;
+                            StudentSubjects.Insert();
                         end;
-                    until ClassSectionSubjects.Next = 0;
+                    until ClassSectionSubjects.Next() = 0;
 
-                //Coding Added by kathir - for II Language - Stop
-            until Student.Next = 0;
+            until Student.Next() = 0;
         end else
             Error(Text003, ClassCode);
         Message(Text000);
-        // Stop 01.VIGNESH
     end;
 
-    [Scope('Internal')]
     procedure "Copy Grades"()
     var
         Class: Record Class;
@@ -122,36 +100,31 @@ codeunit 71040 Academics
         AcadYr: Code[10];
         ClassGrade: Record "Class Grade";
     begin
-        // Start 04.KATHIR
-        AcadYr := EducationVertical.GetAcademicYear;
-        if Class.FindSet then
+        AcadYr := EducationVertical.GetAcademicYear();
+        if Class.FindSet() then
             repeat
-                if Curriculum.FindSet then
+                if Curriculum.FindSet() then
                     repeat
-                        if Grade.FindSet then
+                        if Grade.FindSet() then
                             repeat
                                 if not ClassGrade.Get(Class.Code, Curriculum.Code, AcadYr, Grade.Code) then begin
-                                    ClassGrade.Init;
+                                    ClassGrade.Init();
                                     ClassGrade.Class := Class.Code;
                                     ClassGrade.Curriculum := Curriculum.Code;
                                     ClassGrade."Academic Year" := AcadYr;
                                     ClassGrade."Grade Code" := Grade.Code;
                                     ClassGrade.Description := Grade.Description;
-                                    // Start 05.VIGNESH
                                     ClassGrade.Points := Grade.Points;
-                                    // Stop 05.VIGNESH
                                     ClassGrade."Max Percentage" := Grade."Max Percentage";
                                     ClassGrade."Min Percentage" := Grade."Min Percentage";
-                                    ClassGrade.Insert;
+                                    ClassGrade.Insert();
                                 end;
-                            until Grade.Next = 0;
-                    until Curriculum.Next = 0;
-            until Class.Next = 0;
+                            until Grade.Next() = 0;
+                    until Curriculum.Next() = 0;
+            until Class.Next() = 0;
         Message(Text006);
-        // Stop 04.KATHIR
     end;
 
-    [Scope('Internal')]
     procedure "Copy Subjects"(getClass: Code[20]; getCurriculum: Code[20]; getAcademicYear: Code[20])
     var
         ClassCard: Record "Class Card";
@@ -160,57 +133,54 @@ codeunit 71040 Academics
         ClassSectionSubjects: Record "Class Section Subjects";
         ClassSubjects1: Record "Class Subjects";
     begin
-        // Start 07.VIGNESH
-        ClassCard.Reset;
+        ClassCard.Reset();
         ClassCard.SetRange(Class, getClass);
         ClassCard.SetRange(Curriculum, getCurriculum);
         ClassCard.SetRange("Academic Year", getAcademicYear);
-        if ClassCard.FindFirst then begin
-            ClassSubjects.Reset;
+        if ClassCard.FindFirst() then begin
+            ClassSubjects.Reset();
             ClassSubjects.SetRange(Class, getClass);
             ClassSubjects.SetRange(Curriculum, getCurriculum);
             ClassSubjects.SetRange("Academic Year", getAcademicYear);
             if ClassSubjects.IsEmpty then
                 Error(Text007, getClass, getCurriculum)
             else
-                if ClassSubjects.FindFirst then begin
-                    ClassSection.Reset;
+                if ClassSubjects.FindFirst() then begin
+                    ClassSection.Reset();
                     ClassSection.SetRange(Class, getClass);
                     ClassSection.SetRange(Curriculum, getCurriculum);
                     ClassSection.SetRange("Academic Year", getAcademicYear);
-                    if ClassSection.IsEmpty then
+                    if ClassSection.IsEmpty() then
                         Error(Text008, getClass, getCurriculum)
                     else
-                        if ClassSection.FindSet then
+                        if ClassSection.FindSet() then
                             repeat
-                                ClassSubjects1.Reset;
+                                ClassSubjects1.Reset();
                                 ClassSubjects1.SetRange(Class, getClass);
                                 ClassSubjects1.SetRange(Curriculum, getCurriculum);
                                 ClassSubjects1.SetRange("Academic Year", getAcademicYear);
-                                if ClassSubjects1.FindSet then
+                                if ClassSubjects1.FindSet() then
                                     repeat
                                         ClassSectionSubjects.TransferFields(ClassSubjects1);
                                         ClassSectionSubjects.Section := ClassSection.Section;
                                         ClassSectionSubjects."Class Code" :=
                                         ClassSubjects1.Class + '-' + ClassSection.Section + '-' + ClassSubjects1.Curriculum + '-' + ClassSubjects1.
                                           "Academic Year";
-                                        ClassSectionSubjects.Insert;
-                                    until ClassSubjects1.Next = 0;
-                            until ClassSection.Next = 0;
+                                        ClassSectionSubjects.Insert();
+                                    until ClassSubjects1.Next() = 0;
+                            until ClassSection.Next() = 0;
                 end;
             Message(Text009);
         end;
-        // Stop 07.VIGNESH
     end;
 
-    [Scope('Internal')]
+
     procedure UpdateStudentCPGAGrade(Student: Record Student)
     var
         ClassGrade: Record "Class Grade";
         Point: Decimal;
     begin
-        // Start 08.Ankesh
-        ClassGrade.Reset;
+        ClassGrade.Reset();
         ClassGrade.SetCurrentKey(Class, Points);
         ClassGrade.SetRange(Class, Student.Class);
         Student.CalcFields(CGPA);
@@ -219,13 +189,12 @@ codeunit 71040 Academics
         repeat
             if ClassGrade.Class <> '' then begin
                 Student."CGPA Grade" := ClassGrade."Grade Code";
-                Student.Modify;
+                Student.Modify();
             end;
-        until ClassGrade.Next = 0;
-        // Stop 08.Ankesh
+        until ClassGrade.Next() = 0;
     end;
 
-    [Scope('Internal')]
+
     procedure GetStudents(HomeworkNo: Code[20])
     var
         HomeWork: Record Table71063;

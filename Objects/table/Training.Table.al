@@ -1,16 +1,10 @@
 table 72008 Training
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   SENTHIL                       New Tables Added for HR Module.
-
     Caption = 'Training';
     DataCaptionFields = "Code";
-    DrillDownPageID = 72008;
-    LookupPageID = 72008;
+    DataClassification = CustomerContent;
+    // DrillDownPageID = 72008;
+    // LookupPageID = 72008;
 
     fields
     {
@@ -18,11 +12,13 @@ table 72008 Training
         {
             Caption = 'Code';
             NotBlank = true;
+            DataClassification = CustomerContent;
         }
         field(2; Description; Text[30])
         {
             Caption = 'Description';
             NotBlank = true;
+            DataClassification = CustomerContent;
         }
     }
 

@@ -1,40 +1,46 @@
 table 71885 Quota
 {
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  19/10/09  VANDHANA  OnInsert                      Code to assign User ID.
-
     Caption = 'Quota';
-    DrillDownPageID = 71885;
-    LookupPageID = 71885;
+    // DrillDownPageID = 71885;
+    // LookupPageID = 71885;
+    DataClassification = CustomerContent;
 
     fields
     {
         field(1; "Code"; Code[20])
         {
-            Caption = 'Code';
+            Caption = 'Quota Code';
             NotBlank = true;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the unique code for the quota.';
         }
         field(2; Description; Text[50])
         {
             Caption = 'Description';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the description of the quota.';
         }
+
         field(3; "Academic Year"; Code[20])
         {
             Caption = 'Academic Year';
             TableRelation = "Academic Year";
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the academic year to which the quota applies.';
         }
+
         field(4; Reserve; Boolean)
         {
             Caption = 'Reserve';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies whether the quota is reserved.';
         }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
-        }
+
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the portal reference ID associated with the quota.';
         }
     }
 
@@ -50,14 +56,8 @@ table 71885 Quota
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 01. VANDHANA
-        "User ID" := UserId;
-        // Stop 01. VANDHANA
-    end;
 
     var
-        RecComp: Record "Company Information";
+
 }
 

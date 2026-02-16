@@ -1,31 +1,32 @@
 table 71907 "Fee Classification"
 {
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  19/10/09  VANDHANA  OnInsert                     Code to assign User ID.
-
     Caption = 'Fee Classification';
-    DrillDownPageID = 71911;
-    LookupPageID = 71911;
+    DataClassification = CustomerContent;
+    // DrillDownPageID = 71911;
+    // LookupPageID = 71911;
 
     fields
     {
         field(1; "Code"; Code[20])
         {
-            Caption = 'Code';
+            Caption = 'Fee Classification Code';
             NotBlank = true;
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the unique code for the fee classification.';
         }
+
         field(2; Description; Text[30])
         {
             Caption = 'Description';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the description of the fee classification.';
         }
-        field(70120; "User ID"; Code[20])
-        {
-            Caption = 'User ID';
-        }
+
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the portal reference ID associated with the fee classification.';
         }
     }
 
@@ -41,13 +42,5 @@ table 71907 "Fee Classification"
     {
     }
 
-    trigger OnInsert()
-    begin
-        // Start 01. VANDHANA
-
-        "User ID" := UserId;
-
-        // Stop 01. VANDHANA
-    end;
 }
 

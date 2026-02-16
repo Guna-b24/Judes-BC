@@ -14,13 +14,11 @@ table 71002 Application
 
             trigger OnValidate()
             begin
-                // Start 05.KATHIR
                 if "No." <> xRec."No." then begin
                     AdmissionSetup.Get();
                     NoSeriesMgt.TestManual(AdmissionSetup."Application No.");
                     "No.Series" := '';
                 end;
-                // Stop 05.KATHIR
             end;
         }
         field(2; "Name of the pupil"; Text[30])
@@ -206,16 +204,16 @@ table 71002 Application
 
             trigger OnLookup()
             begin
-                // Start 19.VIGNESH
+
                 ClassCardLook.LookUpCurriculum(Class, "Curriculum Intrested", "Academic Year");
-                // Stop 19.VIGNESH
+
             end;
 
             trigger OnValidate()
             begin
-                // Start 18.VIGNESH
+
                 ClassCardLook.ValidateCurriculum(Class, "Curriculum Intrested", "Academic Year");
-                // Stop 18.VIGNESH
+
             end;
         }
         field(21; "Previous Class"; Code[10])

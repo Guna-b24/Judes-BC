@@ -1,17 +1,10 @@
 table 72081 "Time Sheet"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Tables Added for Payroll Module.
-    // -----------------------------------------------------------------------------------------------
 
     Caption = 'Time Sheet';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Employee No";
-    DrillDownPageID = 72113;
-    LookupPageID = 72113;
+    // DrillDownPageID = 72113;
+    // LookupPageID = 72113;
 
     fields
     {
@@ -91,8 +84,7 @@ table 72081 "Time Sheet"
     {
     }
 
-    [Scope('Internal')]
-    procedure TotalHours(InTime: Time; OutTime: Time) TotalHours: Decimal
+    procedure TotalHours(InTime: Time; OutTime: Time) TotalHour: Decimal
     var
         StartDateTime: DateTime;
         EndDateTime: DateTime;
@@ -111,13 +103,13 @@ table 72081 "Time Sheet"
             if (InTime > CheckTime) and (OutTime < CheckTime) then begin
                 StartDateTime := CreateDateTime(Day, InTime);
                 EndDateTime := CreateDateTime((Day + 1), OutTime);
-                TotalHours := Abs((StartDateTime - EndDateTime) / 3600000);
+                TotalHour := Abs((StartDateTime - EndDateTime) / 3600000);
             end else
-                TotalHours := Abs((InTime - OutTime) / 3600000);
+                TotalHour := Abs((InTime - OutTime) / 3600000);
         end;
 
         if (InTime = 0T) and (OutTime = 0T) then
-            TotalHours := 0;
+            TotalHour := 0;
     end;
 }
 

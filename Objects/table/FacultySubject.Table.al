@@ -91,7 +91,7 @@ table 71150 "Faculty Subject"
         field(11; "Subject Type"; Code[20])
         {
             Caption = 'Subject Type';
-            TableRelation = "Subject Type";
+            // TableRelation = "Subject Type";
             DataClassification = CustomerContent;
             ToolTip = 'Select the type of subject.';
         }

@@ -48,7 +48,7 @@ table 71001 Enquiry
         field(8; "Media Vehicle"; Code[20])
         {
             Caption = 'Media Vehicle';
-            TableRelation = "Media Vehicle";
+            //  TableRelation = "Media Vehicle";
             DataClassification = CustomerContent;
         }
         field(9; "Date of Birth"; Date)
