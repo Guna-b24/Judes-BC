@@ -114,10 +114,10 @@ codeunit 71046 "Judes Fee Management"
                                 FeesStructure.SETFILTER(FeesStructure.Group, '<>%1&<>%2&<>%3&<>%4',
                           FeesStructure.Group::"Group A",
                           FeesStructure.Group::"Group C", FeesStructure.Group::"Group B", FeesStructure.Group::"Group E");
-                            AppRec.Group::"5":
-                                FeesStructure.SETFILTER(FeesStructure.Group, '<>%1&<>%2&<>%3&<>%4',
-                                FeesStructure.Group::"Group A",
-                                FeesStructure.Group::"Group C", FeesStructure.Group::"Group B", FeesStructure.Group::"Group D");
+                        // AppRec.Group::"5":
+                        //     FeesStructure.SETFILTER(FeesStructure.Group, '<>%1&<>%2&<>%3&<>%4',
+                        //     FeesStructure.Group::"Group A",
+                        //     FeesStructure.Group::"Group C", FeesStructure.Group::"Group B", FeesStructure.Group::"Group D");
 
                         END
 
@@ -130,7 +130,7 @@ codeunit 71046 "Judes Fee Management"
                 GenJlRec.SETRANGE(GenJlRec."Journal Batch Name", FeeSetupRec."Journal Batch Name");
                 IF GenJlRec.FIND('+') THEN;
                 REPEAT
-                    InsertValue := TRUE; // vignesh
+                    InsertValue := TRUE;
                     Cnt := Cnt + 1;
                     GenJlRec.INIT();
                     GenJlRec."Journal Template Name" := FeeSetupRec."Journal Template Name";
@@ -151,7 +151,7 @@ codeunit 71046 "Judes Fee Management"
                     GenJlRec."Document Type" := GenJlRec."Document Type"::Invoice;
                     GenJlRec."Document No." := "Doc No" + '/' + FORMAT(Cnt);
                     GenJlRec.VALIDATE(GenJlRec.Amount, FeesStructure.Amount);
-                    // Vignesh Start
+
                     IF FeesStructure."Group Subject" <> '' THEN BEGIN
                         Flag := TRUE;
                         RecStudentSubject.RESET();
@@ -165,11 +165,11 @@ codeunit 71046 "Judes Fee Management"
                                     END ELSE
                                         InsertValue := FALSE;
 
-                            UNTIL RecStudentSubject.NEXT = 0
+                            UNTIL RecStudentSubject.NEXT() = 0
                         ELSE
                             InsertValue := FALSE;
                     END;
-                    // Vignesh End
+
                     IF InsertValue THEN
                         GenJlRec.INSERT(TRUE);
 
@@ -189,7 +189,7 @@ codeunit 71046 "Judes Fee Management"
                 REPEAT
                     IF (NOT ((NOT AppRec."Hostel Acommodation")
                       AND (CompRec.Name = 'St Jude''s Hostel'))) THEN BEGIN
-                        //vignesh
+
                         GenJlRec.CHANGECOMPANY(CompRec.Name);
                         GenJlRec.SETRANGE(GenJlRec."Journal Template Name", FeeSetupRec."Journal Template Name");
                         GenJlRec.SETRANGE(GenJlRec."Journal Batch Name", FeeSetupRec."Journal Batch Name");
@@ -200,7 +200,7 @@ codeunit 71046 "Judes Fee Management"
                         FeesStructure.SETFILTER(FeesStructure."To Class", '>=%1', Clas);
                         FeesStructure.SETFILTER(FeesStructure."Type Of Fees", '%1|%2|%3', FeesStructure."Type Of Fees"::Initial,
                                   FeesStructure."Type Of Fees"::Term1, FeesStructure."Type Of Fees"::Term2);
-                        // Code Added by GUNA
+
 
                         FeesStructure.SETFILTER(FeesStructure.Company, CompRec.Name);
                         IF CompRec.Name = 'St Jude''s Computer Academy' THEN
@@ -226,10 +226,10 @@ codeunit 71046 "Judes Fee Management"
                                         FeesStructure.SETFILTER(FeesStructure.Group, '<>%1&<>%2&<>%3&<>%4',
               FeesStructure.Group::"Group A",
                                       FeesStructure.Group::"Group C", FeesStructure.Group::"Group B", FeesStructure.Group::"Group E");
-                                    AppRec.Group::"5":
-                                        FeesStructure.SETFILTER(FeesStructure.Group, '<>%1&<>%2&<>%3&<>%4',
-                    FeesStructure.Group::"Group A",
-                                            FeesStructure.Group::"Group C", FeesStructure.Group::"Group B", FeesStructure.Group::"Group D");
+                                //                 AppRec.Group::"5":
+                                //                     FeesStructure.SETFILTER(FeesStructure.Group, '<>%1&<>%2&<>%3&<>%4',
+                                // FeesStructure.Group::"Group A",
+                                //                         FeesStructure.Group::"Group C", FeesStructure.Group::"Group B", FeesStructure.Group::"Group D");
 
                                 END;
 

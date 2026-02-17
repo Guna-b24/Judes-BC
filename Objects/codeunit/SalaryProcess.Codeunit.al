@@ -16,7 +16,6 @@ codeunit 72002 "Salary Process"
         PayStartDate: Date;
         PayEndDate: Date;
         TotalDaysinAMonth: Decimal;
-        BaseTotalAmount: Decimal;
         ActualBaseTotalAmount: Decimal;
         PayableBaseTotalAmount: Decimal;
         TotalPayableDays: Decimal;
@@ -27,9 +26,6 @@ codeunit 72002 "Salary Process"
 
     procedure "Process Monthly Salary"(LLocationCode: Code[20]; LSalaryPlanCode: Code[20]; LSalaryCyclicCode: Code[20]; LPayStartDate: Date; LPayEndDate: Date; LEmployeeNo: Code[20]; LEmployeeType: Option " ","Staff Permanent","Staff Temporary","Worker Permanent","Worker Temporary") LVStatus: Boolean
     var
-        DialogWindow: Dialog;
-        CurrentRecord: Integer;
-        RecordCount: Integer;
         RecordCnt: Integer;
     begin
         CUGeneralFunctions.OpenWindow('Salary Process..\\', 'Progress');
@@ -41,7 +37,7 @@ codeunit 72002 "Salary Process"
         PayEndDate := LPayEndDate;
         TotalDaysinAMonth := (PayEndDate - PayStartDate) + 1;
 
-        Employee.Reset;
+        Employee.Reset();
         if LEmployeeNo = 'ALL' then begin
             Employee.SetRange("Location Code", LocationCode);
             Employee.SetRange("Salary Plan Code", SalaryPlanCode);

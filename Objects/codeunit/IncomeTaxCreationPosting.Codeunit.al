@@ -5,9 +5,9 @@ codeunit 72009 "Income Tax Creation / Posting"
     end;
 
     var
+        IncomeTaxHeader: Record "Income Tax Header";
+        IncomeTaxLine: Record "Income Tax Line";
         CUGeneralFunctions: Codeunit "General Functions";
-        //IncomeTaxHeader: Record "Income Tax Header";
-        //IncomeTaxLine: Record "Income Tax Line";
         ProjectedMonth: Integer;
         GrossEarningSalary: Decimal;
         LocationCode: Code[20];
@@ -21,29 +21,29 @@ codeunit 72009 "Income Tax Creation / Posting"
         CalcHRAAmount: Decimal;
         TaxGender: Option Male,Female,"Sr.Citizen";
 
-    [Scope('Internal')]
+
     procedure "Create Income Tax Records"(LocationCode: Code[20]; SalaryPlanCode: Code[20]; AssessmentYear: Code[20])
     var
         IncomeTax: Record "Income Tax";
         Employee: Record Employee;
         RecordCount: Integer;
-        CurrentRecord: Integer;
+
     begin
         IF NOT CONFIRM('Do U Want ( Create / Add New Employee ) to Income Tax file ', FALSE) THEN
             EXIT;
 
         IF AssessmentYear <> '' THEN BEGIN
 
-            Employee.RESET;
+            Employee.RESET();
             Employee.SETRANGE("Location Code", LocationCode);
             Employee.SETRANGE("Salary Plan Code", SalaryPlanCode);
             //Employee.SETRANGE(Status,Employee.Status::Active);
-            IF Employee.FINDFIRST THEN BEGIN
+            IF Employee.FINDFIRST() THEN BEGIN
                 RecordCount := Employee.COUNT;
                 CUGeneralFunctions.OpenWindow('Income Tax Creation\\', 'Progress');
 
                 REPEAT
-                    IncomeTax.INIT;
+                    IncomeTax.INIT();
                     IncomeTax."Location Code" := LocationCode;
                     IncomeTax."Salary Plan Code" := SalaryPlanCode;
                     IncomeTax."Assessment Year" := AssessmentYear;
@@ -55,35 +55,34 @@ codeunit 72009 "Income Tax Creation / Posting"
 
                     CUGeneralFunctions.UpdateWindow(IncomeTax."Employee No", RecordCount);
 
-                    IF IncomeTax.INSERT THEN;
+                    IF IncomeTax.INSERT() THEN;
 
-                UNTIL Employee.NEXT = 0;
+                UNTIL Employee.NEXT() = 0;
             END;
-            CUGeneralFunctions.CloseWindow;
+            CUGeneralFunctions.CloseWindow();
             MESSAGE('Process Completed..');
         END
     end;
 
-    [Scope('Internal')]
     procedure "Income Tax Zero Updation"(LocationCode: Code[20]; SalaryPlanCode: Code[20]; AssessmentYear: Code[20])
     var
         PayrollYear: Record "Payroll Year";
         PayrollMonthYear: Record "Payroll Month & Year";
         IncomeTax: Record "Income Tax";
-        RecordCount: Integer;
         IncomeTaxRecRef: RecordRef;
         IncomeTaxFieldRef: FieldRef;
+        RecordCount: Integer;
         I: Integer;
     begin
         IF NOT CONFIRM('Do U Want Initialize All Fields', FALSE) THEN
             EXIT;
 
-        IncomeTax.RESET;
+        IncomeTax.RESET();
         IncomeTax.SETRANGE("Location Code", LocationCode);
         IncomeTax.SETRANGE("Salary Plan Code", SalaryPlanCode);
         IncomeTax.SETRANGE("Assessment Year", AssessmentYear);
         IncomeTax.SETRANGE(Verified, FALSE);
-        IF IncomeTax.FINDFIRST THEN BEGIN
+        IF IncomeTax.FINDFIRST() THEN BEGIN
             RecordCount := IncomeTax.COUNT;
             CUGeneralFunctions.OpenWindow('Income Tax Creation\\', 'Progress');
             REPEAT
@@ -91,26 +90,26 @@ codeunit 72009 "Income Tax Creation / Posting"
                 FOR I := 14 TO IncomeTaxRecRef.FIELDCOUNT - 1 DO BEGIN
                     IncomeTaxFieldRef := IncomeTaxRecRef.FIELD(I);
                     IncomeTaxFieldRef.VALUE := 0;
-                    IncomeTaxRecRef.MODIFY;
+                    IncomeTaxRecRef.MODIFY();
                 END;
 
                 CUGeneralFunctions.UpdateWindow(IncomeTax."Employee No", RecordCount);
-            UNTIL IncomeTax.NEXT = 0;
+            UNTIL IncomeTax.NEXT() = 0;
 
-            PayrollYear.RESET;
+            PayrollYear.RESET();
             PayrollYear.SETRANGE("Location Code", LocationCode);
             PayrollYear.SETRANGE("Salary Plan Code", SalaryPlanCode);
             PayrollYear.SETRANGE("Year Code", AssessmentYear);
-            IF PayrollYear.FINDFIRST THEN BEGIN
-                PayrollMonthYear.RESET;
+            IF PayrollYear.FINDFIRST() THEN BEGIN
+                PayrollMonthYear.RESET();
                 PayrollMonthYear.SETRANGE("Location Code", LocationCode);
                 PayrollMonthYear.SETRANGE("Salary Plan Code", SalaryPlanCode);
                 PayrollMonthYear.SETRANGE("Salary Start Date", PayrollYear."Year Start Date", PayrollYear."Year End Date");
-                IF PayrollMonthYear.FINDFIRST THEN
+                IF PayrollMonthYear.FINDFIRST() THEN
                     PayrollMonthYear.MODIFYALL("Income Tax Salary Posted", FALSE);
             END;
 
-            CUGeneralFunctions.CloseWindow;
+            CUGeneralFunctions.CloseWindow();
             MESSAGE('Zero Updated..!!');
         END;
     end;
@@ -120,8 +119,8 @@ codeunit 72009 "Income Tax Creation / Posting"
     var
         IncomeTax: Record "Income Tax";
         PayrollMonthYear: Record "Payroll Month & Year";
-        RecordCount: Integer;
         PayElements: Record "Pay Elements";
+        RecordCount: Integer;
     begin
         IF NOT UpdateFlag THEN
             ERROR('Please Tick the Update Monthly Salary (Yes/No) & Select the Salary Cyclic Code');
@@ -129,13 +128,13 @@ codeunit 72009 "Income Tax Creation / Posting"
         IF NOT CONFIRM('Do U Want Run Salary Updation Process', FALSE) THEN
             EXIT;
 
-        PayrollMonthYear.RESET;
+        PayrollMonthYear.RESET();
         PayrollMonthYear.SETRANGE("Location Code", LocationCode);
         PayrollMonthYear.SETRANGE("Salary Plan Code", SalaryPlanCode);
         PayrollMonthYear.SETRANGE("Salary Year Code", SalaryYearCode);
         PayrollMonthYear.SETRANGE("Salary Cyclic Code", SalaryCycleCode);
         PayrollMonthYear.SETRANGE("Income Tax Salary Posted", TRUE);
-        IF PayrollMonthYear.FINDFIRST THEN
+        IF PayrollMonthYear.FINDFIRST() THEN
             ERROR('Salary Already Process for this period');
 
         RecordCount := 0;
@@ -144,12 +143,12 @@ codeunit 72009 "Income Tax Creation / Posting"
 
         ProjectedMonth := LProjectionMonth;
 
-        IncomeTax.RESET;
+        IncomeTax.RESET();
         IncomeTax.SETRANGE("Location Code", LocationCode);
         IncomeTax.SETRANGE("Salary Plan Code", SalaryPlanCode);
         IncomeTax.SETRANGE("Assessment Year", AssessmentYear);
         IncomeTax.SETRANGE(Verified, FALSE);
-        IF IncomeTax.FINDFIRST THEN BEGIN
+        IF IncomeTax.FINDFIRST() THEN BEGIN
             RecordCount := IncomeTax.COUNT;
             CUGeneralFunctions.OpenWindow('Income Tax Salary Updation\\', 'Progress');
             REPEAT
@@ -157,27 +156,27 @@ codeunit 72009 "Income Tax Creation / Posting"
                 IncomeTax."Salary Cyclic Code" := SalaryCycleCode;
 
                 LastMonthGrossSalary := 0;
-                PayElements.RESET;
+                PayElements.RESET();
                 PayElements.SETRANGE("Location Code", LocationCode);
                 PayElements.SETRANGE("Salary Plan Code", SalaryPlanCode);
-                IF PayElements.FINDFIRST THEN
+                IF PayElements.FINDFIRST() THEN
                     REPEAT
                         "Processed Salary Checking"(PayElements, IncomeTax);
-                    UNTIL PayElements.NEXT = 0;
-            UNTIL IncomeTax.NEXT = 0;  //  Income Tax Loop Ends Here.
+                    UNTIL PayElements.NEXT() = 0;
+            UNTIL IncomeTax.NEXT() = 0;  //  Income Tax Loop Ends Here.
         END;
 
-        PayrollMonthYear.RESET;
+        PayrollMonthYear.RESET();
         PayrollMonthYear.SETRANGE("Location Code", LocationCode);
         PayrollMonthYear.SETRANGE("Salary Plan Code", SalaryPlanCode);
         PayrollMonthYear.SETRANGE("Salary Year Code", SalaryYearCode);
         PayrollMonthYear.SETRANGE("Salary Cyclic Code", SalaryCycleCode);
-        IF PayrollMonthYear.FINDFIRST THEN BEGIN
+        IF PayrollMonthYear.FINDFIRST() THEN BEGIN
             PayrollMonthYear."Income Tax Salary Posted" := TRUE;
-            PayrollMonthYear.MODIFY;
+            PayrollMonthYear.MODIFY();
         END;
 
-        CUGeneralFunctions.CloseWindow;
+        CUGeneralFunctions.CloseWindow();
 
         //MESSAGE('         Total Gross Earnings => %1', ROUND(GrossEarningSalary),2);
         //MESSAGE('Total Professional Tax Amount => %1', ProfessionalTaxAmount);
@@ -193,7 +192,7 @@ codeunit 72009 "Income Tax Creation / Posting"
     var
         ProcessedSalary: Record "Processed Salary";
     begin
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", PayElements."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", PayElements."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", IncomeTax."Salary Cyclic Code");
@@ -201,8 +200,7 @@ codeunit 72009 "Income Tax Creation / Posting"
         ProcessedSalary.SETRANGE("Pay Element Code", PayElements."Pay Element Code");
         IF ProcessedSalary.FIND('-') THEN
             REPEAT
-                IF ProcessedSalary."Pay Type" = ProcessedSalary."Pay Type"::Addition THEN BEGIN
-
+                IF ProcessedSalary."Pay Type" = ProcessedSalary."Pay Type"::Addition THEN
                     IF PayElements."Eligible for Income Tax" THEN BEGIN
                         LastMonthGrossSalary += ProcessedSalary."Payable Amount";
                         IncomeTax."Last Month Gross Salary" := LastMonthGrossSalary;
@@ -216,7 +214,7 @@ codeunit 72009 "Income Tax Creation / Posting"
                                                                         IncomeTax."Salary Gross Earning Projected");
                         GrossEarningSalary += ProcessedSalary."Payable Amount";
                     END;
-                END;
+
 
                 IF PayElements."Income Tax Link Code" = PayElements."Income Tax Link Code"::"E-01" THEN
                     IncomeTax.Bonus += ABS(ProcessedSalary."Payable Amount");
@@ -298,11 +296,11 @@ codeunit 72009 "Income Tax Creation / Posting"
 
                 "Insert Challan Details"(IncomeTax."Assessment Year", IncomeTax."Salary Year", ProcessedSalary);
 
-                IncomeTax.MODIFY;
+                IncomeTax.MODIFY();
 
                 CUGeneralFunctions.UpdateWindow(IncomeTax."Employee No", ProcessedSalary.COUNT);
 
-            UNTIL ProcessedSalary.NEXT = 0;  // Processed Salary Ends Here.
+            UNTIL ProcessedSalary.NEXT() = 0;  // Processed Salary Ends Here.
     end;
 
 
@@ -311,14 +309,14 @@ codeunit 72009 "Income Tax Creation / Posting"
         IncomeTaxChallanDetails: Record "Income Tax Challan Details";
         PayElements: Record "Pay Elements";
     begin
-        IncomeTaxChallanDetails.RESET;
+        IncomeTaxChallanDetails.RESET();
         IncomeTaxChallanDetails.SETRANGE("Location Code", ProcessedSalary."Location Code");
         IncomeTaxChallanDetails.SETRANGE("Salary Plan Code", ProcessedSalary."Salary Plan Code");
         IncomeTaxChallanDetails.SETRANGE("Assessment Year", AssessmentYear);
         IncomeTaxChallanDetails.SETRANGE("Salary Cyclic Code", ProcessedSalary."Salary Cycle Code");
         IncomeTaxChallanDetails.SETRANGE("Employe No", ProcessedSalary."Employee No");
 
-        IF NOT IncomeTaxChallanDetails.FINDFIRST THEN BEGIN
+        IF NOT IncomeTaxChallanDetails.FINDFIRST() THEN BEGIN
             IncomeTaxChallanDetails."Location Code" := ProcessedSalary."Location Code";
             IncomeTaxChallanDetails."Salary Plan Code" := ProcessedSalary."Salary Plan Code";
             IncomeTaxChallanDetails."Assessment Year" := AssessmentYear;
@@ -331,9 +329,9 @@ codeunit 72009 "Income Tax Creation / Posting"
 
             PayElements.GET(ProcessedSalary."Pay Element Code", ProcessedSalary."Location Code", ProcessedSalary."Salary Plan Code");
             IF PayElements."Eligible for Income Tax" THEN
-                IF ProcessedSalary."Pay Type" = ProcessedSalary."Pay Type"::Addition THEN BEGIN
+                IF ProcessedSalary."Pay Type" = ProcessedSalary."Pay Type"::Addition THEN
                     IncomeTaxChallanDetails."Taxable Gross Salary" := ProcessedSalary."Payable Amount";
-                END;
+
 
             IF ProcessedSalary."Pay Element Code" = 'IT' THEN BEGIN
                 IncomeTaxChallanDetails."Challan Income Tax" := ABS(ProcessedSalary."Payable Amount");
@@ -341,16 +339,16 @@ codeunit 72009 "Income Tax Creation / Posting"
                 IncomeTaxChallanDetails.VALIDATE("TDS/TCS Income Tax", ABS(ProcessedSalary."Payable Amount"));
                 IncomeTaxChallanDetails."Total Deposit as Deductee" := ABS(ProcessedSalary."Payable Amount");
             END;
-            IF IncomeTaxChallanDetails.INSERT THEN;
+            IF IncomeTaxChallanDetails.INSERT() THEN;
         END
         ELSE BEGIN
 
             PayElements.GET(ProcessedSalary."Pay Element Code", ProcessedSalary."Location Code", ProcessedSalary."Salary Plan Code");
 
             IF PayElements."Eligible for Income Tax" THEN
-                IF ProcessedSalary."Pay Type" = ProcessedSalary."Pay Type"::Addition THEN BEGIN
+                IF ProcessedSalary."Pay Type" = ProcessedSalary."Pay Type"::Addition THEN
                     IncomeTaxChallanDetails."Taxable Gross Salary" += ProcessedSalary."Payable Amount";
-                END;
+
 
             IF ProcessedSalary."Pay Element Code" = 'IT' THEN BEGIN
                 IncomeTaxChallanDetails."Challan Income Tax" := ABS(ProcessedSalary."Payable Amount");
@@ -358,7 +356,7 @@ codeunit 72009 "Income Tax Creation / Posting"
                 IncomeTaxChallanDetails.VALIDATE("TDS/TCS Income Tax", ABS(ProcessedSalary."Payable Amount"));
                 IncomeTaxChallanDetails."Total Deposit as Deductee" := ABS(ProcessedSalary."Payable Amount");
             END;
-            IncomeTaxChallanDetails.MODIFY;
+            IncomeTaxChallanDetails.MODIFY();
         END;
     end;
 
@@ -373,22 +371,22 @@ codeunit 72009 "Income Tax Creation / Posting"
         SalaryPlanCode := LSalaryPlanCode;
         AssessmentYear := LAssessmentYear;
 
-        "Get Income Tax Header";
+        "Get Income Tax Header"();
 
-        IncomeTax.RESET;
+        IncomeTax.RESET();
         IncomeTax.SETRANGE("Location Code", LocationCode);
         IncomeTax.SETRANGE("Salary Plan Code", SalaryPlanCode);
         IncomeTax.SETRANGE("Assessment Year", AssessmentYear);
         //IncomeTax.SETRANGE(IncomeTax."Employee No",EmployeeNo);
         IncomeTax.SETRANGE(Verified, FALSE);
-        IF IncomeTax.FINDFIRST THEN
+        IF IncomeTax.FINDFIRST() THEN
             REPEAT
-                ITExemption.RESET;
+                ITExemption.RESET();
                 ITExemption.SETRANGE("Location Code", IncomeTax."Location Code");
                 ITExemption.SETRANGE("Salary Plan Code", IncomeTax."Salary Plan Code");
                 ITExemption.SETRANGE("Salary Year Code", IncomeTax."Assessment Year");
                 ITExemption.SETRANGE("Employee No.", IncomeTax."Employee No");
-                IF ITExemption.FINDFIRST THEN
+                IF ITExemption.FINDFIRST() THEN
                     REPEAT
                         IF ITExemption."Excemption Type" = ITExemption."Excemption Type"::Insurance THEN
                             IncomeTax."Actual - LIC Premium (Direct)" := ITExemption.Amount;
@@ -419,10 +417,10 @@ codeunit 72009 "Income Tax Creation / Posting"
                         IF ITExemption."Excemption Type" = ITExemption."Excemption Type"::"Transport Conveyance" THEN
                             IncomeTax."Transport Conveyance" := ITExemption.Amount;
 
-                        IncomeTax.MODIFY;
+                        IncomeTax.MODIFY();
 
-                    UNTIL ITExemption.NEXT = 0;
-            UNTIL IncomeTax.NEXT = 0;
+                    UNTIL ITExemption.NEXT() = 0;
+            UNTIL IncomeTax.NEXT() = 0;
 
         //*******************GET IT EXEMPTIONS******************* STOP
     end;
@@ -430,14 +428,14 @@ codeunit 72009 "Income Tax Creation / Posting"
 
     procedure "Get Income Tax Header"()
     begin
-        IncomeTaxHeader.RESET;
+        IncomeTaxHeader.RESET();
         IncomeTaxHeader.SETRANGE("Location Code", LocationCode);
         IncomeTaxHeader.SETRANGE("Salary Plan Code", SalaryPlanCode);
         IncomeTaxHeader.SETRANGE("Assessment Year", AssessmentYear);
         IF NOT IncomeTaxHeader.FIND('-') THEN
             MESSAGE('Income Tax Setup not defined in Income Tax Header ..!!');
 
-        IncomeTaxLine.RESET;
+        IncomeTaxLine.RESET();
         IncomeTaxLine.SETRANGE("Location Code", LocationCode);
         IncomeTaxLine.SETRANGE("Salary Plan Code", SalaryPlanCode);
         IncomeTaxLine.SETRANGE("Assessment Year", AssessmentYear);
@@ -450,13 +448,14 @@ codeunit 72009 "Income Tax Creation / Posting"
     var
         Employee: Record Employee;
         IncomeTax: Record "Income Tax";
+        IncomeTaxLine1: Record "Income Tax Line";
         Projection: Boolean;
         Proj80DedutionsTotalLimit: Decimal;
         Actu80DedutionsTotalLimit: Decimal;
         IncomeTo: Decimal;
         CondCheck: Boolean;
         DiffAmt: Decimal;
-        IncomeTaxLine1: Record "Income Tax Line";
+
         RecordCount: Integer;
     begin
         //------------------------------//
@@ -469,7 +468,7 @@ codeunit 72009 "Income Tax Creation / Posting"
 
         //----------------------- ------//
         // Initialize all the Variables
-        IncomeTax.RESET;
+        IncomeTax.RESET();
         IncomeTax.SETRANGE("Location Code", LLocationCode);
         IncomeTax.SETRANGE("Salary Plan Code", LSalaryPlanCode);
         IncomeTax.SETRANGE("Assessment Year", LAssessmentYear);
@@ -481,7 +480,7 @@ codeunit 72009 "Income Tax Creation / Posting"
         RecordCount := IncomeTax.COUNT;
         CUGeneralFunctions.OpenWindow('Calculating Income Tax \\', 'Progress');
 
-        IF IncomeTax.FIND('-') THEN BEGIN
+        IF IncomeTax.FIND('-') THEN
             REPEAT
 
                 WITH IncomeTax DO BEGIN
@@ -533,7 +532,7 @@ codeunit 72009 "Income Tax Creation / Posting"
                     IncomeTaxHeader.TESTFIELD("Max. Conveyance");
                     IF ("Conv.Allowance" > IncomeTaxHeader."Max. Conveyance") THEN BEGIN
                         "Conv.Allowance" := IncomeTaxHeader."Max. Conveyance";
-                        MODIFY;
+                        MODIFY();
                     END;
 
                     //   "Exemptions Totals" := (HRA + "Transport Conveyance" + "Medical Bill") ;
@@ -552,9 +551,9 @@ codeunit 72009 "Income Tax Creation / Posting"
 
                     IncomeTaxHeader.TESTFIELD("Housing Loan Interest Limit");
 
-                    IF ("Housing Loan Interest" > IncomeTaxHeader."Housing Loan Interest Limit") THEN BEGIN
+                    IF ("Housing Loan Interest" > IncomeTaxHeader."Housing Loan Interest Limit") THEN
                         "Housing Loan Interest" := IncomeTaxHeader."Housing Loan Interest Limit";
-                    END;
+
 
                     "Gross Total Income" := ("Gross Salary Income" - ("Housing Loan Interest" - "Rent Received"));
 
@@ -606,13 +605,13 @@ codeunit 72009 "Income Tax Creation / Posting"
                         IncomeTaxHeader."Tax Deduction Limit" += IncomeTaxHeader."Medical Claim Limit";
                     END;
 
-                    IF "Physically Handicapped" THEN BEGIN
+                    IF "Physically Handicapped" THEN
                         IF ("Actual - 80U(Physically Handi)" > IncomeTaxHeader."Physically Handicapped Limit") THEN BEGIN
                             Actu80DedutionsTotalLimit -= "Actual - 80U(Physically Handi)";
                             Actu80DedutionsTotalLimit += IncomeTaxHeader."Physically Handicapped Limit";
                             IncomeTaxHeader."Tax Deduction Limit" += IncomeTaxHeader."Physically Handicapped Limit";
                         END;
-                    END;
+
 
                     IF ("Proj - 80D (Mediclaim)" > IncomeTaxHeader."Medical Claim Limit") THEN BEGIN
                         Proj80DedutionsTotalLimit -= "Proj - 80D (Mediclaim)";
@@ -620,13 +619,13 @@ codeunit 72009 "Income Tax Creation / Posting"
                         IncomeTaxHeader."Tax Deduction Limit" += IncomeTaxHeader."Medical Claim Limit";
                     END;
 
-                    IF "Physically Handicapped" THEN BEGIN
+                    IF "Physically Handicapped" THEN
                         IF ("Proj - 80U(Physically Handi)" > IncomeTaxHeader."Physically Handicapped Limit") THEN BEGIN
                             Proj80DedutionsTotalLimit -= "Proj - 80U(Physically Handi)";
                             Proj80DedutionsTotalLimit += IncomeTaxHeader."Physically Handicapped Limit";
                             IncomeTaxHeader."Tax Deduction Limit" += IncomeTaxHeader."Physically Handicapped Limit";
                         END;
-                    END;
+
 
                     IF (Proj80DedutionsTotalLimit > IncomeTaxHeader."Tax Deduction Limit") THEN
                         Proj80DedutionsTotalLimit := IncomeTaxHeader."Tax Deduction Limit";
@@ -665,12 +664,12 @@ codeunit 72009 "Income Tax Creation / Posting"
                     IncomeTo := 0;
                     CondCheck := FALSE;
 
-                    IncomeTaxLine1.RESET;
+                    IncomeTaxLine1.RESET();
                     IncomeTaxLine1.SETRANGE("Location Code", LLocationCode);
                     IncomeTaxLine1.SETRANGE("Salary Plan Code", LSalaryPlanCode);
                     IncomeTaxLine1.SETRANGE("Assessment Year", LAssessmentYear);
                     IncomeTaxLine1.SETRANGE(IncomeTaxLine1.Gender, TaxGender);
-                    IF IncomeTaxLine1.FINDFIRST THEN BEGIN
+                    IF IncomeTaxLine1.FINDFIRST() THEN
                         REPEAT
 
                             DiffAmt := 0;
@@ -692,8 +691,8 @@ codeunit 72009 "Income Tax Creation / Posting"
 
                             IncomeTo := IncomeTaxLine1."Income To";
 
-                        UNTIL (IncomeTaxLine1.NEXT = 0) OR CondCheck;
-                    END;
+                        UNTIL (IncomeTaxLine1.NEXT() = 0) OR CondCheck;
+
 
                     "Income Tax Amount" := ROUND("Income Tax Amount", 1, '=');
 
@@ -736,21 +735,19 @@ codeunit 72009 "Income Tax Creation / Posting"
                         "Tax Balance" := 0;
                         "Tax Per Month" := 0;
                     END;
-                    MODIFY;
+                    MODIFY();
                 END;
 
                 CUGeneralFunctions.UpdateWindow(IncomeTax."Employee No", IncomeTax.COUNT);
-            UNTIL IncomeTax.NEXT = 0;
-        END;
-        CUGeneralFunctions.CloseWindow;
+            UNTIL IncomeTax.NEXT() = 0;
+
+        CUGeneralFunctions.CloseWindow();
     end;
 
-    [Scope('Internal')]
     procedure "Calculate HRA New"(LLocationCode: Code[20]; LSalaryPlanCode: Code[20]; LAssessmentYear: Code[20]; LEmployeeNo: Code[20])
     var
         PayrollYear: Record "Payroll Year";
         ProcessedSalary: Record "Processed Salary";
-        IncomeTax1: Record "Income Tax";
         Employee: Record Employee;
         ITExemption: Record "Income Tax Exemptions";
     begin
@@ -764,23 +761,23 @@ codeunit 72009 "Income Tax Creation / Posting"
         AssessmentYear := LAssessmentYear;
         EmployeeNo := LEmployeeNo;
 
-        "Get Income Tax Header";
+        "Get Income Tax Header"();
 
         Employee.GET(EmployeeNo);
 
-        PayrollYear.RESET;
+        PayrollYear.RESET();
         PayrollYear.SETRANGE("Location Code", LocationCode);
         PayrollYear.SETRANGE("Salary Plan Code", SalaryPlanCode);
         PayrollYear.SETRANGE("Year Code", AssessmentYear);
         PayrollYear.SETRANGE("Year Type", PayrollYear."Year Type"::"Income Tax Year");
-        IF PayrollYear.FINDFIRST THEN BEGIN
-            ProcessedSalary.RESET;
+        IF PayrollYear.FINDFIRST() THEN BEGIN
+            ProcessedSalary.RESET();
             ProcessedSalary.SETRANGE("Location Code", PayrollYear."Location Code");
             ProcessedSalary.SETRANGE("Salary Plan Code", PayrollYear."Salary Plan Code");
             ProcessedSalary.SETRANGE("Employee No", EmployeeNo);
             ProcessedSalary.SETRANGE("Payroll Start Date", PayrollYear."Year Start Date", PayrollYear."Year End Date");
             ProcessedSalary.SETRANGE("Pay Type", ProcessedSalary."Pay Type"::Addition);
-            IF ProcessedSalary.FINDFIRST THEN
+            IF ProcessedSalary.FINDFIRST() THEN
                 REPEAT
                     IF ProcessedSalary."Pay Element Code" IN ['BASIC', 'DA'] THEN
                         TotalBasicDAAmount += ProcessedSalary."Payable Amount";
@@ -788,16 +785,16 @@ codeunit 72009 "Income Tax Creation / Posting"
                     IF ProcessedSalary."Pay Element Code" IN ['HRA'] THEN
                         TotalHRAAmount += ProcessedSalary."Payable Amount";
 
-                UNTIL ProcessedSalary.NEXT = 0;
+                UNTIL ProcessedSalary.NEXT() = 0;
         END;
 
-        ITExemption.RESET;
+        ITExemption.RESET();
         ITExemption.SETRANGE("Location Code", LocationCode);
         ITExemption.SETRANGE("Salary Plan Code", SalaryPlanCode);
         ITExemption.SETRANGE("Salary Year Code", AssessmentYear);
         ITExemption.SETRANGE("Employee No.", EmployeeNo);
         ITExemption.SETRANGE("Excemption Type", ITExemption."Excemption Type"::"Rent Paid");
-        IF ITExemption.FINDFIRST THEN
+        IF ITExemption.FINDFIRST() THEN
             TotalRentPaid := ITExemption.Amount;
 
         TotalRentPaid := TotalRentPaid - (TotalBasicDAAmount * 10 / 100);

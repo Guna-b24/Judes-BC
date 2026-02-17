@@ -8,12 +8,12 @@ codeunit 72006 "Pay Revision"
     var
         Employee: Record Employee;
     begin
-        Employee.Reset;
+        Employee.Reset();
         Employee.SetRange(Status, Employee.Status::Active);
-        if Employee.FindFirst then
+        if Employee.FindFirst() then
             repeat
                 "Read Pay Employee Elements"(PayRevisionID, Today, Employee."No.", NewEffectiveDate);
-            until Employee.Next = 0;
+            until Employee.Next() = 0;
     end;
 
     procedure "Read Pay Employee Elements"(PayRevisionID: Code[20]; LPayrollDate: Date; LEmployeeNo: Code[20]; NewEffectiveDate: Date)
@@ -23,15 +23,15 @@ codeunit 72006 "Pay Revision"
         RevisionLine: Record "Revision Line";
         LastEffectiveDate: Date;
     begin
-        EmployeePayElements.Reset;
+        EmployeePayElements.Reset();
         EmployeePayElements.SetRange("Employee No", LEmployeeNo);
-        if EmployeePayElements.FindLast then
+        if EmployeePayElements.FindLast() then
             LastEffectiveDate := EmployeePayElements."Effective Date";
 
-        EmployeePayElements.Reset;
+        EmployeePayElements.Reset();
         EmployeePayElements.SetRange("Employee No", LEmployeeNo);
         EmployeePayElements.SetRange("Effective Date", LastEffectiveDate);
-        if EmployeePayElements.FindFirst then
+        if EmployeePayElements.FindFirst() then
             repeat
                 RevisionLine."Pay Revision Id" := PayRevisionID;
                 RevisionLine."Location Code" := EmployeePayElements."Location Code";
@@ -55,9 +55,9 @@ codeunit 72006 "Pay Revision"
                 RevisionLine."New Effective Date" := NewEffectiveDate;
                 RevisionLine."Excluded In Pay Slip" := EmployeePayElements."Excluded In Pay Slip";
                 RevisionLine."Employee Category" := Employee."Employee Category";
-                if not RevisionLine.Insert then;
+                if not RevisionLine.Insert() then;
 
-            until EmployeePayElements.Next = 0;
+            until EmployeePayElements.Next() = 0;
     end;
 
 
@@ -65,13 +65,13 @@ codeunit 72006 "Pay Revision"
     var
         Employee: Record Employee;
     begin
-        Employee.Reset;
+        Employee.Reset();
         Employee.SetRange("Employee Category", Employee."Employee Category"::"Class IV Permanent");
         Employee.SetRange(Status, Employee.Status::Active);
-        if Employee.FindFirst then
+        if Employee.FindFirst() then
             repeat
                 "Read Daily Wages Elements"(PayRevisionID, Today, Employee."No.", NewEffectiveDate, VDAMaxRange);
-            until Employee.Next = 0;
+            until Employee.Next() = 0;
     end;
 
 
@@ -82,16 +82,16 @@ codeunit 72006 "Pay Revision"
         RevisionLine: Record "Revision Line";
         LastEffectiveDate: Date;
     begin
-        EmployeePayElements.Reset;
+        EmployeePayElements.Reset();
         EmployeePayElements.SetRange("Employee No", LEmployeeNo);
-        if EmployeePayElements.FindLast then
+        if EmployeePayElements.FindLast() then
             LastEffectiveDate := EmployeePayElements."Effective Date";
 
-        EmployeePayElements.Reset;
+        EmployeePayElements.Reset();
         EmployeePayElements.SetRange("Employee No", LEmployeeNo);
         EmployeePayElements.SetRange("Effective Date", LastEffectiveDate);
         EmployeePayElements.SetFilter(Amount, '<=%1', VDAMaxRange);
-        if EmployeePayElements.FindFirst then
+        if EmployeePayElements.FindFirst() then
             repeat
                 RevisionLine."Pay Revision Id" := PayRevisionID;
                 RevisionLine."Location Code" := EmployeePayElements."Location Code";
@@ -117,9 +117,9 @@ codeunit 72006 "Pay Revision"
                 RevisionLine."Excluded In Pay Slip" := EmployeePayElements."Excluded In Pay Slip";
                 RevisionLine."Employee Category" := Employee."Employee Category";
 
-                if not RevisionLine.Insert then;
+                if not RevisionLine.Insert() then;
 
-            until EmployeePayElements.Next = 0;
+            until EmployeePayElements.Next() = 0;
     end;
 }
 

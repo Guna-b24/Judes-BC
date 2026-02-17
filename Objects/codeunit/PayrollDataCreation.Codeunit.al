@@ -2,21 +2,21 @@ codeunit 72007 "Payroll Data Creation"
 {
     trigger OnRun()
     begin
-        "Pay HR Pay Setup";
-        "Pay Year";
-        "Pay Shift Master";
-        "Pay Weekly Off";
-        "Pay Holiday";
-        "Pay Grade";
-        "Pay Elements";
-        "Pay ESI Setup";
-        "Pay PF Setup";
-        "Pay PT Setup";
-        "Pay Leave Setup";
-        "Pay Business Posting Group";
-        "Pay Product Posting Group";
-        "Pay General Posting Group";
-        "Pay Employee Posting Group";
+        "Pay HR Pay Setup"();
+        "Pay Year"();
+        "Pay Shift Master"();
+        "Pay Weekly Off"();
+        "Pay Holiday"();
+        "Pay Grade"();
+        "Pay Elements"();
+        "Pay ESI Setup"();
+        "Pay PF Setup"();
+        "Pay PT Setup"();
+        "Pay Leave Setup"();
+        "Pay Business Posting Group"();
+        "Pay Product Posting Group"();
+        "Pay General Posting Group"();
+        "Pay Employee Posting Group"();
 
         Message('%1', 'System Defined Data is Created..');
     end;
@@ -28,10 +28,10 @@ codeunit 72007 "Payroll Data Creation"
     begin
         with HRPayrollSetup do begin
 
-            Init;
+            Init();
             "Location Code" := 'HO';
             "Location Name" := 'Head Office';
-            if not Insert then;
+            if not Insert() then;
 
         end;
     end;
@@ -43,61 +43,61 @@ codeunit 72007 "Payroll Data Creation"
     begin
         with PayrollYear do begin
 
-            Init;
+            Init();
             "Year Code" := '2008-2008';
             "Year Type" := "Year Type"::"Salary Year";
             "Year Start Date" := 20080101D;
             "Year End Date" := 20081231D;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Year Code" := '2008-2008';
             "Year Type" := "Year Type"::"PF Year";
             "Year Start Date" := 20080101D;
             "Year End Date" := 20081231D;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Year Code" := '2008-2008';
             "Year Type" := "Year Type"::"ESI Year";
             "Year Start Date" := 20080101D;
             "Year End Date" := 20081231D;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Year Code" := '2008-2008';
             "Year Type" := "Year Type"::"Income Tax Year";
             "Year Start Date" := 20080101D;
             "Year End Date" := 20081231D;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Year Code" := '2008-2008';
             "Year Type" := "Year Type"::"Bonus Year";
             "Year Start Date" := 20080101D;
             "Year End Date" := 20081231D;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Year Code" := '2008-2008';
             "Year Type" := "Year Type"::"Leave Year";
             "Year Start Date" := 20080101D;
             "Year End Date" := 20081231D;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Year Code" := '2008-2008';
-            "Year Type" := "Year Type"::"6";
+            // "Year Type" := "Year Type"::"6";
             "Year Start Date" := 20080101D;
             "Year End Date" := 20081231D;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Year Code" := '2008-2009';
-            "Year Type" := "Year Type"::"7";
+            //"Year Type" := "Year Type"::"7";
             "Year Start Date" := 20080104D;
             "Year End Date" := 20090103D;
-            if not Insert then;
+            if not Insert() then;
 
         end;
     end;
@@ -109,7 +109,7 @@ codeunit 72007 "Payroll Data Creation"
     begin
         with Shift do begin
 
-            Init;
+            Init();
             Code := 'GEN';
             Description := 'General Shift';
             "First Half Starting Time" := 090000T;
@@ -125,9 +125,9 @@ codeunit 72007 "Payroll Data Creation"
             Validate("Break Start Time");
             Validate("Break End Time");
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'I';
             Description := 'First Shift';
             "First Half Starting Time" := 070000T;
@@ -143,9 +143,9 @@ codeunit 72007 "Payroll Data Creation"
             Validate("Break Start Time");
             Validate("Break End Time");
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'II';
             Description := 'Second Shift';
             "First Half Starting Time" := 150000T;
@@ -161,9 +161,9 @@ codeunit 72007 "Payroll Data Creation"
             Validate("Break Start Time");
             Validate("Break End Time");
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'III';
             Description := 'Third Shift';
             "First Half Starting Time" := 230000T;
@@ -179,7 +179,7 @@ codeunit 72007 "Payroll Data Creation"
             Validate("Break Start Time");
             Validate("Break End Time");
 
-            if not Insert then;
+            if not Insert() then;
         end;
     end;
 
@@ -189,7 +189,7 @@ codeunit 72007 "Payroll Data Creation"
         WeekOff: Record "Weekly Off";
     begin
         with WeekOff do begin
-            Init;
+            Init();
             "Calendar Year" := '2008-2009';
             "Day No." := 6;
             Day := Day::Saturday;
@@ -197,9 +197,9 @@ codeunit 72007 "Payroll Data Creation"
             "First Half (Weekly Off)" := false;
             "Second Half (Weekly Off)" := true;
             "Non Working Days" := true;
-            if Insert then;
+            if Insert() then;
 
-            Init;
+            Init();
             "Calendar Year" := '2008-2009';
             "Day No." := 7;
             Day := Day::Sunday;
@@ -207,7 +207,7 @@ codeunit 72007 "Payroll Data Creation"
             "First Half (Weekly Off)" := true;
             "Second Half (Weekly Off)" := true;
             "Non Working Days" := true;
-            if Insert then;
+            if Insert() then;
         end;
     end;
 
@@ -217,14 +217,14 @@ codeunit 72007 "Payroll Data Creation"
         Holidays: Record Holidays;
     begin
         with Holidays do begin
-            Init;
+            Init();
             "Calendar Year" := '2008-2009';
             "Holiday Date" := CalcDate('CM', DMY2Date(26, 1, Date2DMY(Today, 3)));
             "Holiday Name" := 'Republic Day';
             "First Half (Holiday)" := true;
             "Second Half (Holiday)" := true;
             "Non Working Days" := true;
-            if Insert then;
+            if Insert() then;
 
             "Calendar Year" := '2008-2009';
             "Holiday Date" := CalcDate('CM', DMY2Date(6, 4, Date2DMY(Today, 3)));
@@ -232,7 +232,7 @@ codeunit 72007 "Payroll Data Creation"
             "First Half (Holiday)" := true;
             "Second Half (Holiday)" := true;
             "Non Working Days" := true;
-            if Insert then;
+            if Insert() then;
 
             "Calendar Year" := '2008-2009';
             "Holiday Date" := CalcDate('CM', DMY2Date(14, 4, Date2DMY(Today, 3)));
@@ -240,7 +240,7 @@ codeunit 72007 "Payroll Data Creation"
             "First Half (Holiday)" := true;
             "Second Half (Holiday)" := true;
             "Non Working Days" := true;
-            if Insert then;
+            if Insert() then;
 
             "Calendar Year" := '2008-2009';
             "Holiday Date" := CalcDate('CM', DMY2Date(15, 8, Date2DMY(Today, 3)));
@@ -248,7 +248,7 @@ codeunit 72007 "Payroll Data Creation"
             "First Half (Holiday)" := true;
             "Second Half (Holiday)" := true;
             "Non Working Days" := true;
-            if Insert then;
+            if Insert() then;
 
             "Calendar Year" := '2008-2009';
             "Holiday Date" := CalcDate('CM', DMY2Date(9, 11, Date2DMY(Today, 3)));
@@ -256,7 +256,7 @@ codeunit 72007 "Payroll Data Creation"
             "First Half (Holiday)" := true;
             "Second Half (Holiday)" := true;
             "Non Working Days" := true;
-            if Insert then;
+            if Insert() then;
 
             "Calendar Year" := '2008-2009';
             "Holiday Date" := CalcDate('CM', DMY2Date(28, 12, Date2DMY(Today, 3)));
@@ -264,7 +264,7 @@ codeunit 72007 "Payroll Data Creation"
             "First Half (Holiday)" := true;
             "Second Half (Holiday)" := true;
             "Non Working Days" := true;
-            if Insert then;
+            if Insert() then;
         end;
     end;
 
@@ -275,21 +275,21 @@ codeunit 72007 "Payroll Data Creation"
     begin
         with Grade do begin
 
-            Init;
+            Init();
             "Grade Code" := 'JR MGR';
             "Grade Name" := 'JR Manager';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Grade Code" := 'MGR';
             "Grade Name" := 'Manager';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Grade Code" := 'SR MGR';
             "Grade Name" := 'SR Manager';
 
-            if not Insert then;
+            if not Insert() then;
         end;
     end;
 
@@ -300,7 +300,7 @@ codeunit 72007 "Payroll Data Creation"
     begin
         with PayElements do begin
 
-            Init;
+            Init();
             "Pay Element Code" := 'BASIC';
             Description := 'Basic';
             "Pay Slip Printing Caption" := 'BASIC';
@@ -326,9 +326,9 @@ codeunit 72007 "Payroll Data Creation"
             "Excluded In Pay Slip" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'DA';
             Description := 'Dearness Allowence';
             "Pay Slip Printing Caption" := 'DA';
@@ -343,9 +343,9 @@ codeunit 72007 "Payroll Data Creation"
             "Regular Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'ALLOWANCE';
             Description := 'Allowance';
             "Pay Slip Printing Caption" := 'ALLOWANCE';
@@ -357,9 +357,9 @@ codeunit 72007 "Payroll Data Creation"
             "Regular Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'OT';
             Description := 'Over Time';
             "Pay Slip Printing Caption" := 'OT';
@@ -373,9 +373,9 @@ codeunit 72007 "Payroll Data Creation"
             "Regular Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'MISC-EARN-01';
             Description := 'Misc Earnings-01';
             "Pay Slip Printing Caption" := 'MISC EARN-01';
@@ -388,9 +388,9 @@ codeunit 72007 "Payroll Data Creation"
             "Variable Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'MISC-EARN-02';
             Description := 'Misc Earnings-02';
             "Pay Slip Printing Caption" := 'MISC EARN-02';
@@ -403,9 +403,9 @@ codeunit 72007 "Payroll Data Creation"
             "Variable Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'BONUS';
             Description := 'Bonus Allowance';
             "Pay Slip Printing Caption" := 'BONUS';
@@ -417,9 +417,9 @@ codeunit 72007 "Payroll Data Creation"
             "Regular Element" := true;
             "All Grade" := false;
             "Predefined Code" := false;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'GRATUITY';
             Description := 'Gratuity';
             "Pay Slip Printing Caption" := 'GRATUITY';
@@ -431,9 +431,9 @@ codeunit 72007 "Payroll Data Creation"
             "Regular Element" := true;
             "All Grade" := false;
             "Predefined Code" := false;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'LTA';
             Description := 'Leave Travel Allowance';
             "Pay Slip Printing Caption" := 'LTA';
@@ -446,9 +446,9 @@ codeunit 72007 "Payroll Data Creation"
             "Variable Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'MEDICAL REIM';
             Description := 'Medical Reimbursement';
             "Pay Slip Printing Caption" := 'MEDICAL REIM';
@@ -461,9 +461,9 @@ codeunit 72007 "Payroll Data Creation"
             "Variable Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'ESI';
             Description := 'Employee State Insurance';
             "Pay Slip Printing Caption" := 'ESI';
@@ -475,9 +475,9 @@ codeunit 72007 "Payroll Data Creation"
             "Regular Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'PF';
             Description := 'Provident Fund';
             "Pay Slip Printing Caption" := 'PF';
@@ -489,9 +489,9 @@ codeunit 72007 "Payroll Data Creation"
             "Regular Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'PT';
             Description := 'Professional Tax';
             "Pay Slip Printing Caption" := 'PT';
@@ -503,9 +503,9 @@ codeunit 72007 "Payroll Data Creation"
             "Regular Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'TDS';
             Description := 'Tax Deducted at Source';
             "Pay Slip Printing Caption" := 'TDS';
@@ -517,9 +517,9 @@ codeunit 72007 "Payroll Data Creation"
             "Regular Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'LIC';
             Description := 'LIC';
             "Pay Slip Printing Caption" := 'LIC';
@@ -531,9 +531,9 @@ codeunit 72007 "Payroll Data Creation"
             "Regular Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'CANTEEN';
             Description := 'Canteen Deductions';
             "Pay Slip Printing Caption" := 'CANTEEN';
@@ -546,9 +546,9 @@ codeunit 72007 "Payroll Data Creation"
             "Variable Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'MISC-DEDU-01';
             Description := 'Misc Deduction-01';
             "Pay Slip Printing Caption" := 'MISC DEDU-01';
@@ -561,9 +561,9 @@ codeunit 72007 "Payroll Data Creation"
             "Variable Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'MISC-DEDU-02';
             Description := 'Misc Deduction-02';
             "Pay Slip Printing Caption" := 'MISC DEDU-02';
@@ -576,9 +576,9 @@ codeunit 72007 "Payroll Data Creation"
             "Variable Element" := true;
             "All Grade" := true;
             "Predefined Code" := true;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'HLOAN';
             Description := 'Housing Loan';
             "Pay Slip Printing Caption" := 'HLOAN';
@@ -593,9 +593,9 @@ codeunit 72007 "Payroll Data Creation"
             "Loan Element" := true;
             "All Grade" := true;
             "Predefined Code" := false;
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Element Code" := 'VLOAN';
             Description := 'Vechicle Loan';
             "Pay Slip Printing Caption" := 'VEC LOAN';
@@ -610,7 +610,7 @@ codeunit 72007 "Payroll Data Creation"
             "Loan Element" := true;
             "All Grade" := true;
             "Predefined Code" := false;
-            if not Insert then;
+            if not Insert() then;
         end;
     end;
 
@@ -621,14 +621,14 @@ codeunit 72007 "Payroll Data Creation"
     begin
         with ESISetup do begin
 
-            Init;
+            Init();
             "Effective Date" := 20080101D;
             "ESI Gross Salary Amount" := 10000;
             "ESI % ( Employee )" := 4.75;
             "ESI % ( Company )" := 1.75;
             "ESI Rounding Amount" := 0.5;
             "ESI Rounding Type" := "ESI Rounding Type"::Nearest;
-            if not Insert then;
+            if not Insert() then;
 
         end
     end;
@@ -640,7 +640,7 @@ codeunit 72007 "Payroll Data Creation"
     begin
         with PFSetup do begin
 
-            Init;
+            Init();
             "Effective Date" := 20080101D;
             "PF Gross Salary Limit" := 6500;
             "EPS Gross Salary Limit" := 6500;
@@ -654,7 +654,7 @@ codeunit 72007 "Payroll Data Creation"
             "PF Rounding Amount" := 1.0;
             "PF Rounding Type" := "PF Rounding Type"::Nearest;
 
-            if not Insert then;
+            if not Insert() then;
 
         end
     end;
@@ -665,18 +665,17 @@ codeunit 72007 "Payroll Data Creation"
         PTSetup: Record "Professional Tax Header";
     begin
         with PTSetup do begin
-            Init;
+            Init();
             "Effective Date" := 20080101D;
             "Branch Code" := 'TN';
             "Branch Name" := 'Tamil Nadu';
-            if not Insert then;
+            if not Insert() then;
         end
     end;
 
 
     procedure "Pay Leave Setup"()
     var
-        LeaveMaster: Record "Leave Master";
         LVCode: Code[4];
     begin
         LVCode := '1M';
@@ -689,11 +688,11 @@ codeunit 72007 "Payroll Data Creation"
     begin
         with PayrollBusinessPostingGroup do begin
 
-            Init;
+            Init();
             Code := 'EMP';
             Description := 'Employee';
 
-            if not Insert then;
+            if not Insert() then;
         end;
     end;
 
@@ -704,75 +703,75 @@ codeunit 72007 "Payroll Data Creation"
     begin
         with PayrollProductPostingGroup do begin
 
-            Init;
+            Init();
             Code := 'BASIC';
             Description := 'Basic';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'DA';
             Description := 'Dearness Allowance';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'ALLOWANCE';
             Description := 'Allowance';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'OT';
             Description := 'Over Time';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'BONUS';
             Description := 'Bonus';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'GRATUITY';
             Description := 'Gratuity';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'LTA';
             Description := 'Leave Travel Allowance';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'MEDICAL REIM';
             Description := 'Medical Reimburesment';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'ESI';
             Description := 'Employee State Insurance Corp.';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'PF';
             Description := 'Provident Fund';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'PT';
             Description := 'Professional Tax';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'TDS';
             Description := 'Tax Deducted at Source';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'LIC';
             Description := 'Life Insurance Co. Deduction';
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             Code := 'CANTEEN';
             Description := 'Canteen Deduction';
-            if not Insert then;
+            if not Insert() then;
 
         end;
     end;
@@ -784,103 +783,103 @@ codeunit 72007 "Payroll Data Creation"
     begin
         with PayrollGeneralPostingSetup do begin
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'BASIC';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'DA';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'ALLOWANCE';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'OT';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'BONUS';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'GRATUITY';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'LTA';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'MEDICAL REIM';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'ESI';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'PF';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'PT';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'TDS';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'LIC';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
-            Init;
+            Init();
             "Pay Bus.Posting Group" := 'EMP';
             "Pay Prod. Posting Group" := 'CANTEEN';
             "G/L Code" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
 
         end;
     end;
@@ -892,7 +891,7 @@ codeunit 72007 "Payroll Data Creation"
     begin
         with PayrollEmployeePostingGroup do begin
 
-            Init;
+            Init();
             Code := 'STAFF';
             Description := 'Staff';
             "Salary Payable1 A/c" := '8720';
@@ -908,7 +907,7 @@ codeunit 72007 "Payroll Data Creation"
             "Arrear Salary Payable A/c" := '8720';
             "Loan Refundable A/c" := '8720';
 
-            if not Insert then;
+            if not Insert() then;
         end;
     end;
 }

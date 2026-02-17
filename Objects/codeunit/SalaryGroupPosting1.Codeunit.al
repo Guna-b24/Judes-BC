@@ -5,9 +5,7 @@ codeunit 72012 "Salary Group Posting-1"
     end;
 
     var
-        Text001: Label 'Pay Element - %1 is not found in Payelement Master';
-        Text002: Label 'General Posting Group is not defined for Business Posting Group %1 %2';
-        Text003: Label 'Business Posting %1 is not defined in Business Posting Group Master';
+
         HRPayrollSetup: Record "HR & Payroll Setup";
         LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
         PayElements: Record "Pay Elements";
@@ -15,7 +13,6 @@ codeunit 72012 "Salary Group Posting-1"
         PayrollBusinessPostingGroup: Record "Payroll Business Posting Group";
         PayrollProductPostingGroup: Record "Payroll Product Posting Group";
         PayrollGeneralPostingSetup: Record "Payroll General Posting Setup";
-        Text004: Label 'G/L Account Not defined in Payroll General Posting %1 %2 ';
         PayrollEmployeePostingGroup: Record "Payroll Employee Posting Group";
         GenJournalLine: Record "Gen. Journal Line";
         PayDate: Date;
@@ -23,6 +20,10 @@ codeunit 72012 "Salary Group Posting-1"
         ProductPosting: Code[20];
         TotAddAmt: Decimal;
         TotDedAmt: Decimal;
+        Text001: Label 'Pay Element - %1 is not found in Payelement Master';
+        Text002: Label 'General Posting Group is not defined for Business Posting Group %1 %2';
+        Text003: Label 'Business Posting %1 is not defined in Business Posting Group Master';
+        Text004: Label 'G/L Account Not defined in Payroll General Posting %1 %2 ';
 
 
     procedure Posting(var GSalaryPosting: Record "Salary Posting-1")
@@ -31,14 +32,14 @@ codeunit 72012 "Salary Group Posting-1"
     begin
         LocationHRPayrollSetup.GET(GSalaryPosting."Location Code");
 
-        SalaryPosting.RESET;
+        SalaryPosting.RESET();
         SalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         SalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         SalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
         SalaryPosting.SETRANGE("Employee Category", GSalaryPosting."Employee Category");
         SalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         //SalaryPosting.SETRANGE(Loan,FALSE);
-        IF SalaryPosting.FINDSET THEN
+        IF SalaryPosting.FINDSET() THEN
             REPEAT
                 CASE SalaryPosting."Pay Type" OF
                     SalaryPosting."Pay Type"::Addition, SalaryPosting."Pay Type"::Reimbursement:
@@ -88,18 +89,18 @@ codeunit 72012 "Salary Group Posting-1"
                                         ERROR(Text002, PayrollBusinessPostingGroup.Code, PayElements."Pay Prod. Posting Group");
                             END;
                 END;
-            UNTIL SalaryPosting.NEXT = 0;
+            UNTIL SalaryPosting.NEXT() = 0;
 
         // Finding the Debit Account & Credit Accounts for Additions & Deductions
 
-        SalaryPosting.RESET;
+        SalaryPosting.RESET();
         SalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         SalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         SalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
         SalaryPosting.SETRANGE("Employee Category", GSalaryPosting."Employee Category");
         SalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         //SalaryPosting.SETRANGE(Loan,FALSE);
-        IF SalaryPosting.FINDSET THEN
+        IF SalaryPosting.FINDSET() THEN
             REPEAT
                 CASE SalaryPosting."Pay Type" OF
                     SalaryPosting."Pay Type"::Addition, SalaryPosting."Pay Type"::Reimbursement:
@@ -129,7 +130,7 @@ codeunit 72012 "Salary Group Posting-1"
 
                             SalaryPosting."Pay Element Description" := SalaryPosting."Pay Element Code" + ' ' + SalaryPosting."Salary Cycle Code";
                             SalaryPosting."Account No." := PayrollGeneralPostingSetup."G/L Code";
-                            SalaryPosting.MODIFY;
+                            SalaryPosting.MODIFY();
 
                             InitGenJnlLine(SalaryPosting, SalaryPosting."Payable Amount");
                         END;
@@ -167,15 +168,15 @@ codeunit 72012 "Salary Group Posting-1"
 
                             SalaryPosting."Pay Element Description" := SalaryPosting."Pay Element Code" + ' ' + SalaryPosting."Salary Cycle Code";
                             SalaryPosting."Account No." := PayrollGeneralPostingSetup."G/L Code";
-                            SalaryPosting.MODIFY;
+                            SalaryPosting.MODIFY();
                             InitGenJnlLine(SalaryPosting, -SalaryPosting."Payable Amount");
                         END;
                 END;
-            UNTIL SalaryPosting.NEXT = 0;
+            UNTIL SalaryPosting.NEXT() = 0;
 
         // EMPLOYER ESI CONTRIBUTION
 
-        SalaryPosting.RESET;
+        SalaryPosting.RESET();
         SalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         SalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         SalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
@@ -183,16 +184,16 @@ codeunit 72012 "Salary Group Posting-1"
         SalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         SalaryPosting.SETRANGE("Pay Type", SalaryPosting."Pay Type"::Deduction);
         SalaryPosting.SETRANGE("Pay Element Code", 'ESI');
-        IF SalaryPosting.FINDFIRST THEN BEGIN
+        IF SalaryPosting.FINDFIRST() THEN BEGIN
             LocationHRPayrollSetup.TESTFIELD("Employer ESI GL Code");
             SalaryPosting."Account No." := LocationHRPayrollSetup."Employer ESI GL Code";
             SalaryPosting."Pay Element Description" := SalaryPosting."Pay Element Code" + ' ' + SalaryPosting."Salary Cycle Code";
-            SalaryPosting.MODIFY;
+            SalaryPosting.MODIFY();
             InitGenJnlLine(SalaryPosting, SalaryPosting."Employer PF / ESI Amount");
         END;
 
         // EMPLOYER EPS CONTRIBUTION
-        SalaryPosting.RESET;
+        SalaryPosting.RESET();
         SalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         SalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         SalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
@@ -200,23 +201,23 @@ codeunit 72012 "Salary Group Posting-1"
         SalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         SalaryPosting.SETRANGE("Pay Type", SalaryPosting."Pay Type"::Deduction);
         SalaryPosting.SETRANGE("Pay Element Code", 'PF');
-        IF SalaryPosting.FINDFIRST THEN BEGIN
+        IF SalaryPosting.FINDFIRST() THEN BEGIN
             LocationHRPayrollSetup.TESTFIELD("Employer EPS GL Code");
             SalaryPosting."Account No." := LocationHRPayrollSetup."Employer EPS GL Code";
             SalaryPosting."Pay Element Description" := SalaryPosting."Pay Element Code" + ' ' + SalaryPosting."Salary Cycle Code";
-            SalaryPosting.MODIFY;
+            SalaryPosting.MODIFY();
             InitGenJnlLine(SalaryPosting, SalaryPosting."Employer EPS Amount");
         END;
 
         // EMPLOYER PF CONTRIBUTION,PF ADMIN CHARGES , ELDI CHARGES, RIFA CHARGES
-        SalaryPosting.RESET;
+        SalaryPosting.RESET();
         SalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         SalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         SalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
         SalaryPosting.SETRANGE("Employee Category", GSalaryPosting."Employee Category");
         SalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         SalaryPosting.SETRANGE("Pay Element Code", 'PF');
-        IF SalaryPosting.FINDFIRST THEN BEGIN
+        IF SalaryPosting.FINDFIRST() THEN BEGIN
             // EMPLOYER PF
             LocationHRPayrollSetup.TESTFIELD("Employer PF GL Code");
             SalaryPosting."Account No." := LocationHRPayrollSetup."Employer PF GL Code";
@@ -248,11 +249,11 @@ codeunit 72012 "Salary Group Posting-1"
 
     procedure InitGenJnlLine(LSalaryPosting: Record "Salary Posting-1"; Amount: Decimal)
     var
-        JournalLineDimension: Record Table356;
+        JournalLineDimension: Record "Journal Line Dimension";
     begin
         IF Amount <> 0 THEN BEGIN
             PayElements.GET(LSalaryPosting."Pay Element Code", LSalaryPosting."Location Code", LSalaryPosting."Salary Plan Code");
-            GenJournalLine.INIT;
+            GenJournalLine.INIT();
             GenJournalLine."Journal Template Name" := LSalaryPosting."Journal Template Name";
             GenJournalLine."Journal Batch Name" := LSalaryPosting."Journal Batch Name";
             GenJournalLine."Line No." += 10000;
@@ -265,7 +266,7 @@ codeunit 72012 "Salary Group Posting-1"
             GenJournalLine.VALIDATE(Amount, Amount);
             //  GenJournalLine."Shortcut Dimension 1 Code" := LSalaryPosting."Branch Code";
             GenJournalLine."Source Code" := 'GENJNL';
-            GenJournalLine.INSERT;
+            GenJournalLine.INSERT();
         END;
 
     end;
@@ -276,7 +277,6 @@ codeunit 72012 "Salary Group Posting-1"
         LSalaryPosting: Record "Salary Posting-1";
         Additions: Decimal;
         Deductions: Decimal;
-        AccountType: Option "G/L Account";
     begin
         PayrollEmployeePostingGroup.GET(GSalaryPosting."Emp Posting Group",
           GSalaryPosting."Location Code",
@@ -284,7 +284,7 @@ codeunit 72012 "Salary Group Posting-1"
 
         // PF Account
 
-        LSalaryPosting.RESET;
+        LSalaryPosting.RESET();
         LSalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         LSalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         LSalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
@@ -292,7 +292,7 @@ codeunit 72012 "Salary Group Posting-1"
         LSalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         LSalaryPosting.SETRANGE("Pay Type", LSalaryPosting."Pay Type"::Deduction);
         LSalaryPosting.SETRANGE("Pay Element Code", 'PF');
-        IF LSalaryPosting.FINDFIRST THEN BEGIN
+        IF LSalaryPosting.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("PF Payable A/c");
             LSalaryPosting."Account No." := PayrollEmployeePostingGroup."PF Payable A/c";
             InitGenJnlLine(LSalaryPosting,
@@ -300,7 +300,7 @@ codeunit 72012 "Salary Group Posting-1"
               LSalaryPosting."Employer PF / ESI Amount"));
         END;
         // EPS Account
-        LSalaryPosting.RESET;
+        LSalaryPosting.RESET();
         LSalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         LSalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         LSalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
@@ -308,7 +308,7 @@ codeunit 72012 "Salary Group Posting-1"
         LSalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         LSalaryPosting.SETRANGE("Pay Type", LSalaryPosting."Pay Type"::Deduction);
         LSalaryPosting.SETRANGE("Pay Element Code", 'PF');
-        IF LSalaryPosting.FINDFIRST THEN BEGIN
+        IF LSalaryPosting.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("EPS Payable A/c");
             LSalaryPosting."Account No." := PayrollEmployeePostingGroup."EPS Payable A/c";
             LSalaryPosting."Pay Element Description" := 'PF EPS ' + LSalaryPosting."Salary Cycle Code";
@@ -316,7 +316,7 @@ codeunit 72012 "Salary Group Posting-1"
         END;
 
         // PT PAYABLE ACCOUNT
-        LSalaryPosting.RESET;
+        LSalaryPosting.RESET();
         LSalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         LSalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         LSalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
@@ -324,7 +324,7 @@ codeunit 72012 "Salary Group Posting-1"
         LSalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         LSalaryPosting.SETRANGE("Pay Type", LSalaryPosting."Pay Type"::Deduction);
         LSalaryPosting.SETRANGE("Pay Element Code", 'PT');
-        IF LSalaryPosting.FINDFIRST THEN BEGIN
+        IF LSalaryPosting.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("PT Payable A/c");
             LSalaryPosting."Account No." := PayrollEmployeePostingGroup."PT Payable A/c";
             LSalaryPosting."Pay Element Description" := LSalaryPosting."Pay Element Code" + ' ' + LSalaryPosting."Salary Cycle Code";
@@ -332,7 +332,7 @@ codeunit 72012 "Salary Group Posting-1"
         END;
 
         // ESI Account
-        LSalaryPosting.RESET;
+        LSalaryPosting.RESET();
         LSalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         LSalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         LSalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
@@ -340,7 +340,7 @@ codeunit 72012 "Salary Group Posting-1"
         LSalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         LSalaryPosting.SETRANGE("Pay Type", LSalaryPosting."Pay Type"::Deduction);
         LSalaryPosting.SETRANGE("Pay Element Code", 'ESI');
-        IF LSalaryPosting.FINDFIRST THEN BEGIN
+        IF LSalaryPosting.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("ESI Payable A/c");
             LSalaryPosting."Account No." := PayrollEmployeePostingGroup."ESI Payable A/c";
             LSalaryPosting."Pay Element Description" := LSalaryPosting."Pay Element Code" + ' ' + LSalaryPosting."Salary Cycle Code";
@@ -349,7 +349,7 @@ codeunit 72012 "Salary Group Posting-1"
                LSalaryPosting."Employer PF / ESI Amount"));
         END;
         // TDS Account
-        LSalaryPosting.RESET;
+        LSalaryPosting.RESET();
         LSalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         LSalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         LSalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
@@ -357,7 +357,7 @@ codeunit 72012 "Salary Group Posting-1"
         LSalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         LSalaryPosting.SETRANGE("Pay Type", LSalaryPosting."Pay Type"::Deduction);
         LSalaryPosting.SETRANGE("Pay Element Code", 'TDS');
-        IF LSalaryPosting.FINDFIRST THEN BEGIN
+        IF LSalaryPosting.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("TDS Payable A/c");
             LSalaryPosting."Account No." := PayrollEmployeePostingGroup."TDS Payable A/c";
             LSalaryPosting."Pay Element Description" := LSalaryPosting."Pay Element Code" + ' ' + LSalaryPosting."Salary Cycle Code";
@@ -366,7 +366,7 @@ codeunit 72012 "Salary Group Posting-1"
 
         // BONUS Account
 
-        LSalaryPosting.RESET;
+        LSalaryPosting.RESET();
         LSalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         LSalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         LSalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
@@ -374,7 +374,7 @@ codeunit 72012 "Salary Group Posting-1"
         LSalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         LSalaryPosting.SETRANGE("Pay Type", LSalaryPosting."Pay Type"::Addition);
         LSalaryPosting.SETRANGE("Pay Element Code", 'BONUS');
-        IF LSalaryPosting.FINDFIRST THEN BEGIN
+        IF LSalaryPosting.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("Bonus Payable A/c");
             LSalaryPosting."Account No." := PayrollEmployeePostingGroup."Bonus Payable A/c";
             LSalaryPosting."Pay Element Description" := LSalaryPosting."Pay Element Code" + ' ' + LSalaryPosting."Salary Cycle Code";
@@ -383,7 +383,7 @@ codeunit 72012 "Salary Group Posting-1"
 
         // LOAN Account
 
-        LSalaryPosting.RESET;
+        LSalaryPosting.RESET();
         LSalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         LSalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         LSalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
@@ -391,7 +391,7 @@ codeunit 72012 "Salary Group Posting-1"
         LSalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         LSalaryPosting.SETRANGE("Pay Type", LSalaryPosting."Pay Type"::Deduction);
         LSalaryPosting.SETRANGE("Pay Element Code", 'LOAN');
-        IF LSalaryPosting.FINDSET THEN BEGIN
+        IF LSalaryPosting.FINDSET() THEN BEGIN
             PayElements.GET(LSalaryPosting."Pay Element Code", LSalaryPosting."Location Code",
               LSalaryPosting."Salary Plan Code");
             PayElements.TESTFIELD("GL Code");
@@ -404,13 +404,13 @@ codeunit 72012 "Salary Group Posting-1"
         Additions := 0;
         Deductions := 0;
 
-        LSalaryPosting.RESET;
+        LSalaryPosting.RESET();
         LSalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         LSalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         LSalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
         LSalaryPosting.SETRANGE("Employee Category", GSalaryPosting."Employee Category");
         LSalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
-        IF LSalaryPosting.FINDSET THEN BEGIN
+        IF LSalaryPosting.FINDSET() THEN BEGIN
             REPEAT
                 CASE LSalaryPosting."Pay Type" OF
                     LSalaryPosting."Pay Type"::Addition, LSalaryPosting."Pay Type"::Reimbursement:
@@ -419,7 +419,7 @@ codeunit 72012 "Salary Group Posting-1"
                     LSalaryPosting."Pay Type"::Deduction:
                         Deductions := Deductions + LSalaryPosting."Payable Amount";
                 END;
-            UNTIL LSalaryPosting.NEXT = 0;
+            UNTIL LSalaryPosting.NEXT() = 0;
 
             PayrollEmployeePostingGroup.TESTFIELD("Salary Payable1 A/c");
             LSalaryPosting."Account No." := PayrollEmployeePostingGroup."Salary Payable1 A/c";
@@ -429,7 +429,7 @@ codeunit 72012 "Salary Group Posting-1"
 
         // PF ADMIN CHARGES , ELDI CHARGES, RIFA CHARGES
 
-        LSalaryPosting.RESET;
+        LSalaryPosting.RESET();
         LSalaryPosting.SETRANGE("Location Code", GSalaryPosting."Location Code");
         LSalaryPosting.SETRANGE("Salary Plan Code", GSalaryPosting."Salary Plan Code");
         LSalaryPosting.SETRANGE("Salary Cycle Code", GSalaryPosting."Salary Cycle Code");
@@ -437,7 +437,7 @@ codeunit 72012 "Salary Group Posting-1"
         LSalaryPosting.SETRANGE("Salary Due Entry", GSalaryPosting."Salary Due Entry");
         LSalaryPosting.SETRANGE("Pay Type", LSalaryPosting."Pay Type"::Deduction);
         LSalaryPosting.SETRANGE("Pay Element Code", 'PF');
-        IF LSalaryPosting.FINDFIRST THEN BEGIN
+        IF LSalaryPosting.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("PF Admin Charge Payable A/c");
             LSalaryPosting."Account No." := PayrollEmployeePostingGroup."PF Admin Charge Payable A/c";
             LSalaryPosting."Pay Element Description" := 'PF Admin ' + LSalaryPosting."Salary Cycle Code";

@@ -31,14 +31,14 @@ codeunit 72004 "Leave Creation"
             Employee1.SetRange("Salary Plan Code", SalaryPlanCode);
             Employee1.SetRange(Status, Employee1.Status::Active);
             Employee1.SetRange("Leave Generated", false);
-            if Employee1.FindFirst() then begin
+            if Employee1.FindFirst() then
                 repeat
 
                     "Create Leave Entitlement"(PayrollYear);
                     "Leave Balance Update"();
 
                 until Employee1.Next() = 0;
-            end;
+
 
             EndDateTime := CurrentDateTime;
             ElaspedTime := EndDateTime - StartDateTime;
@@ -54,17 +54,16 @@ codeunit 72004 "Leave Creation"
     end;
 
     var
-        Win001: Label 'Table Name :  #1######################## \\ Processing Date :  #2########\\ Status => @3@@@@@@@@@@@@@@@@@@@@@@@@@@@@';
+
         HRPayrollSetup: Record "HR & Payroll Setup";
         PayrollYear: Record "Payroll Year";
         EmployeeLeaveAttachment: Record "Employee Leave Attachment";
         Employee1: Record Employee;
         CUGeneralFunctions: Codeunit "General Functions";
+        Win001: Label 'Table Name :  #1######################## \\ Processing Date :  #2########\\ Status => @3@@@@@@@@@@@@@@@@@@@@@@@@@@@@';
         StartDateTime: DateTime;
         EndDateTime: DateTime;
         ElaspedTime: Duration;
-        ProcessStartDate: Date;
-        ProcessEndDate: Date;
         LocationCode: Code[20];
         SalaryPlanCode: Code[20];
         YearCode: Code[20];
@@ -72,22 +71,20 @@ codeunit 72004 "Leave Creation"
 
     procedure "Create Leave Entitlement"(PayrollYear: Record "Payroll Year") Status: Boolean
     var
-        DialogWindow: Dialog;
-        CurrentRecord: Integer;
-        RecordCount: Integer;
-        RecordCnt: Integer;
+
         LeaveMaster: Record "Leave Master";
         LeaveEntitlement: Record "Leave Entitlement";
         Employee: Record Employee;
+        RecordCount: Integer;
     begin
-        EmployeeLeaveAttachment.Reset;
+        EmployeeLeaveAttachment.Reset();
         EmployeeLeaveAttachment.SetRange("Location Code", LocationCode);
         EmployeeLeaveAttachment.SetRange("Salary Plan Code", SalaryPlanCode);
         EmployeeLeaveAttachment.SetRange("Employee No", Employee1."No.");
         if not EmployeeLeaveAttachment.Find('-') then
             exit;
 
-        EmployeeLeaveAttachment.Reset;
+        EmployeeLeaveAttachment.Reset();
         EmployeeLeaveAttachment.SetRange("Location Code", LocationCode);
         EmployeeLeaveAttachment.SetRange("Salary Plan Code", SalaryPlanCode);
         EmployeeLeaveAttachment.SetRange("Employee No", Employee1."No.");
@@ -98,7 +95,7 @@ codeunit 72004 "Leave Creation"
             if LeaveMaster.Get(EmployeeLeaveAttachment."Leave Code", LocationCode, SalaryPlanCode) then
                 LeaveMaster.TestField("Credit Interval Regular");
 
-            LeaveEntitlement.Init;
+            LeaveEntitlement.Init();
             LeaveEntitlement."Location Code" := LocationCode;
             LeaveEntitlement."Salary Plan Code" := SalaryPlanCode;
             LeaveEntitlement."Leave Year Code" := PayrollYear."Year Code";
@@ -107,16 +104,16 @@ codeunit 72004 "Leave Creation"
             LeaveEntitlement.Probationary := Employee1.Probationary;
             LeaveEntitlement."Leave Code" := LeaveMaster."Leave Code";
 
-            if LeaveEntitlement.Insert then;
+            if LeaveEntitlement.Insert() then;
 
             "Create Leave Credited"(PayrollYear, LeaveMaster, Employee);
 
             Employee1."Leave Generated" := true;
-            Employee1.Modify;
+            Employee1.Modify();
 
             CUGeneralFunctions.UpdateWindow(Employee1."No.", RecordCount);
 
-        until EmployeeLeaveAttachment.Next = 0;
+        until EmployeeLeaveAttachment.Next() = 0;
 
         Message('Leave Record Created Successfully');
 
@@ -138,9 +135,9 @@ codeunit 72004 "Leave Creation"
             LeaveCredited1.SetRange("Leave Code", LeaveMaster."Leave Code");
             LeaveCredited1.SetRange("Leave Year Code", PayrollYear."Year Code");
             if LeaveCredited1.Find('-') then
-                LeaveCredited1.DeleteAll;
+                LeaveCredited1.DeleteAll();
 
-            LeaveCredited.Init;
+            LeaveCredited.Init();
             LeaveCredited."Location Code" := LocationCode;
             LeaveCredited."Salary Plan Code" := SalaryPlanCode;
             LeaveCredited."Employee No" := Employee1."No.";
@@ -160,12 +157,12 @@ codeunit 72004 "Leave Creation"
             else
                 LeaveCredited."No. of Leaves" := LeaveMaster."Total Leaves in a Year Prob.";
 
-            if LeaveMaster."Create Leave Balance" then begin
+            if LeaveMaster."Create Leave Balance" then
                 if LeaveCredited."Leave Start Date" < Employee1."Employment Date" then
                     LeaveCredited."No. of Leaves" := 0;
-            end;
 
-            if LeaveCredited.Insert then;
+
+            if LeaveCredited.Insert() then;
 
             PayrollYear."Year Start Date" := CalcDate(LeaveMaster."Credit Interval Regular", PayrollYear."Year Start Date");
 
@@ -177,17 +174,16 @@ codeunit 72004 "Leave Creation"
     var
         LeaveEntitlement1: Record "Leave Entitlement";
     begin
-        LeaveEntitlement1.Reset;
+        LeaveEntitlement1.Reset();
         LeaveEntitlement1.SetRange("Location Code", LocationCode);
         LeaveEntitlement1.SetRange("Salary Plan Code", SalaryPlanCode);
         LeaveEntitlement1.SetRange("Leave Year Code", YearCode);
         LeaveEntitlement1.SetRange("Employee No", Employee1."No.");
-        if LeaveEntitlement1.FindFirst then begin
+        if LeaveEntitlement1.FindFirst() then
             repeat
                 LeaveEntitlement1.Validate("Leave Opening Balance");
-                LeaveEntitlement1.Modify;
-            until LeaveEntitlement1.Next = 0;
-        end;
+                LeaveEntitlement1.Modify();
+            until LeaveEntitlement1.Next() = 0;
     end;
 }
 

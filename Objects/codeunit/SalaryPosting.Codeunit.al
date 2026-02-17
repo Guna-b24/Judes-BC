@@ -5,9 +5,7 @@ codeunit 72005 "Salary Posting"
     end;
 
     var
-        Text001: Label 'Pay Element - %1 is not found in Payelement Master';
-        Text002: Label 'General Posting Group is not defined for Business Posting Group %1 %2';
-        Text003: Label 'Business Posting %1 is not defined in Business Posting Group Master';
+
         HRPayrollSetup: Record "HR & Payroll Setup";
         LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
         PayElements: Record "Pay Elements";
@@ -15,10 +13,13 @@ codeunit 72005 "Salary Posting"
         PayrollBusinessPostingGroup: Record "Payroll Business Posting Group";
         PayrollProductPostingGroup: Record "Payroll Product Posting Group";
         PayrollGeneralPostingSetup: Record "Payroll General Posting Setup";
-        Text004: Label 'G/L Account Not defined in Payroll General Posting %1 %2 ';
         PayrollEmployeePostingGroup: Record "Payroll Employee Posting Group";
         GenJournalLine: Record "Gen. Journal Line";
-        PayDate: Date;
+        Text004: Label 'G/L Account Not defined in Payroll General Posting %1 %2 ';
+        Text001: Label 'Pay Element - %1 is not found in Payelement Master';
+        Text002: Label 'General Posting Group is not defined for Business Posting Group %1 %2';
+        Text003: Label 'Business Posting %1 is not defined in Business Posting Group Master';
+
         BusinessPosting: Code[20];
         ProductPosting: Code[20];
         LocationCode: Code[20];
@@ -29,7 +30,6 @@ codeunit 72005 "Salary Posting"
     procedure Posting(MonthlyAttendance: Record "Monthly Attendance")
     var
         ProcessedSalary: Record "Processed Salary";
-        "AccountNo.": Code[20];
         AcctType: Option "G/L Account","Bank Account";
     begin
         Employee.GET(MonthlyAttendance."Employee No");
@@ -45,13 +45,13 @@ codeunit 72005 "Salary Posting"
         HRPayrollSetup.GET(USERID);
         LocationHRPayrollSetup.GET(HRPayrollSetup."Location Code");
 
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", LocationCode);
         ProcessedSalary.SETRANGE("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SETRANGE("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE(Loan, FALSE);
-        IF ProcessedSalary.FINDSET THEN
+        IF ProcessedSalary.FINDSET() THEN
             REPEAT
                 CASE ProcessedSalary."Pay Type" OF
 
@@ -88,16 +88,16 @@ codeunit 72005 "Salary Posting"
                                 END;
                             END;
                 END;
-            UNTIL ProcessedSalary.NEXT = 0;
+            UNTIL ProcessedSalary.NEXT() = 0;
 
         // Finding the Debit Account & Credit Accounts for Additions & Deductions
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", LocationCode);
         ProcessedSalary.SETRANGE("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SETRANGE("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE(Loan, FALSE);
-        IF ProcessedSalary.FINDSET THEN
+        IF ProcessedSalary.FINDSET() THEN
             REPEAT
                 CASE ProcessedSalary."Pay Type" OF
                     ProcessedSalary."Pay Type"::Addition, ProcessedSalary."Pay Type"::Reimbursement:
@@ -112,7 +112,7 @@ codeunit 72005 "Salary Posting"
                                 ERROR(Text004, PayrollGeneralPostingSetup."Pay Bus.Posting Group",
                                 PayrollGeneralPostingSetup."Pay Prod. Posting Group");
                             ProcessedSalary."Account No." := PayrollGeneralPostingSetup."G/L Code";
-                            ProcessedSalary.MODIFY;
+                            ProcessedSalary.MODIFY();
 
                             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name",
                               MonthlyAttendance."Journal Batch Name", MonthlyAttendance."Posted Document No",
@@ -133,24 +133,24 @@ codeunit 72005 "Salary Posting"
                                 ERROR(Text004, PayrollGeneralPostingSetup."Pay Bus.Posting Group",
                                   PayrollGeneralPostingSetup."Pay Prod. Posting Group");
                             ProcessedSalary."Account No." := PayrollGeneralPostingSetup."G/L Code";
-                            ProcessedSalary.MODIFY;
+                            ProcessedSalary.MODIFY();
                             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name",
                             MonthlyAttendance."Journal Batch Name", MonthlyAttendance."Posted Document No",
                             MonthlyAttendance."Posted Date", PayrollGeneralPostingSetup."G/L Code", AcctType,
                               -ProcessedSalary."Payable Amount");
                         END;
                 END;
-            UNTIL ProcessedSalary.NEXT = 0;
+            UNTIL ProcessedSalary.NEXT() = 0;
 
         // EMPLOYER ESI CONTRIBUTION
 
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE("Pay Element Code", 'ESI');
-        IF ProcessedSalary.FINDFIRST THEN BEGIN
+        IF ProcessedSalary.FINDFIRST() THEN BEGIN
             LocationHRPayrollSetup.TESTFIELD("Employer ESI GL Code");
             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
             MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date", LocationHRPayrollSetup."Employer ESI GL Code", AcctType,
@@ -158,14 +158,14 @@ codeunit 72005 "Salary Posting"
         END;
 
         // EMPLOYER EPS CONTRIBUTION
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE("Pay Type", ProcessedSalary."Pay Type"::Deduction);
         ProcessedSalary.SETRANGE("Pay Element Code", 'PF');
-        IF ProcessedSalary.FINDFIRST THEN BEGIN
+        IF ProcessedSalary.FINDFIRST() THEN BEGIN
             LocationHRPayrollSetup.TESTFIELD("Employer EPS GL Code");
             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
             MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date", LocationHRPayrollSetup."Employer EPS GL Code", AcctType,
@@ -173,14 +173,14 @@ codeunit 72005 "Salary Posting"
         END;
 
         // EMPLOYER PF CONTRIBUTION,PF ADMIN CHARGES , ELDI CHARGES, RIFA CHARGES
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE("Pay Type", ProcessedSalary."Pay Type"::Deduction);
         ProcessedSalary.SETRANGE("Pay Element Code", 'PF');
-        IF ProcessedSalary.FINDFIRST THEN BEGIN
+        IF ProcessedSalary.FINDFIRST() THEN BEGIN
             // EMPLOYER PF
             LocationHRPayrollSetup.TESTFIELD("Employer PF GL Code");
             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
@@ -211,7 +211,7 @@ codeunit 72005 "Salary Posting"
         Deductions(MonthlyAttendance);
     end;
 
-    [Scope('Internal')]
+
     procedure InitGenJnlLine(var ProcessedSalary: Record "Processed Salary"; JournalTemplate: Code[20]; JournalBatch: Code[20]; "DocumentNo.": Code[20]; PostingDate: Date; "AccountNo.": Code[20]; AccountType: Option "G/L Account","Bank Account"; Amount: Decimal)
     var
         GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
@@ -219,7 +219,7 @@ codeunit 72005 "Salary Posting"
     begin
         IF Amount <> 0 THEN BEGIN
             PayElements.GET(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
-            GenJournalLine.INIT;
+            GenJournalLine.INIT();
             GenJournalLine."Journal Template Name" := JournalTemplate;
             GenJournalLine."Journal Batch Name" := JournalBatch;
             GenJournalLine."Line No." += 10000;
@@ -232,11 +232,11 @@ codeunit 72005 "Salary Posting"
             GenJournalLine.VALIDATE(Amount, Amount);
             GenJournalLine."Source Code" := 'GENJNL';
             GenJournalLine."Employee No." := ProcessedSalary."Employee No";
-            GenJournalLine.INSERT;
+            GenJournalLine.INSERT();
         END;
     end;
 
-    [Scope('Internal')]
+
     procedure Deductions(MonthlyAttendance: Record "Monthly Attendance")
     var
         ProcessedSalary: Record "Processed Salary";
@@ -247,17 +247,17 @@ codeunit 72005 "Salary Posting"
         PayrollEmployeePostingGroup.GET(Employee."Emp Posting Group", LocationCode, SalaryPlanCode);
 
         // PF Account
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE("Pay Type", ProcessedSalary."Pay Type"::Deduction);
         ProcessedSalary.SETRANGE("Pay Element Code", 'PF');
-        IF ProcessedSalary.FINDFIRST THEN BEGIN
+        IF ProcessedSalary.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("PF Payable A/c");
             ProcessedSalary."Account No." := PayrollEmployeePostingGroup."PF Payable A/c";
-            ProcessedSalary.MODIFY;
+            ProcessedSalary.MODIFY();
             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
               MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date",
               PayrollEmployeePostingGroup."PF Payable A/c", AccountType, -(ProcessedSalary."Employee PF / ESI Amount" +
@@ -265,51 +265,51 @@ codeunit 72005 "Salary Posting"
         END;
 
         // EPS Account
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE("Pay Type", ProcessedSalary."Pay Type"::Deduction);
         ProcessedSalary.SETRANGE("Pay Element Code", 'PF');
-        IF ProcessedSalary.FINDFIRST THEN BEGIN
+        IF ProcessedSalary.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("EPS Payable A/c");
             ProcessedSalary."Account No." := PayrollEmployeePostingGroup."EPS Payable A/c";
-            ProcessedSalary.MODIFY;
+            ProcessedSalary.MODIFY();
             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
              MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date",
               PayrollEmployeePostingGroup."EPS Payable A/c", AccountType, -ProcessedSalary."Employer EPS Amount");
         END;
 
         // PT PAYABLE ACCOUNT
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE("Pay Type", ProcessedSalary."Pay Type"::Deduction);
         ProcessedSalary.SETRANGE("Pay Element Code", 'PT');
-        IF ProcessedSalary.FINDFIRST THEN BEGIN
+        IF ProcessedSalary.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("PT Payable A/c");
             ProcessedSalary."Account No." := PayrollEmployeePostingGroup."PT Payable A/c";
-            ProcessedSalary.MODIFY;
+            ProcessedSalary.MODIFY();
             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
               MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date",
               PayrollEmployeePostingGroup."PT Payable A/c", AccountType, -ProcessedSalary."Payable Amount");
         END;
 
         // ESI Account
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE("Pay Type", ProcessedSalary."Pay Type"::Deduction);
         ProcessedSalary.SETRANGE("Pay Element Code", 'ESI');
-        IF ProcessedSalary.FINDFIRST THEN BEGIN
+        IF ProcessedSalary.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("ESI Payable A/c");
             ProcessedSalary."Account No." := PayrollEmployeePostingGroup."ESI Payable A/c";
-            ProcessedSalary.MODIFY;
+            ProcessedSalary.MODIFY();
             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
               MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date",
               PayrollEmployeePostingGroup."ESI Payable A/c", AccountType, -(ProcessedSalary."Employee PF / ESI Amount" +
@@ -317,67 +317,67 @@ codeunit 72005 "Salary Posting"
         END;
 
         // TDS Account
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE("Pay Type", ProcessedSalary."Pay Type"::Deduction);
         ProcessedSalary.SETRANGE("Pay Element Code", 'TDS');
-        IF ProcessedSalary.FINDFIRST THEN BEGIN
+        IF ProcessedSalary.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("TDS Payable A/c");
             ProcessedSalary."Account No." := PayrollEmployeePostingGroup."TDS Payable A/c";
-            ProcessedSalary.MODIFY;
+            ProcessedSalary.MODIFY();
             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
               MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date",
               PayrollEmployeePostingGroup."TDS Payable A/c", AccountType, -ProcessedSalary."Payable Amount");
         END;
 
         // BONUS Account
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE("Pay Type", ProcessedSalary."Pay Type"::Deduction);
         ProcessedSalary.SETRANGE("Pay Element Code", 'BONUS');
-        IF ProcessedSalary.FINDFIRST THEN BEGIN
+        IF ProcessedSalary.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("Bonus Payable A/c");
             ProcessedSalary."Account No." := PayrollEmployeePostingGroup."Bonus Payable A/c";
-            ProcessedSalary.MODIFY;
+            ProcessedSalary.MODIFY();
             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
               MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date",
               PayrollEmployeePostingGroup."Bonus Payable A/c", AccountType, -ProcessedSalary."Payable Amount");
         END;
 
         // LOAN Account
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE("Pay Type", ProcessedSalary."Pay Type"::Deduction);
         ProcessedSalary.SETRANGE("Pay Element Code", 'LOAN');
-        IF ProcessedSalary.FINDSET THEN
+        IF ProcessedSalary.FINDSET() THEN
             REPEAT
                 PayElements.GET(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
                 PayElements.TESTFIELD("GL Code");
                 ProcessedSalary."Account No." := PayElements."GL Code";
-                ProcessedSalary.MODIFY;
+                ProcessedSalary.MODIFY();
                 InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
                   MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date",
                   PayElements."GL Code", AccountType, -ProcessedSalary."Payable Amount");
-            UNTIL ProcessedSalary.NEXT = 0;
+            UNTIL ProcessedSalary.NEXT() = 0;
 
         // Salary Payable Account
         Additions := 0;
         Deductions := 0;
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
-        IF ProcessedSalary.FINDSET THEN
+        IF ProcessedSalary.FINDSET() THEN
             REPEAT
                 CASE ProcessedSalary."Pay Type" OF
                     ProcessedSalary."Pay Type"::Addition, ProcessedSalary."Pay Type"::Reimbursement:
@@ -389,7 +389,7 @@ codeunit 72005 "Salary Posting"
                     ProcessedSalary."Pay Type"::Deduction:
                         Deductions := Deductions + ProcessedSalary."Payable Amount";
                 END;
-            UNTIL ProcessedSalary.NEXT = 0;
+            UNTIL ProcessedSalary.NEXT() = 0;
 
         InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
           MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date",
@@ -399,12 +399,12 @@ codeunit 72005 "Salary Posting"
         Additions := 0;
         Deductions := 0;
 
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
-        IF ProcessedSalary.FINDSET THEN
+        IF ProcessedSalary.FINDSET() THEN
             REPEAT
                 CASE ProcessedSalary."Pay Type" OF
                     ProcessedSalary."Pay Type"::Addition, ProcessedSalary."Pay Type"::Reimbursement:
@@ -412,7 +412,7 @@ codeunit 72005 "Salary Posting"
                         IF ProcessedSalary."Payment Type" = ProcessedSalary."Payment Type"::"Second Payment" THEN
                             Additions := Additions + ProcessedSalary."Payable Amount";
                 END;
-            UNTIL ProcessedSalary.NEXT = 0;
+            UNTIL ProcessedSalary.NEXT() = 0;
 
         InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
           MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date",
@@ -421,14 +421,14 @@ codeunit 72005 "Salary Posting"
 
         // PF ADMIN CHARGES , ELDI CHARGES, RIFA CHARGES
 
-        ProcessedSalary.RESET;
+        ProcessedSalary.RESET();
         ProcessedSalary.SETRANGE("Location Code", MonthlyAttendance."Location Code");
         ProcessedSalary.SETRANGE("Salary Plan Code", MonthlyAttendance."Salary Plan Code");
         ProcessedSalary.SETRANGE("Salary Cycle Code", MonthlyAttendance."Salary Cycle Code");
         ProcessedSalary.SETRANGE("Employee No", MonthlyAttendance."Employee No");
         ProcessedSalary.SETRANGE("Pay Type", ProcessedSalary."Pay Type"::Deduction);
         ProcessedSalary.SETRANGE("Pay Element Code", 'PF');
-        IF ProcessedSalary.FINDFIRST THEN BEGIN
+        IF ProcessedSalary.FINDFIRST() THEN BEGIN
             PayrollEmployeePostingGroup.TESTFIELD("PF Admin Charge Payable A/c");
             //  ProcessedSalary."Account No.":=EmpPostingSetup."PF Admin Charge Payable A/c";
             //  ProcessedSalary.MODIFY;
@@ -447,7 +447,7 @@ codeunit 72005 "Salary Posting"
 
             PayrollEmployeePostingGroup.TESTFIELD("RIFA Payable A/c");
             ProcessedSalary."Account No." := PayrollEmployeePostingGroup."RIFA Payable A/c";
-            ProcessedSalary.MODIFY;
+            ProcessedSalary.MODIFY();
             InitGenJnlLine(ProcessedSalary, MonthlyAttendance."Journal Template Name", MonthlyAttendance."Journal Batch Name",
               MonthlyAttendance."Posted Document No", MonthlyAttendance."Posted Date",
               PayrollEmployeePostingGroup."RIFA Payable A/c", AccountType,

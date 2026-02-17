@@ -5,8 +5,8 @@ tableextension 50001 "Employee Extension" extends Employee
         field(50100; "Employee Category"; Option)
         {
             Caption = 'Employee Category';
-            OptionMembers = " ","Staff Permanent","Staff Temporary","Worker Permanent","Worker Temporary";
-            OptionCaption = ' ,Staff Permanent,Staff Temporary,Worker Permanent,Worker Temporary';
+            OptionMembers = " ","Staff Permanent","Staff Temporary","Worker Permanent","Worker Temporary","Class IV Permanent";
+            OptionCaption = ' ,Staff Permanent,Staff Temporary,Worker Permanent,Worker Temporary,Class IV Permanent';
             DataClassification = CustomerContent;
         }
         field(50101; "Working Shift Code"; code[20])
@@ -75,6 +75,38 @@ tableextension 50001 "Employee Extension" extends Employee
         field(50113; "Bonus Applicable"; Boolean)
         {
             Caption = 'Bonus Applicable';
+            DataClassification = CustomerContent;
+        }
+        field(50114; "Designation Name"; text[30])
+        {
+            Caption = 'Designation Name';
+            DataClassification = CustomerContent;
+        }
+        field(50115; "PAN No"; code[20])
+        {
+            Caption = 'PAN No';
+            DataClassification = CustomerContent;
+        }
+        field(50116; "Metro / Non Metro"; Option)
+        {
+            Caption = 'Metro / Non Metro';
+            DataClassification = CustomerContent;
+            OptionMembers = "","Metro","Non Metro";
+            OptionCaption = ', Metro, Non Metro';
+        }
+        field(50117; "Leave Generated"; Boolean)
+        {
+            Caption = 'Leave Generated';
+            DataClassification = CustomerContent;
+        }
+        field(50118; "Probationary"; Boolean)
+        {
+            Caption = 'Probationary';
+            DataClassification = CustomerContent;
+        }
+        field(50119; "Grade Code"; code[20])
+        {
+            Caption = 'Grade Code';
             DataClassification = CustomerContent;
         }
 
