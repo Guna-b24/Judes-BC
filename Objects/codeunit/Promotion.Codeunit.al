@@ -1,16 +1,5 @@
 codeunit 71042 Promotion
 {
-    //   No   Date      Sign     Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  08/10/09  KATHIR   Class Promotion()          Code added for Class Promotion
-    //   02  23/11/09  VIGNESH  Class Promotion()          Section Feild is removed in parameters
-    //   03  23/11/09  VIGNESH  Class Promotion()          filter Section for class card is removed
-    //   04  23/11/09  VIGNESH  Class Promotion()          Filed removed in Class Card Set current field
-    //   05  23/11/09  VIGNESH  Class Promotion()          filter Section for Promotion suggestion is removed
-    //   06  23/11/09  VIGNESH  Class Promotion()          Filed removed in Class Card Set current field
-    //   07  23/11/09  VIGNESH  Class Promotion()          filter Section for class card is removed
-
-
     trigger OnRun()
     begin
     end;
@@ -27,7 +16,7 @@ codeunit 71042 Promotion
         Text008: Label 'No promoted Class is Found, do you want to Send this Student to Alumni';
         Text009: Label 'Do you want to update the Student Promotion';
 
-    [Scope('Internal')]
+
     procedure "Class Promotion"(ClassCode: Code[20])
     var
         PromotionHistory: Record "Promotion History";
@@ -177,7 +166,7 @@ codeunit 71042 Promotion
         // Stop 08.VIGNESH
     end;
 
-    [Scope('Internal')]
+
     procedure ClassPromotionSuggest(ClassCode: Code[20])
     var
         PromotionWeightage: Record "Promotion Weightage";

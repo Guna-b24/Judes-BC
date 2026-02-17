@@ -1,26 +1,17 @@
 codeunit 72001 "Attendance Creation"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Codeunit Created for PAYROLL Module
-    // -----------------------------------------------------------------------------------------------
-
-
     trigger OnRun()
     begin
         HRPayrollSetup.Get(UserId);
 
-        PayrollYear.Reset;
+        PayrollYear.Reset();
         PayrollYear.SetRange("Location Code", HRPayrollSetup."Location Code");
         PayrollYear.SetRange("Salary Plan Code", HRPayrollSetup."Salary Plan Code");
         PayrollYear.SetRange("Year Code", HRPayrollSetup."Salary Year Code");
         PayrollYear.SetRange("Year Type", PayrollYear."Year Type"::"Salary Year");
         PayrollYear.SetRange(Closed, false);
         PayrollYear.SetRange(Created, true);
-        if PayrollYear.FindFirst then begin
+        if PayrollYear.FindFirst() then begin
             Message('Daily Attendance Creation \\Start Date => %1 \\End Date => %2',
               PayrollYear."Year Start Date", PayrollYear."Year End Date");
 
@@ -36,7 +27,7 @@ codeunit 72001 "Attendance Creation"
               StartDateTime, EndDateTime, ElaspedTime);
 
             PayrollYear.Created := true;
-            PayrollYear.Modify;
+            PayrollYear.Modify();
         end else
             Error('Daily Attendance Already Generated..!!');
     end;
@@ -52,10 +43,10 @@ codeunit 72001 "Attendance Creation"
         StartDateTime: DateTime;
         ElaspedTime: Duration;
 
-    [Scope('Internal')]
+
     procedure "Create Daily Attendance"(PayrollYear: Record "Payroll Year") Status: Boolean
     var
-        Employee: Record Employee;
+        VarEmployee: Record Employee;
         PayrollYear1: Record "Payroll Year";
         PayrollMonthYear: Record "Payroll Month & Year";
         Calendar: Record Calendar;
@@ -63,23 +54,23 @@ codeunit 72001 "Attendance Creation"
         DailyAttendance: Record "Daily Attendance";
         RecordCount: Integer;
     begin
-        Employee.Reset;
-        Employee.SetRange("Salary Plan Code", PayrollYear."Salary Plan Code");
-        Employee.SetRange("Location Code", PayrollYear."Location Code");
-        Employee.SetRange(Status, Employee.Status::Active);
-        Employee.SetRange("Attendance Generated", false);
-        if Employee.FindFirst then begin
+        VarEmployee.Reset();
+        VarEmployee.SetRange("Salary Plan Code", PayrollYear."Salary Plan Code");
+        VarEmployee.SetRange("Location Code", PayrollYear."Location Code");
+        VarEmployee.SetRange(Status, Employee.Status::Active);
+        VarEmployee.SetRange("Attendance Generated", false);
+        if VarEmployee.FindFirst() then begin
             CUGeneralFunctions.OpenWindow('Daily Attedance Creation\\', 'Progress');
             RecordCount := Employee.Count;
             repeat
                 "Mantory Field Checkup"(Employee."No.");
-                Calendar.Reset;
+                Calendar.Reset();
                 Calendar.SetRange("Location Code", PayrollYear."Location Code");
                 Calendar.SetRange("Salary Plan Code", PayrollYear."Salary Plan Code");
                 Calendar.SetRange(Date, PayrollYear."Year Start Date", PayrollYear."Year End Date");
-                if Calendar.FindFirst then
+                if Calendar.FindFirst() then
                     repeat
-                        DailyAttendance.Init;
+                        DailyAttendance.Init();
                         DailyAttendance."Location Code" := Employee."Location Code";
                         DailyAttendance."Salary Plan Code" := Employee."Salary Plan Code";
                         DailyAttendance."Employee No" := Employee."No.";
@@ -94,7 +85,7 @@ codeunit 72001 "Attendance Creation"
                         DailyAttendance."Holiday Status" := Calendar.Holiday;
                         DailyAttendance."Non Working Day" := Calendar."Non-Working Days";
 
-                        PayrollYear1.Reset;
+                        PayrollYear1.Reset();
                         PayrollYear1.SetRange("Location Code", Employee."Location Code");
                         PayrollYear1.SetRange("Salary Plan Code", Employee."Salary Plan Code");
                         PayrollYear1.SetRange("Year Type", PayrollYear1."Year Type"::"Leave Year");
@@ -102,19 +93,19 @@ codeunit 72001 "Attendance Creation"
                         if PayrollYear1.Find('-') then
                             DailyAttendance."Leave Year Code" := PayrollYear1."Year Code";
 
-                        PayrollYear.Reset;
+                        PayrollYear.Reset();
                         PayrollYear.SetRange("Location Code", Employee."Location Code");
                         PayrollYear.SetRange("Salary Plan Code", Employee."Salary Plan Code");
                         PayrollYear.SetRange("Year Type", PayrollYear."Year Type"::"Leave Year");
                         PayrollYear.SetRange(Closed, false);
-                        if PayrollYear.FindFirst then
+                        if PayrollYear.FindFirst() then
                             DailyAttendance."Leave Year Code" := PayrollYear."Year Code";
 
-                        PayrollMonthYear.Reset;
+                        PayrollMonthYear.Reset();
                         PayrollMonthYear.SetRange("Location Code", Employee."Location Code");
                         PayrollMonthYear.SetRange("Salary Plan Code", Employee."Salary Plan Code");
                         PayrollMonthYear.SetRange("Salary Start Date", DailyAttendance."Attendance Date");
-                        if PayrollMonthYear.FindFirst then
+                        if PayrollMonthYear.FindFirst() then
                             DailyAttendance."Salary Cyclic Code" := PayrollMonthYear."Salary Cyclic Code"
                         else
                             DateCheck := PayrollMonthYear."Salary End Date";
@@ -209,20 +200,20 @@ codeunit 72001 "Attendance Creation"
                         DailyAttendance.Validate("First Half Attendance Type");
                         DailyAttendance.Validate("Second Half Attendance Type");
 
-                        if DailyAttendance.Insert then;
+                        if DailyAttendance.Insert() then;
 
-                    until Calendar.Next = 0;
+                    until Calendar.Next() = 0;
 
                 "Create Monthly Attendance"(Employee, PayrollYear);
 
                 Employee."Attendance Generated" := true;
 
-                if Employee.Modify then;
+                if Employee.Modify() then;
 
                 CUGeneralFunctions.UpdateWindow(Employee."No.", RecordCount);
 
-            until Employee.Next = 0;
-            CUGeneralFunctions.CloseWindow;
+            until Employee.Next() = 0;
+            CUGeneralFunctions.CloseWindow();
         end else
             Error('No Records found..!!');
     end;
@@ -232,13 +223,13 @@ codeunit 72001 "Attendance Creation"
         PayrollMonthYear: Record "Payroll Month & Year";
         MonthlyAttendance: Record "Monthly Attendance";
     begin
-        PayrollMonthYear.Reset;
+        PayrollMonthYear.Reset();
         PayrollMonthYear.SetRange("Location Code", Employee."Location Code");
         PayrollMonthYear.SetRange("Salary Plan Code", Employee."Salary Plan Code");
         PayrollMonthYear.SetRange("Salary Year Code", PayrollYear."Year Code");
         if PayrollMonthYear.FindFirst then
             repeat
-                MonthlyAttendance.Init;
+                MonthlyAttendance.Init();
                 MonthlyAttendance."Location Code" := PayrollYear."Location Code";
                 MonthlyAttendance."Salary Plan Code" := PayrollYear."Salary Plan Code";
                 MonthlyAttendance."Salary Cycle Code" := PayrollMonthYear."Salary Cyclic Code";
@@ -249,8 +240,8 @@ codeunit 72001 "Attendance Creation"
                 MonthlyAttendance."Employee No" := Employee."No.";
                 MonthlyAttendance.Name := Employee."First Name" + ' ' + Employee.Initials;
                 MonthlyAttendance."Employee Category" := Employee."Employee Category";
-                if MonthlyAttendance.Insert then;
-            until PayrollMonthYear.Next = 0;
+                if MonthlyAttendance.Insert() then;
+            until PayrollMonthYear.Next() = 0;
     end;
 
     local procedure "Mantory Field Checkup"(EmployeeNo: Code[20])
@@ -275,7 +266,6 @@ codeunit 72001 "Attendance Creation"
         end;
     end;
 
-    [Scope('Internal')]
     procedure UpdateBlankTime(LocationCode: Code[20]; SalaryPlanCode: Code[20]; SalaryCylicCode: Code[20]; EmployeeNo: Code[20]; StartDate: Date; EndDate: Date; EmployeeCategory: Option " ","Staff Permanent","Staff Temporary","Class IV Permanent","Class IV Temporary")
     var
         DailyAttendance: Record "Daily Attendance";
@@ -284,7 +274,7 @@ codeunit 72001 "Attendance Creation"
         if EmployeeNo = 'ALL' then
             CUGeneralFunctions.OpenWindow('Daily Attendance Update Blank Time\\', 'Progress');
 
-        DailyAttendance.Reset;
+        DailyAttendance.Reset();
         DailyAttendance.SetRange("Location Code", LocationCode);
         DailyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         DailyAttendance.SetRange("Salary Cyclic Code", SalaryCylicCode);
@@ -295,7 +285,7 @@ codeunit 72001 "Attendance Creation"
         DailyAttendance.SetRange("Attendance Verified", false);
         DailyAttendance.SetRange("Manual Entry", false);
         RecordCount := DailyAttendance.Count;
-        if DailyAttendance.FindFirst then
+        if DailyAttendance.FindFirst() then
             repeat
                 DailyAttendance."In Time" := 0T;
                 DailyAttendance."Out Time" := 0T;
@@ -321,18 +311,17 @@ codeunit 72001 "Attendance Creation"
                 DailyAttendance.Validate("Second Half Attendance Type");
                 DailyAttendance.Validate("In Time");
                 DailyAttendance.Validate("Out Time");
-                DailyAttendance.Modify;
+                DailyAttendance.Modify();
 
                 if EmployeeNo = 'ALL' then
                     CUGeneralFunctions.UpdateWindow(DailyAttendance."Employee No", RecordCount);
 
-            until DailyAttendance.Next = 0;
+            until DailyAttendance.Next() = 0;
 
         if EmployeeNo = 'ALL' then
-            CUGeneralFunctions.CloseWindow;
+            CUGeneralFunctions.CloseWindow();
     end;
 
-    [Scope('Internal')]
     procedure UpdateDefaultTime(LocationCode: Code[20]; SalaryPlanCode: Code[20]; SalaryCylicCode: Code[20]; EmployeeNo: Code[20]; StartDate: Date; EndDate: Date; EmployeeCategory: Option " ","Staff Permanent","Staff Temporary","Class IV Permanent","Class IV Temporary")
     var
         Shift: Record Shift;
@@ -343,7 +332,7 @@ codeunit 72001 "Attendance Creation"
 
         HRPayrollSetup.Get(UserId);
         LocationHRPayrollSetup.Get(HRPayrollSetup."Location Code");
-        DailyAttendance.Reset;
+        DailyAttendance.Reset();
         DailyAttendance.SetRange("Location Code", LocationCode);
         DailyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         DailyAttendance.SetRange("Salary Cyclic Code", SalaryCylicCode);
@@ -354,7 +343,7 @@ codeunit 72001 "Attendance Creation"
         DailyAttendance.SetRange("Attendance Verified", false);
         DailyAttendance.SetRange("Manual Entry", false);
         RecordCount := DailyAttendance.Count;
-        if DailyAttendance.FindFirst then
+        if DailyAttendance.FindFirst() then
             repeat
                 if DailyAttendance."Shift Code" <> '' then begin
                     Shift.Get(DailyAttendance."Shift Code", LocationCode, SalaryPlanCode);
@@ -388,13 +377,13 @@ codeunit 72001 "Attendance Creation"
                 DailyAttendance.Validate("Second Half Attendance Type");
                 DailyAttendance.Validate("In Time");
                 DailyAttendance.Validate("Out Time");
-                DailyAttendance.Modify;
+                DailyAttendance.Modify();
                 CUGeneralFunctions.UpdateWindow(DailyAttendance."Employee No", RecordCount);
-            until DailyAttendance.Next = 0;
+            until DailyAttendance.Next() = 0;
         CUGeneralFunctions.CloseWindow();
     end;
 
-    [Scope('Internal')]
+
     procedure UpdateShiftTime(LocationCode: Code[20]; SalaryPlanCode: Code[20]; SalaryCylicCode: Code[20]; EmployeeNo: Code[20]; StartDate: Date; EndDate: Date; ShiftCode: Code[20]; EmployeeCategory: Option " ","Staff Permanent","Staff Temporary","Class IV Permanent","Class IV Temporary")
     var
         Shift: Record Shift;
@@ -402,7 +391,7 @@ codeunit 72001 "Attendance Creation"
         RecordCount: Integer;
     begin
         CUGeneralFunctions.OpenWindow('Daily Attedance Update Shift Time\\', 'Progress');
-        DailyAttendance.Reset;
+        DailyAttendance.Reset();
         DailyAttendance.SetRange("Location Code", LocationCode);
         DailyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         DailyAttendance.SetRange("Salary Cyclic Code", SalaryCylicCode);
@@ -413,7 +402,7 @@ codeunit 72001 "Attendance Creation"
         DailyAttendance.SetFilter(Present, '=%1', 1);
         DailyAttendance.SetRange("Manual Entry", false);
         RecordCount := DailyAttendance.Count;
-        if DailyAttendance.FindFirst then
+        if DailyAttendance.FindFirst() then
             Shift.Get(ShiftCode, LocationCode, SalaryPlanCode);
         repeat
             if DailyAttendance."Shift Code" <> '' then begin
@@ -445,14 +434,14 @@ codeunit 72001 "Attendance Creation"
                 DailyAttendance.Validate("Second Half Attendance Type");
                 DailyAttendance.Validate("In Time");
                 DailyAttendance.Validate("Out Time");
-                DailyAttendance.Modify;
+                DailyAttendance.Modify();
                 CUGeneralFunctions.UpdateWindow(DailyAttendance."Employee No", RecordCount);
             end;
-        until DailyAttendance.Next = 0;
-        CUGeneralFunctions.CloseWindow;
+        until DailyAttendance.Next() = 0;
+        CUGeneralFunctions.CloseWindow();
     end;
 
-    [Scope('Internal')]
+
     procedure "Validate Attendance Time"(LocationCode: Code[20]; SalaryPlanCode: Code[20]; SalaryCylicCode: Code[20]; EmployeeNo: Code[20]; StartDate: Date; EndDate: Date; EmployeeCategory: Option " ","Staff Permanent","Staff Temporary","Class IV Permanent","Class IV Temporary")
     var
         DailyAttendance: Record "Daily Attendance";
@@ -460,7 +449,7 @@ codeunit 72001 "Attendance Creation"
     begin
         CUGeneralFunctions.OpenWindow('Update First Half Second Half Type\\', 'Progress');
 
-        DailyAttendance.Reset;
+        DailyAttendance.Reset();
         DailyAttendance.SetRange("Location Code", LocationCode);
         DailyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         DailyAttendance.SetRange("Salary Cyclic Code", SalaryCylicCode);
@@ -469,7 +458,7 @@ codeunit 72001 "Attendance Creation"
         DailyAttendance.SetRange("Attendance Date", StartDate, EndDate);
         DailyAttendance.SetRange("Employee Category", EmployeeCategory);
         RecordCount := DailyAttendance.Count;
-        if DailyAttendance.FindFirst then
+        if DailyAttendance.FindFirst() then
             repeat
                 if Employee.Get(DailyAttendance."Employee No") then
                     if DailyAttendance."Attendance Date" < Employee."Employment Date" then begin
@@ -485,14 +474,13 @@ codeunit 72001 "Attendance Creation"
                 DailyAttendance.Validate("Second Half Attendance Type");
                 DailyAttendance.Validate("In Time");
                 DailyAttendance.Validate("Out Time");
-                DailyAttendance.Modify;
+                DailyAttendance.Modify();
                 CUGeneralFunctions.UpdateWindow(DailyAttendance."Employee No", RecordCount);
-            until DailyAttendance.Next = 0;
+            until DailyAttendance.Next() = 0;
 
-        CUGeneralFunctions.CloseWindow;
+        CUGeneralFunctions.CloseWindow();
     end;
 
-    [Scope('Internal')]
     procedure UpdateEmployeeShiftTime(LocationCode: Code[20]; SalaryPlanCode: Code[20]; SalaryCylicCode: Code[20]; EmployeeNo: Code[20]; StartDate: Date; EndDate: Date; ShiftCode: Code[20]; EmployeeCategory: Option " ","Staff Permanent","Staff Temporary","Class IV Permanent","Class IV Temporary")
     var
         DailyAttendance: Record "Daily Attendance";
@@ -500,7 +488,7 @@ codeunit 72001 "Attendance Creation"
         RecordCount: Integer;
     begin
         CUGeneralFunctions.OpenWindow('Daily Attedance Update Shift Time\\', 'Progress');
-        DailyAttendance.Reset;
+        DailyAttendance.Reset();
         DailyAttendance.SetRange("Location Code", LocationCode);
         DailyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         DailyAttendance.SetRange("Salary Cyclic Code", SalaryCylicCode);
@@ -539,11 +527,11 @@ codeunit 72001 "Attendance Creation"
                 DailyAttendance.Validate("Second Half Attendance Type");
                 DailyAttendance.Validate("In Time");
                 DailyAttendance.Validate("Out Time");
-                DailyAttendance.Modify;
+                DailyAttendance.Modify();
 
                 CUGeneralFunctions.UpdateWindow(DailyAttendance."Employee No", RecordCount);
 
-            until DailyAttendance.Next = 0;
+            until DailyAttendance.Next() = 0;
         CUGeneralFunctions.CloseWindow();
     end;
 }

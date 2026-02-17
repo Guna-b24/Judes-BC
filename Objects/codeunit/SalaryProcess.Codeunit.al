@@ -1,13 +1,5 @@
 codeunit 72002 "Salary Process"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Codeunit Created for PAYROLL Module
-    // -----------------------------------------------------------------------------------------------
-
 
     trigger OnRun()
     begin
@@ -32,7 +24,7 @@ codeunit 72002 "Salary Process"
         FalseLastEffectiveDate: Date;
         NegativePay: Boolean;
 
-    [Scope('Internal')]
+
     procedure "Process Monthly Salary"(LLocationCode: Code[20]; LSalaryPlanCode: Code[20]; LSalaryCyclicCode: Code[20]; LPayStartDate: Date; LPayEndDate: Date; LEmployeeNo: Code[20]; LEmployeeType: Option " ","Staff Permanent","Staff Temporary","Worker Permanent","Worker Temporary") LVStatus: Boolean
     var
         DialogWindow: Dialog;
@@ -61,7 +53,7 @@ codeunit 72002 "Salary Process"
             Employee.SetRange("No.", LEmployeeNo);
         end;
 
-        if Employee.FindFirst then begin
+        if Employee.FindFirst() then begin
             RecordCnt := Employee.Count;
             repeat
 
@@ -96,24 +88,24 @@ codeunit 72002 "Salary Process"
                         "Update Processed Flag"(Employee."No.");
                         CUGeneralFunctions.UpdateWindow(Employee."No.", RecordCnt);
                     end;
-            until Employee.Next = 0;
+            until Employee.Next() = 0;
         end;
-        CUGeneralFunctions.CloseWindow;
+        CUGeneralFunctions.CloseWindow();
     end;
 
-    [Scope('Internal')]
+
     procedure "Read Employee Pay Elements"(LEmployeeNo: Code[20])
     var
         EmployeePayElements: Record "Employee Pay Elements";
         ProcessedSalary: Record "Processed Salary";
     begin
-        EmployeePayElements.Reset;
+        EmployeePayElements.Reset();
         EmployeePayElements.SetRange("Location Code", LocationCode);
         EmployeePayElements.SetRange("Salary Plan Code", SalaryPlanCode);
         EmployeePayElements.SetRange("Employee No", LEmployeeNo);
         EmployeePayElements.SetRange("Effective Date", FalseLastEffectiveDate);
         EmployeePayElements.SetRange("Excluded In Pay Slip", false);
-        if EmployeePayElements.FindFirst then
+        if EmployeePayElements.FindFirst() then
             repeat
                 Clear(ProcessedSalary);
                 ProcessedSalary."Employee No" := LEmployeeNo;
@@ -126,10 +118,10 @@ codeunit 72002 "Salary Process"
                 if ProcessedSalary."Percentage (%)" > 0 then
                     ProcessedSalary."Actual Amount" := ProcessedSalary."Percentage (%)";
                 "Insert Pay Processed Salary"(ProcessedSalary);
-            until EmployeePayElements.Next = 0;
+            until EmployeePayElements.Next() = 0;
     end;
 
-    [Scope('Internal')]
+
     procedure "Read Pay Loan Details"(LEmployeeNo: Code[20])
     var
         ProcessedSalary: Record "Processed Salary";
@@ -137,18 +129,18 @@ codeunit 72002 "Salary Process"
         EmployeeLoanDetails: Record "Employee Loan Details";
         EmployeeLoans: Record "Employee Loans";
     begin
-        EmployeeLoan.Reset;
+        EmployeeLoan.Reset();
         EmployeeLoan.SetRange("Location Code", LocationCode);
         EmployeeLoan.SetRange("Salary Plan Code", SalaryPlanCode);
         EmployeeLoan.SetRange("Employee No", LEmployeeNo);
         EmployeeLoan.SetRange("No Deduction Request", false);
-        if EmployeeLoan.FindFirst then begin
-            EmployeeLoanDetails.Reset;
+        if EmployeeLoan.FindFirst() then begin
+            EmployeeLoanDetails.Reset();
             EmployeeLoanDetails.SetRange("Location Code", LocationCode);
             EmployeeLoanDetails.SetRange("Salary Plan Code", SalaryPlanCode);
             EmployeeLoanDetails.SetRange("Employee No", LEmployeeNo);
             EmployeeLoanDetails.SetRange("Salary Process Date", PayEndDate);
-            if EmployeeLoanDetails.FindFirst then
+            if EmployeeLoanDetails.FindFirst() then
                 repeat
                     Clear(ProcessedSalary);
                     ProcessedSalary."Employee No" := LEmployeeNo;
@@ -159,50 +151,19 @@ codeunit 72002 "Salary Process"
                     "Insert Pay Processed Salary"(ProcessedSalary);
                 until EmployeeLoanDetails.Next = 0;
         end;
-        /*
-        EmployeeLoans.RESET;
-        EmployeeLoans.SETRANGE("Location Code",LocationCode);
-        EmployeeLoans.SETRANGE("Salary Plan Code",SalaryPlanCode);
-        EmployeeLoans.SETRANGE("Employee No",LEmployeeNo);
-        EmployeeLoans.SETRANGE("No Deduction Request",FALSE);
-        EmployeeLoans.SETRANGE(Completed,FALSE);
-        IF EmployeeLoans.FINDFIRST THEN
-          REPEAT
-            EmployeeLoans.ValidateBalanceAmount;
-            IF EmployeeLoans."Loan Balance Amount" > 0 THEN BEGIN
-              IF EmployeeLoans."Deduction Amount" > EmployeeLoans."Loan Balance Amount" THEN
-                EmployeeLoans."Deduction Amount" := EmployeeLoans."Loan Balance Amount";
-              ProcessedSalary."Employee No" := LEmployeeNo;
-              ProcessedSalary."Pay Element Code" := EmployeeLoans."Loan Code";
-              ProcessedSalary."Paid Category" := 0;
-              ProcessedSalary."Pay Type" := 1;
-              ProcessedSalary."Actual Amount" += EmployeeLoans."Deduction Amount";
-              ProcessedSalary."Loan Id" := EmployeeLoans."Loan Id";
-              IF ProcessedSalary."Actual Amount" > 0 THEN
-                "Insert Pay Processed Salary"(ProcessedSalary);
-            END;
-        
-            IF EmployeeLoans."Loan Balance Amount" <= 0 THEN BEGIN
-              EmployeeLoans.Completed := TRUE;
-              EmployeeLoans.MODIFY;
-            END;
-          UNTIL EmployeeLoans.NEXT = 0;
-        */
-
     end;
 
-    [Scope('Internal')]
     procedure "Read Pay Emp Misc Deductions"(LEmployeeNo: Code[20])
     var
         MiscAddDeductions: Record "Misc Add/Deductions";
         ProcessedSalary: Record "Processed Salary";
     begin
-        MiscAddDeductions.Reset;
+        MiscAddDeductions.Reset();
         MiscAddDeductions.SetRange("Location Code", LocationCode);
         MiscAddDeductions.SetRange("Salary Plan Code", SalaryPlanCode);
         MiscAddDeductions.SetRange("Salary Cycle Code", SalaryCyclicCode);
         MiscAddDeductions.SetRange("Employee No", LEmployeeNo);
-        if MiscAddDeductions.FindFirst then
+        if MiscAddDeductions.FindFirst() then
             repeat
                 Clear(ProcessedSalary);
                 ProcessedSalary."Employee No" := LEmployeeNo;
@@ -211,10 +172,9 @@ codeunit 72002 "Salary Process"
                 ProcessedSalary."Pay Type" := MiscAddDeductions."Pay Type";
                 ProcessedSalary."Actual Amount" := MiscAddDeductions.Amount;
                 "Insert Pay Processed Salary"(ProcessedSalary);
-            until MiscAddDeductions.Next = 0;
+            until MiscAddDeductions.Next() = 0;
     end;
 
-    [Scope('Internal')]
     procedure "Insert Pay Processed Salary"(ProcessedSalary: Record "Processed Salary")
     var
         LProcessedSalary: Record "Processed Salary";
@@ -232,15 +192,14 @@ codeunit 72002 "Salary Process"
 
         if ProcessedSalary."Pay Element Code" <> '' then
             if ProcessedSalary."Actual Amount" > 0 then begin
-                LProcessedSalary.Init;
+                LProcessedSalary.Init();
                 ProcessedSalary."Actual Amount" := "General Rounding Off"(ProcessedSalary."Actual Amount");
                 ProcessedSalary."Payable Amount" := "General Rounding Off"(ProcessedSalary."Payable Amount");
                 LProcessedSalary := ProcessedSalary;
-                if LProcessedSalary.Insert then;
+                if LProcessedSalary.Insert() then;
             end;
     end;
 
-    [Scope('Internal')]
     procedure "Update Pay Elements"(LEmployeeNo: Code[20])
     var
         HRPayrollSetup: Record "HR & Payroll Setup";
@@ -253,15 +212,13 @@ codeunit 72002 "Salary Process"
         HRPayrollSetup.Get(UserId);
         LocationHRPayrollSetup.Get(HRPayrollSetup."Location Code");
 
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
-        if ProcessedSalary.FindFirst then
+        if ProcessedSalary.FindFirst() then
             repeat
-                //-- Updating of Pay Elements.
-
                 PayElements.Get(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
                 ProcessedSalary."Paid Category" := PayElements."Paid Category";
                 ProcessedSalary."Pay Type" := PayElements."Pay Type";
@@ -271,9 +228,7 @@ codeunit 72002 "Salary Process"
                 ProcessedSalary."Included In Pay Slip" := PayElements."Included In Pay Slip";
                 ProcessedSalary."Sorting Order" := PayElements."Sorting Order";
                 ProcessedSalary."Payment Type" := PayElements."Payment Type";
-                //      ProcessedSalary."Paid Days" := TotalPayableDays;
 
-                // - Judes Manual Lop Days Calculation.
                 ProcessedSalary."Paid Days" := (TotalPayableDays - TotalLOPDays);
 
                 if ProcessedSalary."Total Days in a Month" = ProcessedSalary."Paid Days" then
@@ -291,28 +246,28 @@ codeunit 72002 "Salary Process"
                     ProcessedSalary."Actual Amount" := "General Rounding Off"(ProcessedSalary."Actual Amount");
                     ProcessedSalary."Payable Amount" := "General Rounding Off"(ProcessedSalary."Payable Amount");
                 end;
-                ProcessedSalary.Modify;
+                ProcessedSalary.Modify();
 
-            until ProcessedSalary.Next = 0;
+            until ProcessedSalary.Next() = 0;
 
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetFilter("Fixed / Percent", '%1', ProcessedSalary."Fixed / Percent"::Percent);
-        if ProcessedSalary.FindFirst then
+        if ProcessedSalary.FindFirst() then
             repeat
                 "Calculate Percentage"(LEmployeeNo, ProcessedSalary."Base Pay Elements");
                 ProcessedSalary."Actual Amount" := ActualBaseTotalAmount * ProcessedSalary."Percentage (%)" / 100;
                 ProcessedSalary."Actual Amount" := "General Rounding Off"(ProcessedSalary."Actual Amount");
                 ProcessedSalary."Payable Amount" := PayableBaseTotalAmount * ProcessedSalary."Percentage (%)" / 100;
                 ProcessedSalary."Payable Amount" := "General Rounding Off"(ProcessedSalary."Payable Amount");
-                ProcessedSalary.Modify;
-            until ProcessedSalary.Next = 0;
+                ProcessedSalary.Modify();
+            until ProcessedSalary.Next() = 0;
     end;
 
-    [Scope('Internal')]
+
     procedure "Calculate Percentage"(LEmployeeNo: Code[20]; LBasePayElement: Text[250])
     var
         ProcessedSalary: Record "Processed Salary";
@@ -320,20 +275,20 @@ codeunit 72002 "Salary Process"
     begin
         Clear(ActualBaseTotalAmount);
         Clear(PayableBaseTotalAmount);
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetFilter("Pay Element Code", LBasePayElement);
-        if ProcessedSalary.FindFirst then
+        if ProcessedSalary.FindFirst() then
             repeat
                 ActualBaseTotalAmount += ProcessedSalary."Actual Amount";
                 PayableBaseTotalAmount += ProcessedSalary."Payable Amount";
-            until ProcessedSalary.Next = 0;
+            until ProcessedSalary.Next() = 0;
     end;
 
-    [Scope('Internal')]
+
     procedure "Net Amount Calculation"(LEmployeeNo: Code[20])
     var
         MonthlyAttendance: Record "Monthly Attendance";
@@ -344,10 +299,10 @@ codeunit 72002 "Salary Process"
         HRPayrollSetup.Get(UserId);
         LocationHRPayrollSetup.Get(HRPayrollSetup."Location Code");
 
-        MonthlyAttendance.Reset;
+        MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Employee No", LEmployeeNo);
         MonthlyAttendance.SetRange("Payroll End Date", PayEndDate);
-        if MonthlyAttendance.FindFirst then begin
+        if MonthlyAttendance.FindFirst() then begin
             if Employee.Get(MonthlyAttendance."Employee No") then begin
                 MonthlyAttendance."Pay Method" := Employee."Payment Method";
                 MonthlyAttendance.Blocked := Employee.Blocked;
@@ -403,11 +358,11 @@ codeunit 72002 "Salary Process"
             MonthlyAttendance."Payable Net Amount" :=
               "Rounding Off"(MonthlyAttendance."Payable Net Amount",
               LocationHRPayrollSetup."Net Salary Rounding Amount", RoundingType);
-            MonthlyAttendance.Modify;
+            MonthlyAttendance.Modify();
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Layoff Calculation"(LEmployeeNo: Code[20])
     var
         LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
@@ -428,29 +383,29 @@ codeunit 72002 "Salary Process"
         Clear(LayoffDaysAmount);
         Clear(LayoffDaysGrossEarnings);
         Clear(TotalLayoffDays);
-        MonthlyAttendance.Reset;
+        MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Location Code", LocationCode);
         MonthlyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         MonthlyAttendance.SetRange("Salary Cycle Code", SalaryCyclicCode);
         MonthlyAttendance.SetRange("Employee No", LEmployeeNo);
-        if MonthlyAttendance.FindFirst then begin
+        if MonthlyAttendance.FindFirst() then begin
             MonthlyAttendance.CalcFields("Lay Off");
             if MonthlyAttendance."Lay Off" <> 0 then
                 TotalLayoffDays := MonthlyAttendance."Lay Off" / 2;
         end;
 
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetRange("Pay Type", ProcessedSalary."Pay Type"::Addition);
-        if ProcessedSalary.FindFirst then
+        if ProcessedSalary.FindFirst() then
             repeat
                 PayElements.Get(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
                 if PayElements."Eligible for Layoff" then
                     LayoffDaysGrossEarnings += ProcessedSalary."Actual Amount";
-            until ProcessedSalary.Next = 0;
+            until ProcessedSalary.Next() = 0;
         if LayoffDaysGrossEarnings > 0 then begin
             LayoffDaysAmount := ((LayoffDaysGrossEarnings / TotalDaysinAMonth) *
                 TotalLayoffDays);
@@ -476,7 +431,7 @@ codeunit 72002 "Salary Process"
         "Insert Pay Processed Salary"(ProcessedSalary);
     end;
 
-    [Scope('Internal')]
+
     procedure "Credit Days Calculation"(LEmployeeNo: Code[20])
     var
         LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
@@ -496,18 +451,18 @@ codeunit 72002 "Salary Process"
         Clear(CreditDaysAmount);
         Clear(CreditDaysGrossEarnings);
         Clear(CreditDays);
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetRange("Pay Type", ProcessedSalary."Pay Type"::Addition);
-        if ProcessedSalary.FindFirst then
+        if ProcessedSalary.FindFirst() then
             repeat
                 PayElements.Get(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
                 if PayElements."Eligible for Credit Days" then
                     CreditDaysGrossEarnings += ProcessedSalary."Actual Amount";
-            until ProcessedSalary.Next = 0;
+            until ProcessedSalary.Next() = 0;
 
         LocationHRPayrollSetup.Get(LocationCode);
 
@@ -540,7 +495,7 @@ codeunit 72002 "Salary Process"
         "Insert Pay Processed Salary"(ProcessedSalary);
     end;
 
-    [Scope('Internal')]
+
     procedure "Attendance Bonus Calculation"(LEmployeeNo: Code[20])
     var
         HRPayrollSetup: Record "HR & Payroll Setup";
@@ -579,7 +534,7 @@ codeunit 72002 "Salary Process"
         "Insert Pay Processed Salary"(ProcessedSalary);
     end;
 
-    [Scope('Internal')]
+
     procedure "PF Calculation"(LEmployeeNo: Code[20])
     var
         PayElements: Record "Pay Elements";
@@ -617,25 +572,25 @@ codeunit 72002 "Salary Process"
 
         Clear(PFGrossEarnings);
         Clear(EPSGrossEarnings);
-        PFSetup.Reset;
+        PFSetup.Reset();
         PFSetup.SetRange("Location Code", LocationCode);
         PFSetup.SetRange("Salary Plan Code", SalaryPlanCode);
         PFSetup.SetFilter("Effective Date", '<=%1', PayEndDate);
-        if not PFSetup.FindLast then
+        if not PFSetup.FindLast() then
             Message('%1', 'PF Setup Records not found');
 
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetRange("Pay Type", ProcessedSalary."Pay Type"::Addition);
-        if ProcessedSalary.FindFirst then
+        if ProcessedSalary.FindFirst() then
             repeat
                 PayElements.Get(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
                 if PayElements."Eligible for PF" then
                     PFGrossEarnings += ProcessedSalary."Payable Amount";
-            until ProcessedSalary.Next = 0;
+            until ProcessedSalary.Next() = 0;
 
         PFGrossEarnings := "General Rounding Off"(PFGrossEarnings);
         EPSGrossEarnings := "General Rounding Off"(PFGrossEarnings);
@@ -748,7 +703,6 @@ codeunit 72002 "Salary Process"
         "Insert Pay Processed Salary"(ProcessedSalary);
     end;
 
-    [Scope('Internal')]
     procedure "ESI Calculation"(LEmployeeNo: Code[20])
     var
         HRPayrollSetup: Record "HR & Payroll Setup";
@@ -785,14 +739,14 @@ codeunit 72002 "Salary Process"
         Clear(FixedESIGrossEarnings);
         Clear(NonFixedESIGrossEarnings);
 
-        ESISetup.Reset;
+        ESISetup.Reset();
         ESISetup.SetRange("Location Code", LocationCode);
         ESISetup.SetRange("Salary Plan Code", SalaryPlanCode);
         ESISetup.SetFilter("Effective Date", '<=%1', PayEndDate);
         if not ESISetup.Find('+') then
             Message('%1', 'ESI Setup Records not found');
 
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -877,7 +831,6 @@ codeunit 72002 "Salary Process"
         "Insert Pay Processed Salary"(ProcessedSalary);
     end;
 
-    [Scope('Internal')]
     procedure "PT Calculation"(LEmployeeNo: Code[20])
     var
         Employee: Record Employee;
@@ -903,23 +856,23 @@ codeunit 72002 "Salary Process"
 
         Clear(PTGrossEarnings);
 
-        ProfessionalTaxHeader.Reset;
+        ProfessionalTaxHeader.Reset();
         ProfessionalTaxHeader.SetRange("Location Code", LocationCode);
         ProfessionalTaxHeader.SetRange("Salary Plan Code", SalaryPlanCode);
         ProfessionalTaxHeader.SetRange("Branch Code", Employee."PT Branch Code");
         ProfessionalTaxHeader.SetFilter("Effective Date", '<=%1', PayEndDate);
-        if not ProfessionalTaxHeader.FindFirst then;
+        if not ProfessionalTaxHeader.FindFirst() then;
         //   MESSAGE('%1', 'Professional Tax Header Records not found');
 
-        ProfessionalTaxLine.Reset;
+        ProfessionalTaxLine.Reset();
         ProfessionalTaxLine.SetRange("Location Code", LocationCode);
         ProfessionalTaxLine.SetRange("Salary Plan Code", SalaryPlanCode);
         ProfessionalTaxLine.SetRange("Branch Code", Employee."PT Branch Code");
         ProfessionalTaxLine.SetFilter("Effective Date", '<=%1', PayEndDate);
-        if not ProfessionalTaxLine.FindFirst then;
+        if not ProfessionalTaxLine.FindFirst() then;
         //   MESSAGE('%1', 'Professional Tax Line Records not found');
 
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -948,7 +901,7 @@ codeunit 72002 "Salary Process"
                     EmployeePTAmount := ProfessionalTaxLine."Tax Amount";
                 end;
 
-            until ProfessionalTaxLine.Next = 0;
+            until ProfessionalTaxLine.Next() = 0;
         end;
 
         PayElements.Get('PT', LocationCode, SalaryPlanCode);
@@ -968,7 +921,7 @@ codeunit 72002 "Salary Process"
         "Insert Pay Processed Salary"(ProcessedSalary);
     end;
 
-    [Scope('Internal')]
+
     procedure "LIC Calculation"(LEmployeeNo: Code[20])
     var
         PayElements: Record "Pay Elements";
@@ -1011,7 +964,7 @@ codeunit 72002 "Salary Process"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Medical Reimbu Calculation"(LEmployeeNo: Code[20])
     var
         PayElements: Record "Pay Elements";
@@ -1068,7 +1021,7 @@ codeunit 72002 "Salary Process"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "OT Calculation"(LEmployeeNo: Code[20])
     var
         Employee: Record Employee;
@@ -1101,7 +1054,7 @@ codeunit 72002 "Salary Process"
         HRPayrollSetup.Get(UserId);
         LocationHRPayrollSetup.Get(HRPayrollSetup."Location Code");
 
-        MonthlyAttendance.Reset;
+        MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Location Code", LocationCode);
         MonthlyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         MonthlyAttendance.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1120,10 +1073,10 @@ codeunit 72002 "Salary Process"
 
             TotalOverTimeMins := MonthlyAttendance."Total Over Time Hours";
 
-            MonthlyAttendance.Modify;
+            MonthlyAttendance.Modify();
         end;
 
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1168,7 +1121,7 @@ codeunit 72002 "Salary Process"
         "Insert Pay Processed Salary"(ProcessedSalary);
     end;
 
-    [Scope('Internal')]
+
     procedure "Extra Wages Calculation"(LEmployeeNo: Code[20])
     var
         LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
@@ -1190,7 +1143,7 @@ codeunit 72002 "Salary Process"
         Clear(ExtraWagesDaysGrossEarnings);
         Clear(TotalExtraWagesDays);
 
-        MonthlyAttendance.Reset;
+        MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Location Code", LocationCode);
         MonthlyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         MonthlyAttendance.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1200,7 +1153,7 @@ codeunit 72002 "Salary Process"
             TotalExtraWagesDays := MonthlyAttendance."Over Time In Mins";
         end;
 
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1239,7 +1192,7 @@ codeunit 72002 "Salary Process"
         "Insert Pay Processed Salary"(ProcessedSalary);
     end;
 
-    [Scope('Internal')]
+
     procedure "Rounding Off"(GrossAmount: Decimal; RoundingAmount: Decimal; RoundingType: Text[2]): Decimal
     var
         TotalAmountRounded: Decimal;
@@ -1253,7 +1206,7 @@ codeunit 72002 "Salary Process"
         exit(TotalAmountRounded);
     end;
 
-    [Scope('Internal')]
+
     procedure "General Rounding Off"(GrossAmount: Decimal): Decimal
     var
         HRPayrollSetup: Record "HR & Payroll Setup";
@@ -1280,28 +1233,28 @@ codeunit 72002 "Salary Process"
         exit(TotalAmountRounded);
     end;
 
-    [Scope('Internal')]
+
     procedure "Update Processed Flag"(LEmployeeNo: Code[20])
     var
         MonthlyAttendance: Record "Monthly Attendance";
     begin
-        MonthlyAttendance.Reset;
+        MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Location Code", LocationCode);
         MonthlyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         MonthlyAttendance.SetRange("Salary Cycle Code", SalaryCyclicCode);
         MonthlyAttendance.SetRange("Employee No", LEmployeeNo);
         if MonthlyAttendance.Find('-') then begin
             MonthlyAttendance."Salary Processed" := true;
-            MonthlyAttendance.Modify;
+            MonthlyAttendance.Modify();
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Checking for Posted Employee"(LEmployeeNo: Code[20]): Boolean
     var
         MonthlyAttendance: Record "Monthly Attendance";
     begin
-        MonthlyAttendance.Reset;
+        MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Location Code", LocationCode);
         MonthlyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         MonthlyAttendance.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1313,19 +1266,19 @@ codeunit 72002 "Salary Process"
             exit(false);
     end;
 
-    [Scope('Internal')]
+
     procedure "Delete Current Employee"(LEmployeeNo: Code[20])
     var
         ProcessedSalary: Record "Processed Salary";
         MonthlyAttendance: Record "Monthly Attendance";
     begin
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetRange("Payroll End Date", PayEndDate);
         if ProcessedSalary.Find('-') then
-            ProcessedSalary.DeleteAll;
+            ProcessedSalary.DeleteAll();
 
-        MonthlyAttendance.Reset;
+        MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Location Code", LocationCode);
         MonthlyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         MonthlyAttendance.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1335,13 +1288,13 @@ codeunit 72002 "Salary Process"
             MonthlyAttendance.ModifyAll("Payable Net Amount", 0);
             MonthlyAttendance.ModifyAll("First Net Amount", 0);
             MonthlyAttendance.ModifyAll("Second Net Amount", 0);
-            MonthlyAttendance.ModifyAll("Over Time In Mins", 0);
-            MonthlyAttendance.ModifyAll("Total Permission In Mins", 0);
+            // MonthlyAttendance.ModifyAll("Over Time In Mins", 0);
+            // MonthlyAttendance.ModifyAll("Total Permission In Mins", 0);
             MonthlyAttendance.ModifyAll("Negative Pay", false);
         end
     end;
 
-    [Scope('Internal')]
+
     procedure "First Second Amt Calculation"(LEmployeeNo: Code[20])
     var
         ProcessedSalary: Record "Processed Salary";
@@ -1353,7 +1306,7 @@ codeunit 72002 "Salary Process"
         Clear(FirstPaymentAmount);
         Clear(SecondPaymentAmount);
 
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1364,10 +1317,10 @@ codeunit 72002 "Salary Process"
                 PayElements.Get(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
                 if ProcessedSalary."Payment Type" = ProcessedSalary."Payment Type"::"First Payment" then
                     FirstPaymentAmount += ProcessedSalary."Payable Amount";
-            until ProcessedSalary.Next = 0;
+            until ProcessedSalary.Next() = 0;
         end;
 
-        MonthlyAttendance.Reset;
+        MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Location Code", LocationCode);
         MonthlyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         MonthlyAttendance.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1382,11 +1335,11 @@ codeunit 72002 "Salary Process"
             if MonthlyAttendance."Second Net Amount" < 0 then
                 MonthlyAttendance."Second Net Amount" := 0;
 
-            MonthlyAttendance.Modify;
+            MonthlyAttendance.Modify();
         end
     end;
 
-    [Scope('Internal')]
+
     procedure "Read Gross/Daily Pay Elements"(LEmployeeNo: Code[20])
     var
         HRPayrollSetup: Record "HR & Payroll Setup";
@@ -1413,7 +1366,7 @@ codeunit 72002 "Salary Process"
         Clear(BasicAmount);
         Clear(VDAAmount);
 
-        EmployeePayElements.Reset;
+        EmployeePayElements.Reset();
         EmployeePayElements.SetRange("Location Code", LocationCode);
         EmployeePayElements.SetRange("Salary Plan Code", SalaryPlanCode);
         EmployeePayElements.SetRange("Employee No", LEmployeeNo);
@@ -1422,7 +1375,7 @@ codeunit 72002 "Salary Process"
         if EmployeePayElements.Find('+') then
             LastEffectiveDate := EmployeePayElements."Effective Date";
 
-        EmployeePayElements.Reset;
+        EmployeePayElements.Reset();
         EmployeePayElements.SetRange("Location Code", LocationCode);
         EmployeePayElements.SetRange("Salary Plan Code", SalaryPlanCode);
         EmployeePayElements.SetRange("Employee No", LEmployeeNo);
@@ -1433,7 +1386,7 @@ codeunit 72002 "Salary Process"
 
                 PayElements.Get(EmployeePayElements."Pay Element Code", LocationCode, SalaryPlanCode);
 
-                PayrollMonthYear.Reset;
+                PayrollMonthYear.Reset();
                 PayrollMonthYear.SetRange("Location Code", LocationCode);
                 PayrollMonthYear.SetRange("Salary Plan Code", SalaryPlanCode);
                 PayrollMonthYear.SetRange("Salary Cyclic Code", SalaryCyclicCode);
@@ -1483,10 +1436,10 @@ codeunit 72002 "Salary Process"
                 ProcessedSalary."Payable Amount" := VDAAmount;
                 "Insert Pay Processed Salary"(ProcessedSalary);
 
-            until EmployeePayElements.Next = 0;
+            until EmployeePayElements.Next() = 0;
     end;
 
-    [Scope('Internal')]
+
     procedure "Weekly Off Creation"(LEmployeeNo: Code[20])
     var
         HRPayrollSetup: Record "HR & Payroll Setup";
@@ -1567,7 +1520,7 @@ codeunit 72002 "Salary Process"
             until DailyAttendance.Next = 0;
         end;
 
-        MonthlyAttendance.Reset;
+        MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Location Code", LocationCode);
         MonthlyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         MonthlyAttendance.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1588,13 +1541,13 @@ codeunit 72002 "Salary Process"
                         DailyAttendance.Validate("First Half Attendance Type");
                         DailyAttendance.Validate("Second Half Attendance Type");
                         DailyAttendance.Modify;
-                    until DailyAttendance.Next = 0;
+                    until DailyAttendance.Next() = 0;
                 end;
             end;
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Weekly Off / Holiday Cut"(LEmployeeNo: Code[20])
     var
         HRPayrollSetup: Record "HR & Payroll Setup";
@@ -1611,7 +1564,7 @@ codeunit 72002 "Salary Process"
             if not Employee."Weekly Off / Holiday Cut" then
                 exit;
 
-        DailyAttendance.Reset;
+        DailyAttendance.Reset();
         DailyAttendance.SetRange("Location Code", LocationCode);
         DailyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         DailyAttendance.SetRange("Employee No", LEmployeeNo);
@@ -1624,11 +1577,11 @@ codeunit 72002 "Salary Process"
                 DailyAttendance.Validate("First Half Attendance Type");
                 DailyAttendance.Validate("Second Half Attendance Type");
                 DailyAttendance.Modify;
-            until DailyAttendance.Next = 0;
+            until DailyAttendance.Next() = 0;
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Negative Pay Checking"(LEmployeeNo: Code[20])
     var
         ProcessedSalary: Record "Processed Salary";
@@ -1640,7 +1593,7 @@ codeunit 72002 "Salary Process"
         Clear(TotalDedeAmount);
         Clear(TotalNetAmount);
 
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1657,7 +1610,7 @@ codeunit 72002 "Salary Process"
             TotalNetAmount := (TotalGrossAmount - TotalDedeAmount);
         end;
 
-        ProcessedSalary.Reset;
+        ProcessedSalary.Reset();
         ProcessedSalary.SetRange("Location Code", LocationCode);
         ProcessedSalary.SetRange("Salary Plan Code", SalaryPlanCode);
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1668,13 +1621,13 @@ codeunit 72002 "Salary Process"
             repeat
                 if ProcessedSalary."Payable Amount" > TotalNetAmount then begin
                     ProcessedSalary."Payable Amount" := 0;
-                    ProcessedSalary.Modify;
+                    ProcessedSalary.Modify();
                 end;
-            until ProcessedSalary.Next = 0;
+            until ProcessedSalary.Next() = 0;
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Convert Mins To Hours"(TotalHrsMins: Decimal): Decimal
     var
         ConvertHours: Decimal;
@@ -1693,7 +1646,7 @@ codeunit 72002 "Salary Process"
         exit(ConvertHours);
     end;
 
-    [Scope('Internal')]
+
     procedure "Convert Hours To Mins"(TotalHrsMins: Decimal): Decimal
     var
         ConvertHours: Decimal;
@@ -1713,12 +1666,12 @@ codeunit 72002 "Salary Process"
         exit(ConvertHours);
     end;
 
-    [Scope('Internal')]
+
     procedure "Get Total Payable Days"(LEmployeeNo: Code[20])
     var
         MonthlyAttendance: Record "Monthly Attendance";
     begin
-        MonthlyAttendance.Reset;
+        MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Location Code", LocationCode);
         MonthlyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         MonthlyAttendance.SetRange("Salary Cycle Code", SalaryCyclicCode);
@@ -1730,18 +1683,18 @@ codeunit 72002 "Salary Process"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Get Last Effective Date"(LEmployeeNo: Code[20])
     var
         EmployeePayElements: Record "Employee Pay Elements";
     begin
-        EmployeePayElements.Reset;
+        EmployeePayElements.Reset();
         EmployeePayElements.SetRange("Location Code", LocationCode);
         EmployeePayElements.SetRange("Salary Plan Code", SalaryPlanCode);
         EmployeePayElements.SetRange("Employee No", LEmployeeNo);
         EmployeePayElements.SetFilter("Effective Date", '<=%1', PayEndDate);
         EmployeePayElements.SetRange("Excluded In Pay Slip", false);
-        if EmployeePayElements.FindLast then
+        if EmployeePayElements.FindLast() then
             FalseLastEffectiveDate := EmployeePayElements."Effective Date";
     end;
 }

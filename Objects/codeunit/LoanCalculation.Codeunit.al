@@ -1,14 +1,5 @@
 codeunit 72003 "Loan Calculation"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Codeunit Created for PAYROLL Module
-    // -----------------------------------------------------------------------------------------------
-
-
     trigger OnRun()
     begin
     end;
@@ -17,7 +8,6 @@ codeunit 72003 "Loan Calculation"
         EmployeeLoanDetails: Record "Employee Loan Details";
         PaymentDate: Date;
 
-    [Scope('Internal')]
     procedure LoanInstallments(EmployeeLoan: Record "Employee Loan")
     begin
         if EmployeeLoan."Loan Type" = 0 then
@@ -32,7 +22,6 @@ codeunit 72003 "Loan Calculation"
         end;
     end;
 
-    [Scope('Internal')]
     procedure InterestFree(EmployeeLoan: Record "Employee Loan")
     var
         Employee: Record Employee;
@@ -75,7 +64,6 @@ codeunit 72003 "Loan Calculation"
         end;
     end;
 
-    [Scope('Internal')]
     procedure FlatRate(EmployeeLoan: Record "Employee Loan")
     var
         EmployeeLoanDetail: Record "Employee Loan Details";
@@ -138,7 +126,6 @@ codeunit 72003 "Loan Calculation"
         end;
     end;
 
-    [Scope('Internal')]
     procedure DimnishingRate(EmployeeLoan: Record "Employee Loan")
     var
         Employee: Record Employee;

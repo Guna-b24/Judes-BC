@@ -68,7 +68,7 @@ table 71049 "Student Subjects"
             DataClassification = CustomerContent;
         }
 
-        field(7; Section; Code[10])
+        field(7; Section; Code[20])
         {
             Caption = 'Section';
             TableRelation = Section;

@@ -1,13 +1,5 @@
 codeunit 71850 "Stores & Stationeries"
 {
-    //   No   Date      Sign     Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    //  01   13/10/09  KATHIR    Line Post()               Function added to Get the students and Insert Items for repective students
-    //  02   13/10/09  KATHIR    Post Items()              Function added to Create Sales Order and Post
-    //  03   21/10/09  KATHIR    Insert Issue Line()       Function added to get Insert in to Line
-    //  04   16.11.09  GUNA      Post Items()              To include free supply
-
-
     trigger OnRun()
     begin
     end;
@@ -31,7 +23,7 @@ codeunit 71850 "Stores & Stationeries"
         BulkLine2: Record Table71851;
         Student2: Record Student;
 
-    [Scope('Internal')]
+
     procedure "Line Post"("IssueNo.": Code[20])
     begin
         // Start 01.KATHIR
@@ -85,7 +77,6 @@ codeunit 71850 "Stores & Stationeries"
         // Stop 01.KATHIR
     end;
 
-    [Scope('Internal')]
     procedure "Post Items"("IssueNo.": Code[20])
     begin
         // Start 02.KATHIR
@@ -172,7 +163,7 @@ codeunit 71850 "Stores & Stationeries"
 
     end;
 
-    [Scope('Internal')]
+
     procedure "Insert Issue Line"("IssNo.": Code[20]; IssDate: Date; "StudNo.": Code[20]; Name: Text[100]; "ItmNo.": Code[20]; Qty: Integer)
     begin
         // Start 03.KATHIR
@@ -192,7 +183,6 @@ codeunit 71850 "Stores & Stationeries"
         // Stop 03.KATHIR
     end;
 
-    [Scope('Internal')]
     procedure "Bulk Stationery Line Post"("IssueNo.": Code[20])
     begin
         // Start 05.VIGNESH
@@ -227,7 +217,7 @@ codeunit 71850 "Stores & Stationeries"
         // Stop 05.VIGNESH
     end;
 
-    [Scope('Internal')]
+
     procedure "Insert Bulk Stationery Line"("getIssueNo.": Code[20]; getIssueDate: Date; "getStudentNo.": Code[20]; getName: Text[100]; "getItemNo.": Code[20]; getQuantity: Integer; "getLineNo.": Integer)
     begin
         // Start 06.VIGNESH
@@ -246,7 +236,7 @@ codeunit 71850 "Stores & Stationeries"
         // Stop 06.VIGNESH
     end;
 
-    [Scope('Internal')]
+
     procedure "Post Bulk Stationery Items"("IssueNo.": Code[20])
     begin
         // Start 02.VIGENSH

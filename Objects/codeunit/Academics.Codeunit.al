@@ -2,7 +2,6 @@ codeunit 71040 Academics
 {
     var
         Student: Record Student;
-        FacultyClassPlanHeader: Record "Faculty Class Plan Header";
         Text001: Label 'Home Work Duration exceeded';
         Text002: Label 'Home Work Approved';
         Text000: Label 'Student Subject Updated';
@@ -27,13 +26,12 @@ codeunit 71040 Academics
     procedure "Insert Student Subjects"(ClassCode: Code[20])
     var
         StudentSubjects: Record "Student Subjects";
-        ClassSubjects: Record "Class Subjects";
         StudentSubjects1: Record "Student Subjects";
         ClassSectionSubjects: Record "Class Section Subjects";
     begin
         Student.Reset();
         Student.SetRange("Class Code", ClassCode);
-        if Student.FindSet() then begin
+        if Student.FindSet() then
             repeat
                 StudentSubjects.Reset();
                 StudentSubjects.SetRange("Student No.", Student."No.");
@@ -85,8 +83,8 @@ codeunit 71040 Academics
                         end;
                     until ClassSectionSubjects.Next() = 0;
 
-            until Student.Next() = 0;
-        end else
+            until Student.Next() = 0
+        else
             Error(Text003, ClassCode);
         Message(Text000);
     end;
@@ -96,9 +94,10 @@ codeunit 71040 Academics
         Class: Record Class;
         Curriculum: Record Curriculum;
         Grade: Record Grade;
+        ClassGrade: Record "Class Grade";
         EducationVertical: Codeunit "Education Vertical";
         AcadYr: Code[10];
-        ClassGrade: Record "Class Grade";
+
     begin
         AcadYr := EducationVertical.GetAcademicYear();
         if Class.FindSet() then
@@ -137,6 +136,7 @@ codeunit 71040 Academics
         ClassCard.SetRange(Class, getClass);
         ClassCard.SetRange(Curriculum, getCurriculum);
         ClassCard.SetRange("Academic Year", getAcademicYear);
+
         if ClassCard.FindFirst() then begin
             ClassSubjects.Reset();
             ClassSubjects.SetRange(Class, getClass);
@@ -175,105 +175,102 @@ codeunit 71040 Academics
     end;
 
 
-    procedure UpdateStudentCPGAGrade(Student: Record Student)
+    procedure UpdateStudentCPGAGrade(VarStudent: Record Student)
     var
         ClassGrade: Record "Class Grade";
         Point: Decimal;
     begin
         ClassGrade.Reset();
         ClassGrade.SetCurrentKey(Class, Points);
-        ClassGrade.SetRange(Class, Student.Class);
-        Student.CalcFields(CGPA);
-        Point := Round(Student.CGPA, 1, '=');
+        ClassGrade.SetRange(Class, VarStudent.Class);
+        VarStudent.CalcFields(CGPA);
+        Point := Round(VarStudent.CGPA, 1, '=');
         ClassGrade.SetRange(Points, Point);
         repeat
             if ClassGrade.Class <> '' then begin
-                Student."CGPA Grade" := ClassGrade."Grade Code";
-                Student.Modify();
+                VarStudent."CGPA Grade" := ClassGrade."Grade Code";
+                VarStudent.Modify();
             end;
         until ClassGrade.Next() = 0;
     end;
 
 
-    procedure GetStudents(HomeworkNo: Code[20])
-    var
-        HomeWork: Record Table71063;
-        HomeworkLine: Record Table71064;
-    begin
-        // Start 01.KATHIR
-        HomeWork.GET(HomeworkNo);
-        HomeWork.TESTFIELD(Class);
-        HomeWork.TESTFIELD(Section);
-        HomeWork.TESTFIELD("Academic Year");
-        HomeWork.TESTFIELD(Curriculum);
-        HomeWork.TESTFIELD("Subject Code");
-        HomeWork.TESTFIELD("Time Required");
-        Student.Reset;
-        Student.SetRange(Class, HomeWork.Class);
-        Student.SetRange(Section, HomeWork.Section);
-        Student.SetRange(Curriculum, HomeWork.Curriculum);
-        Student.SetRange("Academic Year", HomeWork."Academic Year");
-        if Student.FindSet then
-            repeat
-                HomeworkLine."Homework No." := HomeworkNo;
-                HomeworkLine."Student No." := Student."No.";
-                HomeworkLine."Student Name" := Student.Name;
-                HomeworkLine.INSERT;
-            until Student.Next = 0;
-        // Stop 01.KATHIR
-    end;
+    // procedure GetStudents(HomeworkNo: Code[20])
+    // var
+    //     HomeWork: Record Table71063;
+    //     HomeworkLine: Record Table71064;
+    // begin
 
-    [Scope('Internal')]
-    procedure ApproveHomework(HomeworkNo: Code[20])
-    var
-        HomeWork: Record Table71063;
-        HomeworkLine: Record Table71064;
-        ClassSection: Record "Class Section";
-        HomeworkRec: Record Table71063;
-        TotalTime: Decimal;
-    begin
-        Clear(TotalTime);
-        HomeWork.GET(HomeworkNo);
-        HomeWork.TESTFIELD("Class Code");
-        HomeWork.TESTFIELD("Subject Code");
-        HomeWork.TESTFIELD("Time Required");
-        HomeWork.TESTFIELD("Created Date");
-        ClassSection.Get(HomeWork."Class Code");
-        HomeworkRec.SETRANGE("Class Code", HomeWork."Class Code");
-        HomeworkRec.SETRANGE("Created Date", HomeWork."Created Date");
-        HomeworkRec.SETRANGE("Homework Status", HomeworkRec."Homework Status"::"1");
-        if HomeworkRec.FINDSET then
-            repeat
-                TotalTime := HomeworkRec."Time Required" + TotalTime;
-            until HomeworkRec.NEXT = 0;
+    //     HomeWork.GET(HomeworkNo);
+    //     HomeWork.TESTFIELD(Class);
+    //     HomeWork.TESTFIELD(Section);
+    //     HomeWork.TESTFIELD("Academic Year");
+    //     HomeWork.TESTFIELD(Curriculum);
+    //     HomeWork.TESTFIELD("Subject Code");
+    //     HomeWork.TESTFIELD("Time Required");
+    //     Student.Reset;
+    //     Student.SetRange(Class, HomeWork.Class);
+    //     Student.SetRange(Section, HomeWork.Section);
+    //     Student.SetRange(Curriculum, HomeWork.Curriculum);
+    //     Student.SetRange("Academic Year", HomeWork."Academic Year");
+    //     if Student.FindSet then
+    //         repeat
+    //             HomeworkLine."Homework No." := HomeworkNo;
+    //             HomeworkLine."Student No." := Student."No.";
+    //             HomeworkLine."Student Name" := Student.Name;
+    //             HomeworkLine.INSERT;
+    //         until Student.Next = 0;
+    //     // Stop 01.KATHIR
+    // end;
 
-        if (TotalTime + HomeWork."Time Required") > ClassSection."Home Work Duration" then
-            Error(Text001)
-        else begin
-            HomeWork."Homework Status" := HomeWork."Homework Status"::"1";
-            HomeWork.MODIFY;
-        end;
-    end;
 
-    [Scope('Internal')]
+    // procedure ApproveHomework(HomeworkNo: Code[20])
+    // var
+    //     HomeWork: Record Table71063;
+    //     HomeworkLine: Record Table71064;
+    //     ClassSection: Record "Class Section";
+    //     HomeworkRec: Record Table71063;
+    //     TotalTime: Decimal;
+    // begin
+    //     Clear(TotalTime);
+    //     HomeWork.GET(HomeworkNo);
+    //     HomeWork.TESTFIELD("Class Code");
+    //     HomeWork.TESTFIELD("Subject Code");
+    //     HomeWork.TESTFIELD("Time Required");
+    //     HomeWork.TESTFIELD("Created Date");
+    //     ClassSection.Get(HomeWork."Class Code");
+    //     HomeworkRec.SETRANGE("Class Code", HomeWork."Class Code");
+    //     HomeworkRec.SETRANGE("Created Date", HomeWork."Created Date");
+    //     HomeworkRec.SETRANGE("Homework Status", HomeworkRec."Homework Status"::"1");
+    //     if HomeworkRec.FINDSET then
+    //         repeat
+    //             TotalTime := HomeworkRec."Time Required" + TotalTime;
+    //         until HomeworkRec.NEXT = 0;
+
+    //     if (TotalTime + HomeWork."Time Required") > ClassSection."Home Work Duration" then
+    //         Error(Text001)
+    //     else begin
+    //         HomeWork."Homework Status" := HomeWork."Homework Status"::"1";
+    //         HomeWork.MODIFY;
+    //     end;
+    // end;
+
+
     procedure ApplicationSanctionOrCancel(Check: Boolean; "No.": Code[10])
     var
         LeaveAppRec: Record "Student Leave Application";
     begin
-        // Start 09.Ankesh
-        LeaveAppRec.Reset;
+        LeaveAppRec.Reset();
         if LeaveAppRec.Get("No.") then
             if Check then begin
                 LeaveAppRec."Leave Status" := LeaveAppRec."Leave Status"::Requested;
-                LeaveAppRec.Modify;
+                LeaveAppRec.Modify();
             end else begin
                 LeaveAppRec."Leave Status" := LeaveAppRec."Leave Status"::Sanctioned;
-                LeaveAppRec.Modify;
+                LeaveAppRec.Modify();
             end;
-        // Stop 09. Ankesh
     end;
 
-    [Scope('Internal')]
     procedure "Insert Student Opt Subjects"("StudentNo.": Code[20]; ClassCode: Code[20])
     var
         StudOptionalSub: Record "Student Optional Subjects";
@@ -284,46 +281,45 @@ codeunit 71040 Academics
     begin
         // Function Added by kathir for St judes
         StudentRec.Get("StudentNo.");
-        ClassSection.Reset;
+        ClassSection.Reset();
         ClassSection.SetRange(ClassSection."Class Code", ClassCode);
-        if ClassSection.FindFirst then;
+        if ClassSection.FindFirst() then;
         VarCnt := 0;
         VarVal := 0;
         VarVal1 := 0;
         VarCnt1 := 0;
         if (StudentRec.Class = '9') or (StudentRec.Class = '10') then begin
-            StudOptionalSub.Reset;
+            StudOptionalSub.Reset();
             StudOptionalSub.SetCurrentKey(Group);
             StudOptionalSub.SetRange(StudOptionalSub."Student No", "StudentNo.");
             StudOptionalSub.SetRange(StudOptionalSub."Class Code", ClassCode);
-            if StudOptionalSub.FindFirst then
+            if StudOptionalSub.FindFirst() then
                 repeat
                     if StudOptionalSub."Class 9 10 Group Code" = StudOptionalSub."Class 9 10 Group Code"::"Group 2" then begin
-                        if StudOptionalSub.Group <> 0 then begin
+                        if StudOptionalSub.Group <> 0 then
                             if VarVal <> StudOptionalSub.Group then
                                 VarCnt += 1;
-                            VarVal := StudOptionalSub.Group;
-                        end
-                        else
-                            VarCnt += 1;
-                    end;
+                        VarVal := StudOptionalSub.Group;
+                    end
+                    else
+                        VarCnt += 1;
+
                     if StudOptionalSub."Class 9 10 Group Code" = StudOptionalSub."Class 9 10 Group Code"::"Group 3" then begin
-                        if StudOptionalSub.Group <> 0 then begin
+                        if StudOptionalSub.Group <> 0 then
                             if VarVal1 <> StudOptionalSub.Group then
                                 VarCnt1 += 1;
-                            VarVal1 := StudOptionalSub.Group;
-                        end
-                        else
-                            VarCnt1 += 1;
+                        VarVal1 := StudOptionalSub.Group;
+                    end
+                    else
+                        VarCnt1 += 1;
 
-                    end;
                     if VarCnt > ClassSection."Max Group 2 Count" then
                         Error('%1 Can choose only %2 Optional Subjects in Group 2', StudentRec.Name, ClassSection."Max Group 2 Count");
                     if VarCnt1 > ClassSection."Max Group 3 Count" then
                         Error('%1 Can choose only %2 Optional Subjects in Group 3', StudentRec.Name, ClassSection."Max Group 2 Count");
 
                     if not StudentSubjects1.Get(StudentRec."No.", StudentRec."Academic Year", StudOptionalSub.Subject) then begin
-                        StudentSubjects.Init;
+                        StudentSubjects.Init();
                         StudentSubjects."Student No." := StudentRec."No.";
                         StudentSubjects."Academic Year" := StudentRec."Academic Year";
                         StudentSubjects.Subject := StudOptionalSub.Subject;
@@ -334,15 +330,11 @@ codeunit 71040 Academics
                         StudentSubjects.Description := StudOptionalSub.Description;
                         StudentSubjects."Student Gender" := StudentRec.Gender;
                         StudentSubjects."Class Code" := ClassCode;
-                        StudentSubjects.Insert;
+                        StudentSubjects.Insert();
                     end;
-                until StudOptionalSub.Next = 0;
+                until StudOptionalSub.Next() = 0;
             Message('Optional Subjects Updated Successfully');
         end;
-
-
-
-        //MESSAGE('%1   %2',VarCnt,VarCnt1);
     end;
 }
 

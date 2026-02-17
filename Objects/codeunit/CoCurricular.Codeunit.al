@@ -1,21 +1,5 @@
 codeunit 71045 "Co-Curricular"
 {
-    // No   Date      Sign     Trigger                     Description
-    // -----------------------------------------------------------------------------------------------
-    // 01   15.12.09  VIGNESH  UpdateEntry()                Code added to updateEntry
-    // 02   15.12.09  VIGNESH  GetStudentsIndividual()      Code added to get the Students for individual
-    // 03   15.12.09  VIGNESH  GetStudentsTeam()            Code added to get the Students for team
-    // 04   15.12.09  VIGNESH  UpdatePointsIndividual()     Code added to updated poing for event individual
-    // 05   15.12.09  VIGNESH  UpdatePointsteam()           Code added to updated poing for event team
-    // 
-    // SJ6.01 21/01/18 GB
-    //   - Remove Substitute validation
-
-
-    trigger OnRun()
-    begin
-    end;
-
     var
         Text000: Label 'Already This Entry has updated';
         Text001: Label 'Please select the Student(s)';
@@ -35,83 +19,61 @@ codeunit 71045 "Co-Curricular"
         "Class Section": Record "Class Section";
         Text014: Label 'Student %1 already Participate %2 Events';
 
-    [Scope('Internal')]
+
     procedure UpdateEntry("GetDocNo.": Code[20])
     var
         ParticipantEntryHeader: Record "Participant Entry Header";
         ParticipantEntryLine: Record "Participant Entry Line";
-        Iscount: Integer;
-        iSCOUNT1: Integer;
         ParticipantEntryMulti: Record "Participant Entry Line";
         EducationSetup: Record "Education Setup";
         EventParticipantEntry: Record "Participant Entry Line";
         Text0045: Label 'Student %1 already Participate in %2  event';
+        Iscount: Integer;
+        iSCOUNT1: Integer;
     begin
-        // Start 01.VIGNESH
         ParticipantEntryHeader.Get("GetDocNo.");
         if ParticipantEntryHeader."Update Entry" then
             Error(Text000);
 
-        EducationSetup.Get;
+        EducationSetup.Get();
 
-        ParticipantEntryLine.Reset;
+        ParticipantEntryLine.Reset();
         ParticipantEntryLine.SetRange("Document No.", "GetDocNo.");
         if ParticipantEntryLine.IsEmpty then
             Error(Text001);
 
 
-        ParticipantEntryLine.Reset;
+        ParticipantEntryLine.Reset();
         ParticipantEntryLine.SetRange("Document No.", "GetDocNo.");
         ParticipantEntryLine.SetRange("Participant Type", ParticipantEntryLine."Participant Type"::Main);
-        if ParticipantEntryLine.FindFirst then
+        if ParticipantEntryLine.FindFirst() then
             Iscount := ParticipantEntryLine.Count;
         if Iscount <> ParticipantEntryHeader."Team Size" then
             Error(Text002, ParticipantEntryHeader."Team Size");
 
-        //Cetas, 09-th-August begin
-        EventParticipantEntry.Reset;
+
+        EventParticipantEntry.Reset();
         EventParticipantEntry.SetRange("Academic Year", EducationSetup."Academic Year");
         EventParticipantEntry.SetRange("Update Entry", true);
         EventParticipantEntry.SetRange("Competition Name", ParticipantEntryLine."Competition Name");
         EventParticipantEntry.SetRange("Student No.", ParticipantEntryLine."Student No.");
-        if EventParticipantEntry.FindSet then
+        if EventParticipantEntry.FindSet() then
             if EventParticipantEntry.Count >= 1 then
                 Error(Text0045, EventParticipantEntry."Student Name", ParticipantEntryHeader."Competition Name");
-        //Cetas, 09-th-August end
 
-        // >> SJ6.01
-        /*
-        IF (ParticipantEntryHeader."Event Type" = ParticipantEntryHeader."Event Type"::Individual) THEN BEGIN
-        ParticipantEntryLine.RESET;
-        ParticipantEntryLine.SETRANGE("Document No.","GetDocNo.");
-        ParticipantEntryLine.SETRANGE("Participant Type",ParticipantEntryLine."Participant Type"::Substitute);
-        IF ParticipantEntryLine.FINDFIRST THEN
-        iSCOUNT1 := ParticipantEntryLine.COUNT;
-        IF iSCOUNT1 <> ParticipantEntryHeader."Team Size" THEN
-          ERROR(Text003,ParticipantEntryHeader."Team Size");
-        END;
-        */
-        // << SJ6.01
-        //Commented By S.S.Kumar on 25 March 2012
-        //IF NOT CONFIRM(Text009,FALSE) THEN
-        //EXIT;
-        //End
-
-        //Sub Junior Calculation Begin
-
-        ParticipantEntryLine.Reset;
+        ParticipantEntryLine.Reset();
         ParticipantEntryLine.SetRange("Document No.", "GetDocNo.");
-        if ParticipantEntryLine.FindFirst then
+        if ParticipantEntryLine.FindFirst() then
             repeat
                 if (ParticipantEntryLine."Event Type" = ParticipantEntryLine."Event Type"::Individual) then begin
                     Clear(iSCOUNT1);
-                    ParticipantEntryMulti.Reset;
+                    ParticipantEntryMulti.Reset();
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Academic Year", EducationSetup."Academic Year");
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student Division", 'SUB JUNIORS');
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Update Entry", true);
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Event Type", ParticipantEntryMulti."Event Type"::Individual);
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student No.", ParticipantEntryLine."Student No.");
-                    if ParticipantEntryMulti.FindFirst then
+                    if ParticipantEntryMulti.FindFirst() then
                         iSCOUNT1 := ParticipantEntryMulti.Count;
                     if iSCOUNT1 >= (24 + 3) then
                         Error(Text014, ParticipantEntryMulti."Student Name", iSCOUNT1);
@@ -119,34 +81,32 @@ codeunit 71045 "Co-Curricular"
                 else
                     if (ParticipantEntryLine."Event Type" = ParticipantEntryLine."Event Type"::Team) then begin
                         Clear(iSCOUNT1);
-                        ParticipantEntryMulti.Reset;
+                        ParticipantEntryMulti.Reset();
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Academic Year", EducationSetup."Academic Year");
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student Division", 'SUB JUNIORS');
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Update Entry", true);
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Event Type", ParticipantEntryMulti."Event Type"::Team);
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student No.", ParticipantEntryLine."Student No.");
-                        if ParticipantEntryMulti.FindFirst then
+                        if ParticipantEntryMulti.FindFirst() then
                             iSCOUNT1 := ParticipantEntryMulti.Count;
                         if iSCOUNT1 >= (21 + 3) then
                             Error(Text014, ParticipantEntryMulti."Student Name", iSCOUNT1);
                     end;
-            until ParticipantEntryLine.Next = 0;
-        //Sub Junior Calculation end
+            until ParticipantEntryLine.Next() = 0;
 
-        //Junior Calculation Begin
-        ParticipantEntryLine.Reset;
+        ParticipantEntryLine.Reset();
         ParticipantEntryLine.SetRange("Document No.", "GetDocNo.");
-        if ParticipantEntryLine.FindFirst then
+        if ParticipantEntryLine.FindFirst() then
             repeat
                 if (ParticipantEntryLine."Event Type" = ParticipantEntryLine."Event Type"::Individual) then begin
                     Clear(iSCOUNT1);
-                    ParticipantEntryMulti.Reset;
+                    ParticipantEntryMulti.Reset();
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Academic Year", EducationSetup."Academic Year");
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student Division", 'JUNIORS');
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Update Entry", true);
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Event Type", ParticipantEntryMulti."Event Type"::Individual);
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student No.", ParticipantEntryLine."Student No.");
-                    if ParticipantEntryMulti.FindFirst then
+                    if ParticipantEntryMulti.FindFirst() then
                         iSCOUNT1 := ParticipantEntryMulti.Count;
                     if iSCOUNT1 >= (24 + 3) then
                         Error(Text014, ParticipantEntryMulti."Student Name", iSCOUNT1);
@@ -154,49 +114,47 @@ codeunit 71045 "Co-Curricular"
                 else
                     if (ParticipantEntryLine."Event Type" = ParticipantEntryLine."Event Type"::Team) then begin
                         Clear(iSCOUNT1);
-                        ParticipantEntryMulti.Reset;
+                        ParticipantEntryMulti.Reset();
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Academic Year", EducationSetup."Academic Year");
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student Division", 'JUNIORS');
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Update Entry", true);
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Event Type", ParticipantEntryMulti."Event Type"::Team);
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student No.", ParticipantEntryLine."Student No.");
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti.Gender, ParticipantEntryMulti.Gender::Male);
-                        if ParticipantEntryMulti.FindFirst then begin
+                        if ParticipantEntryMulti.FindFirst() then begin
                             iSCOUNT1 := ParticipantEntryMulti.Count;
                             if iSCOUNT1 >= (22 + 3) then
                                 Error(Text014, ParticipantEntryMulti."Student Name", iSCOUNT1);
                         end;
                         Clear(iSCOUNT1);
-                        ParticipantEntryMulti.Reset;
+                        ParticipantEntryMulti.Reset();
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Academic Year", EducationSetup."Academic Year");
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student Division", 'JUNIORS');
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Update Entry", true);
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Event Type", ParticipantEntryMulti."Event Type"::Team);
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student No.", ParticipantEntryLine."Student No.");
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti.Gender, ParticipantEntryMulti.Gender::Female);
-                        if ParticipantEntryMulti.FindFirst then
+                        if ParticipantEntryMulti.FindFirst() then
                             iSCOUNT1 := ParticipantEntryMulti.Count;
                         if iSCOUNT1 >= (21 + 3) then
                             Error(Text014, ParticipantEntryMulti."Student Name", iSCOUNT1);
 
                     end;
-            until ParticipantEntryLine.Next = 0;
-        //Junior Calculation Begin
+            until ParticipantEntryLine.Next() = 0;
 
-        //Inters, Seniors, Super Seniors Calculation Begin
-        ParticipantEntryLine.Reset;
+        ParticipantEntryLine.Reset();
         ParticipantEntryLine.SetRange("Document No.", "GetDocNo.");
-        if ParticipantEntryLine.FindFirst then
+        if ParticipantEntryLine.FindFirst() then
             repeat
                 if (ParticipantEntryLine."Event Type" = ParticipantEntryLine."Event Type"::Individual) then begin
                     Clear(iSCOUNT1);
-                    ParticipantEntryMulti.Reset;
+                    ParticipantEntryMulti.Reset();
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Academic Year", EducationSetup."Academic Year");
                     ParticipantEntryMulti.SetFilter(ParticipantEntryMulti."Student Division", '%1 |%2 | %3', 'INTERS', 'SENIORS', 'SUPER SENIORS');
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Update Entry", true);
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Event Type", ParticipantEntryMulti."Event Type"::Individual);
                     ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student No.", ParticipantEntryLine."Student No.");
-                    if ParticipantEntryMulti.FindFirst then
+                    if ParticipantEntryMulti.FindFirst() then
                         iSCOUNT1 := ParticipantEntryMulti.Count;
                     if iSCOUNT1 >= (25 + 3) then
                         Error(Text014, ParticipantEntryMulti."Student Name", iSCOUNT1);
@@ -204,37 +162,37 @@ codeunit 71045 "Co-Curricular"
                 else
                     if (ParticipantEntryLine."Event Type" = ParticipantEntryLine."Event Type"::Team) then begin
                         Clear(iSCOUNT1);
-                        ParticipantEntryMulti.Reset;
+                        ParticipantEntryMulti.Reset();
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Academic Year", EducationSetup."Academic Year");
                         ParticipantEntryMulti.SetFilter(ParticipantEntryMulti."Student Division", '%1 |%2 | %3', 'INTERS', 'SENIORS', 'SUPER SENIORS');
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Update Entry", true);
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Event Type", ParticipantEntryMulti."Event Type"::Team);
                         ParticipantEntryMulti.SetRange(ParticipantEntryMulti."Student No.", ParticipantEntryLine."Student No.");
-                        if ParticipantEntryMulti.FindFirst then
+                        if ParticipantEntryMulti.FindFirst() then
                             iSCOUNT1 := ParticipantEntryMulti.Count;
                         if iSCOUNT1 >= (22 + 3) then
                             Error(Text014, ParticipantEntryMulti."Student Name", iSCOUNT1);
                     end;
-            until ParticipantEntryLine.Next = 0;
-        //Inters, Seniors, Super Seniors Calculation Begin
+            until ParticipantEntryLine.Next() = 0;
+
 
 
 
         ParticipantEntryHeader."Update Entry" := true;
-        ParticipantEntryHeader.Modify;
+        ParticipantEntryHeader.Modify();
         Message(Text004);
-        // Stop 01.VIGNESH
-        ParticipantEntryLine.Reset;
+
+        ParticipantEntryLine.Reset();
         ParticipantEntryLine.SetRange("Document No.", ParticipantEntryHeader."No.");
-        if ParticipantEntryLine.FindFirst then
+        if ParticipantEntryLine.FindFirst() then
             repeat
                 ParticipantEntryLine."Update Entry" := true;
-                ParticipantEntryLine.Modify;
-            until ParticipantEntryLine.Next = 0;
+                ParticipantEntryLine.Modify();
+            until ParticipantEntryLine.Next() = 0;
 
     end;
 
-    [Scope('Internal')]
+
     procedure GetStudentsIndividual("GetDocNo.": Code[20])
     var
         CompetitionResultIndividual: Record "Competition Result Individual";
@@ -242,7 +200,7 @@ codeunit 71045 "Co-Curricular"
         CompetitionResIndvuLine: Record "Competition Res Indvu Line";
         ParticipantEntryHeader: Record "Participant Entry Header";
     begin
-        // Start 02.VIGNESH
+
         CompetitionResultIndividual.Get("GetDocNo.");
 
         if CompetitionResultIndividual."Update Results" then
@@ -251,26 +209,25 @@ codeunit 71045 "Co-Curricular"
         CompetitionResultIndividual.TestField("Competition Entry No.");
         CompetitionResultIndividual.TestField("Student Division");
 
-        CompetitionResIndvuLine.Reset;
+        CompetitionResIndvuLine.Reset();
         CompetitionResIndvuLine.SetRange("Document No.", "GetDocNo.");
-        if CompetitionResIndvuLine.FindFirst then
-            // IF CONFIRM(Text010,FALSE) THEN
-            CompetitionResIndvuLine.DeleteAll;
+        if CompetitionResIndvuLine.FindFirst() then
+            CompetitionResIndvuLine.DeleteAll();
 
-        ParticipantEntryHeader.Reset;
+        ParticipantEntryHeader.Reset();
         ParticipantEntryHeader.SetCurrentKey("Competition Entry No.", "Student Division");
         ParticipantEntryHeader.SetRange("Competition Entry No.", CompetitionResultIndividual."Competition Entry No.");
         ParticipantEntryHeader.SetRange("Student Division", CompetitionResultIndividual."Student Division");
-        //ParticipantEntryHeader.SETRANGE("Update Entry",TRUE);
+
         ParticipantEntryHeader.SetRange("Update Results", false);
-        if ParticipantEntryHeader.FindSet then
+        if ParticipantEntryHeader.FindSet() then
             repeat
-                ParticipantEntryLine.Reset;
+                ParticipantEntryLine.Reset();
                 ParticipantEntryLine.SetRange("Document No.", ParticipantEntryHeader."No.");
-                //ParticipantEntryLine.SETRANGE(ParticipantEntryLine."Participant Type",ParticipantEntryLine."Participant Type"::Main); //Commen
-                if ParticipantEntryLine.FindSet then
+
+                if ParticipantEntryLine.FindSet() then
                     repeat
-                        CompetitionResIndvuLine.Init;
+                        CompetitionResIndvuLine.Init();
                         CompetitionResIndvuLine.TransferFields(ParticipantEntryLine);
                         CompetitionResIndvuLine."Document No." := CompetitionResultIndividual."No.";
                         CompetitionResIndvuLine."Competition Type" := CompetitionResultIndividual."Competition Type";
@@ -278,43 +235,41 @@ codeunit 71045 "Co-Curricular"
                         CompetitionResIndvuLine.Class := ParticipantEntryLine.Class;
                         CompetitionResIndvuLine.Section := ParticipantEntryLine.Section;
 
-                        CompetitionResIndvuLine.Insert;
-                    until ParticipantEntryLine.Next = 0;
-            until ParticipantEntryHeader.Next = 0;
-        // Stop 02.VIGNESH
+                        CompetitionResIndvuLine.Insert();
+                    until ParticipantEntryLine.Next() = 0;
+            until ParticipantEntryHeader.Next() = 0;
+
     end;
 
-    [Scope('Internal')]
+
     procedure GetStudentsTeam("GetDocNo.": Code[20])
     var
         CompetitionResultTeam: Record "Competition Result Team";
-        ParticipantEntryLine: Record "Participant Entry Line";
         CompetitionResTeamLine: Record "Competition Res Team Line";
         ParticipantEntryHeader: Record "Participant Entry Header";
     begin
-        // Start 03.VIGNESH
+
         CompetitionResultTeam.Get("GetDocNo.");
         if CompetitionResultTeam."Update Results" then
             Error(Text005);
         CompetitionResultTeam.TestField("Competition Entry No.");
         CompetitionResultTeam.TestField("Student Division");
 
-        CompetitionResTeamLine.Reset;
+        CompetitionResTeamLine.Reset();
         CompetitionResTeamLine.SetRange("Document No.", "GetDocNo.");
-        if CompetitionResTeamLine.FindFirst then
-            //IF CONFIRM(Text011,FALSE) THEN
-            CompetitionResTeamLine.DeleteAll;
+        if CompetitionResTeamLine.FindFirst() then
+            CompetitionResTeamLine.DeleteAll();
 
-        ParticipantEntryHeader.Reset;
+        ParticipantEntryHeader.Reset();
         ParticipantEntryHeader.SetCurrentKey("Competition Entry No.", "Student Division");
         ParticipantEntryHeader.SetRange("Competition Entry No.", CompetitionResultTeam."Competition Entry No.");
         ParticipantEntryHeader.SetRange("Student Division", CompetitionResultTeam."Student Division");
         ParticipantEntryHeader.SetRange("Event Type", ParticipantEntryHeader."Event Type"::Team);
-        //ParticipantEntryHeader.SETRANGE("Update Entry",TRUE);
+
         ParticipantEntryHeader.SetRange("Update Results", false);
-        if ParticipantEntryHeader.FindFirst then
+        if ParticipantEntryHeader.FindFirst() then
             repeat
-                CompetitionResTeamLine.Init;
+                CompetitionResTeamLine.Init();
                 CompetitionResTeamLine."Document No." := CompetitionResultTeam."No.";
                 CompetitionResTeamLine."Team No." := ParticipantEntryHeader."Team No.";
                 CompetitionResTeamLine.House := ParticipantEntryHeader.House;
@@ -323,12 +278,12 @@ codeunit 71045 "Co-Curricular"
                 CompetitionResTeamLine."Student Division" := ParticipantEntryHeader."Student Division";
                 CompetitionResTeamLine."Academic Year" := CompetitionResultTeam."Academic Year";
                 CompetitionResTeamLine."Competition Entry No." := CompetitionResultTeam."Competition Entry No.";
-                CompetitionResTeamLine.Insert;
-            until ParticipantEntryHeader.Next = 0;
-        // Stop 03.VIGNESH
+                CompetitionResTeamLine.Insert();
+            until ParticipantEntryHeader.Next() = 0;
+
     end;
 
-    [Scope('Internal')]
+
     procedure UpdatePointsIndividual("getDocNo.": Code[20]; IsForceUpdate: Boolean)
     var
         ParticipantEntryLine: Record "Participant Entry Line";
@@ -339,57 +294,52 @@ codeunit 71045 "Co-Curricular"
         CompetitionResIndvuLine1: Record "Competition Res Indvu Line";
         CoCurricularPointsSetup: Record "Co-Curricular Points Setup";
     begin
-        // Start 04.VIGNESH
-        //IF NOT CONFIRM(Text012,FALSE) THEN
-        //EXIT;
 
-        //11.06.2013 begin
-        CompetitionResIndvuLine1.Reset;
+        CompetitionResIndvuLine1.Reset();
         CompetitionResIndvuLine1.SetRange("Document No.", "getDocNo.");
         CompetitionResIndvuLine1.SetRange(Position, CompetitionResIndvuLine1.Position::"1st Place");
-        if CompetitionResIndvuLine1.FindSet then
+        if CompetitionResIndvuLine1.FindSet() then
             repeat
                 if CoCurricularPointsSetup.Get(CompetitionResIndvuLine1."Competition Type") then;
                 if CompetitionResIndvuLine1.Count > 1 then
                     CompetitionResIndvuLine1.Points := (CoCurricularPointsSetup."1st Place" + CoCurricularPointsSetup."2nd Place") / 2;
-                CompetitionResIndvuLine1.Modify;
-            until CompetitionResIndvuLine1.Next = 0;
-        //11.06.2013 end
+                CompetitionResIndvuLine1.Modify();
+            until CompetitionResIndvuLine1.Next() = 0;
+
 
         CompetitionResultIndividual.Get("getDocNo.");
         if CompetitionResultIndividual."Update Results" and not IsForceUpdate then
             Error(Text006);
 
-        CompetitionResIndvuLine.Reset;
+        CompetitionResIndvuLine.Reset();
         CompetitionResIndvuLine.SetRange("Document No.", "getDocNo.");
         if CompetitionResIndvuLine.IsEmpty then
             Error(Text007)
         else
-            if CompetitionResIndvuLine.FindSet then
+            if CompetitionResIndvuLine.FindSet() then
                 repeat
-                    ParticipantEntryLine.Reset;
+                    ParticipantEntryLine.Reset();
                     ParticipantEntryLine.SetCurrentKey("Competition Entry No.", "Student Division", "Student No.");
                     ParticipantEntryLine.SetRange("Competition Entry No.", CompetitionResIndvuLine."Competition Entry No.");
                     ParticipantEntryLine.SetRange("Student Division", CompetitionResIndvuLine."Student Division");
                     ParticipantEntryLine.SetRange("Student No.", CompetitionResIndvuLine."Student No.");
-                    if ParticipantEntryLine.FindFirst then begin
+                    if ParticipantEntryLine.FindFirst() then begin
                         ParticipantEntryLine.Position := CompetitionResIndvuLine.Position;
-                        //11.06.13 begin
+
                         if CompetitionResIndvuLine.Position = CompetitionResIndvuLine.Position::"1st Place" then
                             ParticipantEntryLine.Points := CompetitionResIndvuLine1.Points
                         else
                             ParticipantEntryLine.Points := CompetitionResIndvuLine.Points;
-                        //11.06.13 end
 
-                        //ParticipantEntryLine.Points := CompetitionResIndvuLine.Points ;
+
                         ParticipantEntryLine."Details NUM" := CompetitionResIndvuLine."Details NUM";
                         ParticipantEntryLine."Details TXT" := CompetitionResIndvuLine."Details TXT";
                         ParticipantEntryLine."Update Results" := true;
-                        ParticipantEntryLine.Modify;
+                        ParticipantEntryLine.Modify();
                     end;
-                until CompetitionResIndvuLine.Next = 0;
+                until CompetitionResIndvuLine.Next() = 0;
 
-        ParticipantEntryHeader.Reset;
+        ParticipantEntryHeader.Reset();
         ParticipantEntryHeader.SetCurrentKey("Competition Entry No.", "Student Division");
         ParticipantEntryHeader.SetRange("Competition Entry No.", CompetitionResultIndividual."Competition Entry No.");
         ParticipantEntryHeader.SetRange("Student Division", CompetitionResultIndividual."Student Division");
@@ -401,15 +351,15 @@ codeunit 71045 "Co-Curricular"
         CompetitionResultIndividual."Competition Status" := CompetitionResultIndividual."Competition Status"::Completed;
 
         CompetitionEntryHeader.Get(CompetitionResultIndividual."Competition Entry No.");
-        //CompetitionEntryHeader."Competition Status" := CompetitionEntryHeader."Competition Status"::Completed;
-        CompetitionEntryHeader.Modify;
-        if CompetitionResultIndividual.Modify then
+
+        CompetitionEntryHeader.Modify();
+        if CompetitionResultIndividual.Modify() then
             Message(Text008);
-        // Stop 04.VIGNESH
-        Commit;
+
+        Commit();
     end;
 
-    [Scope('Internal')]
+
     procedure UpdatePointTeam("getDocNo.": Code[20])
     var
         ParticipantEntryLine: Record "Participant Entry Line";
@@ -417,29 +367,26 @@ codeunit 71045 "Co-Curricular"
         CompetitionResTeamLine: Record "Competition Res Team Line";
         ParticipantEntryHeader: Record "Participant Entry Header";
     begin
-        // Start 05.VIGNESH
-        //IF NOT CONFIRM(Text012,FALSE) THEN
-        // EXIT;
+
 
         CompetitionResultTeam.Get("getDocNo.");
         if CompetitionResultTeam."Update Results" then
             Error(Text006);
 
-        CompetitionResTeamLine.Reset;
+        CompetitionResTeamLine.Reset();
         CompetitionResTeamLine.SetRange("Document No.", "getDocNo.");
         if CompetitionResTeamLine.IsEmpty then
             Error(Text007)
         else
-            if CompetitionResTeamLine.FindFirst then
+            if CompetitionResTeamLine.FindFirst() then
                 repeat
-                    ParticipantEntryLine.Reset;
+                    ParticipantEntryLine.Reset();
                     ParticipantEntryLine.SetCurrentKey("Competition Entry No.", "Student Division", "Team No.");
                     ParticipantEntryLine.SetRange("Competition Entry No.", CompetitionResTeamLine."Competition Entry No.");
                     ParticipantEntryLine.SetRange("Student Division", CompetitionResTeamLine."Student Division");
                     ParticipantEntryLine.SetRange("Team No.", CompetitionResTeamLine."Team No.");
-                    ParticipantEntryLine.SetRange(ParticipantEntryLine."Participant Type",
-                    ParticipantEntryLine."Participant Type"::Main); //DS01 Added on 260712
-                    if ParticipantEntryLine.FindFirst then begin
+                    ParticipantEntryLine.SetRange(ParticipantEntryLine."Participant Type"); //DS01 Added on 260712
+                    if ParticipantEntryLine.FindFirst() then begin
                         ParticipantEntryLine.ModifyAll(Position, CompetitionResTeamLine.Position);
                         ParticipantEntryLine.ModifyAll(Points, CompetitionResTeamLine.Points);
                         ParticipantEntryLine."Details NUM" := CompetitionResTeamLine."Details NUM";
@@ -447,21 +394,21 @@ codeunit 71045 "Co-Curricular"
 
                         ParticipantEntryLine.ModifyAll("Update Results", true);
                     end;
-                until CompetitionResTeamLine.Next = 0;
+                until CompetitionResTeamLine.Next() = 0;
 
-        ParticipantEntryHeader.Reset;
+        ParticipantEntryHeader.Reset();
         ParticipantEntryHeader.SetCurrentKey("Competition Entry No.", "Student Division");
         ParticipantEntryHeader.SetRange("Competition Entry No.", CompetitionResTeamLine."Competition Entry No.");
         ParticipantEntryHeader.SetRange("Student Division", CompetitionResTeamLine."Student Division");
         ParticipantEntryHeader.ModifyAll("Update Results", true);
         ParticipantEntryHeader.ModifyAll("Update Entry", true);
         CompetitionResultTeam."Update Results" := true;
-        if CompetitionResultTeam.Modify then
+        if CompetitionResultTeam.Modify() then
             Message(Text008);
-        // Stop 05.VIGNESH
+
     end;
 
-    [Scope('Internal')]
+
     procedure GetStudents("GetDocNo.": Code[20])
     var
         ParticipantEntryHeader: Record "Participant Entry Header";
@@ -475,20 +422,18 @@ codeunit 71045 "Co-Curricular"
         Months: Integer;
     begin
         if ParticipantEntryHeader.Get("GetDocNo.") then begin
-            Student.Reset;
+            Student.Reset();
             Student.SetRange(Student.House, ParticipantEntryHeader.House);
             Student.SetRange(Student.Gender, ParticipantEntryHeader.Gender);
             Student.SetRange(Student."Academic Year", ParticipantEntryHeader."Academic Year");
             Student.SetRange(Student."Student Status", Student."Student Status"::Student);
 
 
-            if Student.FindSet then
+            if Student.FindSet() then
                 repeat
                     CompetitionEntryLine.SetRange(CompetitionEntryLine."Document No.", ParticipantEntryHeader."Competition Entry No.");
-                    if CompetitionEntryLine.FindFirst then begin
-                        //CompetitionEntryLine.TESTFIELD("Min Age");
-                        //CompetitionEntryLine.TESTFIELD("Max Age");
-                        //CompetitionEntryLine.TESTFIELD("Cut Off Date");
+                    if CompetitionEntryLine.FindFirst() then begin
+
                         CompetitionEntryLine.TestField("Cut Off Date");
                         CompetitionEntryLine."Temp Cut off Date" := Today;
                         if Student."Date Of Birth" <> 0D then begin
@@ -499,13 +444,13 @@ codeunit 71045 "Co-Curricular"
                             Age := TempAge1;
                             Months := Months2;
                             Student.TestField(House);
-                            //  House :=Student.House;
+
                         end;
                     end;
 
                     if CompetitionEntryLine."Cut Off Date" <= Student."Date Of Birth" then begin
                         //IF (Age >= CompetitionEntryLine."Min Age") OR (Age <= CompetitionEntryLine."Max Age") THEN BEGIN
-                        ParticipantEntryLine.Init;
+                        ParticipantEntryLine.Init();
                         ParticipantEntryLine."Document No." := ParticipantEntryHeader."No.";
                         ParticipantEntryLine."Student No." := Student."No.";
                         ParticipantEntryLine.Class := Student.Class;
@@ -519,61 +464,55 @@ codeunit 71045 "Co-Curricular"
                         ParticipantEntryLine."Event Code" := ParticipantEntryHeader."Event Code";
                         ParticipantEntryLine."Event Type" := ParticipantEntryHeader."Event Type";
                         ParticipantEntryLine."Academic Year" := ParticipantEntryHeader."Academic Year";
-                        //    ParticipantEntryLine.Age                     := Student.Age;
-                        //    ParticipantEntryLine.Months                  := Student.Months;
+
                         ParticipantEntryLine.Age := Age;
                         ParticipantEntryLine.Months := Months;
 
 
-                        if "Class Section".Get(Student."Class Code") then begin
+                        if "Class Section".Get(Student."Class Code") then
                             if "Class Section"."Academic Year" = ParticipantEntryHeader."Academic Year" then
                                 ParticipantEntryLine.Insert(true);
-                        end;
                     end;
-                until Student.Next = 0;
+                until Student.Next() = 0;
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure CheckPositions("getDocNo.": Code[20]) Ret: Text[30]
     var
         CompetitionResIndvuLine: Record "Competition Res Indvu Line";
-        CompetitionResIndvuLineNew: Record "Competition Res Indvu Line";
         CompetitionRes: Record "Competition Res Indvu Line";
     begin
 
-        CompetitionResIndvuLine.Reset;
+        CompetitionResIndvuLine.Reset();
         CompetitionResIndvuLine.SetRange(CompetitionResIndvuLine."Document No.", "getDocNo.");
         CompetitionResIndvuLine.SetFilter(CompetitionResIndvuLine.Position, '<>%1 & <>%2', 0, CompetitionResIndvuLine.Position::Participation
         );
-        if CompetitionResIndvuLine.FindSet then
+        if CompetitionResIndvuLine.FindSet() then
             repeat
-                CompetitionRes.Reset;
+                CompetitionRes.Reset();
                 CompetitionRes.SetRange(CompetitionRes."Document No.", "getDocNo.");
                 CompetitionRes.SetFilter(CompetitionRes.Position, '<>%1 & <>%2', 0,
                                          CompetitionRes.Position::Participation);
                 CompetitionRes.SetRange(CompetitionRes.Position, CompetitionResIndvuLine.Position);
-                if CompetitionRes.FindFirst then begin
+                if CompetitionRes.FindFirst() then begin
                     if CompetitionRes.Count > 1 then begin
                         CompetitionRes.SetFilter(CompetitionRes.Position, '%1..%2',
                                                  CompetitionRes.Position + 1, CompetitionRes.Position + CompetitionRes.Count - 1);
-                        if CompetitionRes.FindFirst then begin
-                            //ERROR('%1 Cannot be Entered as there are more earlier Places' ,CompetitionRes.Position,CompetitionRes.Position-1);
+                        if CompetitionRes.FindFirst() then
                             Error(Format(CompetitionRes.Position));
-
-                        end;
                     end;
                     ;
                 end;
-            until CompetitionResIndvuLine.Next = 0;
+            until CompetitionResIndvuLine.Next() = 0;
     end;
 
-    [Scope('Internal')]
+
     procedure "----Cetas1-----"()
     begin
     end;
 
-    [Scope('Internal')]
+
     procedure UpdatePointTeam1("getDocNo.": Code[20]; IsForceUpdate: Boolean)
     var
         ParticipantEntryLine: Record "Participant Entry Line";
@@ -581,26 +520,26 @@ codeunit 71045 "Co-Curricular"
         CompetitionResTeamLine: Record "Competition Res Team Line";
         ParticipantEntryHeader: Record "Participant Entry Header";
     begin
-        //DS01 added on 260712
+
         CompetitionResultTeam.Get("getDocNo.");
         if CompetitionResultTeam."Update Results" and not IsForceUpdate then
             Error(Text006);
 
-        CompetitionResTeamLine.Reset;
+        CompetitionResTeamLine.Reset();
         CompetitionResTeamLine.SetRange("Document No.", "getDocNo.");
         if CompetitionResTeamLine.IsEmpty then
             Error(Text007)
         else
-            if CompetitionResTeamLine.FindFirst then
+            if CompetitionResTeamLine.FindFirst() then
                 repeat
-                    ParticipantEntryLine.Reset;
+                    ParticipantEntryLine.Reset();
                     ParticipantEntryLine.SetCurrentKey("Competition Entry No.", "Student Division", "Team No.");
                     ParticipantEntryLine.SetRange("Competition Entry No.", CompetitionResTeamLine."Competition Entry No.");
                     ParticipantEntryLine.SetRange("Student Division", CompetitionResTeamLine."Student Division");
                     ParticipantEntryLine.SetRange("Team No.", CompetitionResTeamLine."Team No.");
                     ParticipantEntryLine.SetRange(ParticipantEntryLine."Participant Type",
-                    ParticipantEntryLine."Participant Type"::Main); //DS01 Added on 260712
-                    if ParticipantEntryLine.FindFirst then begin
+                    ParticipantEntryLine."Participant Type"::Main);
+                    if ParticipantEntryLine.FindFirst() then begin
                         ParticipantEntryLine.ModifyAll(Position, CompetitionResTeamLine.Position);
                         ParticipantEntryLine.ModifyAll(Points, CompetitionResTeamLine.Points);
                         ParticipantEntryLine."Details NUM" := CompetitionResTeamLine."Details NUM";
@@ -608,20 +547,20 @@ codeunit 71045 "Co-Curricular"
 
                         ParticipantEntryLine.ModifyAll("Update Results", true);
                     end;
-                until CompetitionResTeamLine.Next = 0;
+                until CompetitionResTeamLine.Next() = 0;
 
-        ParticipantEntryHeader.Reset;
+        ParticipantEntryHeader.Reset();
         ParticipantEntryHeader.SetCurrentKey("Competition Entry No.", "Student Division");
         ParticipantEntryHeader.SetRange("Competition Entry No.", CompetitionResTeamLine."Competition Entry No.");
         ParticipantEntryHeader.SetRange("Student Division", CompetitionResTeamLine."Student Division");
         ParticipantEntryHeader.ModifyAll("Update Results", true);
         ParticipantEntryHeader.ModifyAll("Update Entry", true);
         CompetitionResultTeam."Update Results" := true;
-        if CompetitionResultTeam.Modify then
+        if CompetitionResultTeam.Modify() then
             Message(Text008);
 
-        Commit;
-        //DS01 added on 260712
+        Commit();
+
     end;
 }
 

@@ -626,7 +626,7 @@ table 71046 Student
             Editable = false;
             FieldClass = FlowField;
         }
-        field(20010; "CGPA Grade"; Code[10])
+        field(20010; "CGPA Grade"; Code[20])
         {
             Caption = 'CGPA Grade';
             DataClassification = CustomerContent;

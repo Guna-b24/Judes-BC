@@ -1,21 +1,13 @@
 codeunit 72009 "Income Tax Creation / Posting"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Codeunit Created for PAYROLL Module
-
-
     trigger OnRun()
     begin
     end;
 
     var
         CUGeneralFunctions: Codeunit "General Functions";
-        IncomeTaxHeader: Record "Income Tax Header";
-        IncomeTaxLine: Record "Income Tax Line";
+        //IncomeTaxHeader: Record "Income Tax Header";
+        //IncomeTaxLine: Record "Income Tax Line";
         ProjectedMonth: Integer;
         GrossEarningSalary: Decimal;
         LocationCode: Code[20];
@@ -123,7 +115,7 @@ codeunit 72009 "Income Tax Creation / Posting"
         END;
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay Elements Updation"(LocationCode: Code[20]; SalaryPlanCode: Code[20]; AssessmentYear: Code[20]; SalaryYearCode: Code[20]; SalaryCycleCode: Code[20]; UpdateFlag: Boolean; LProjectionMonth: Integer)
     var
         IncomeTax: Record "Income Tax";
@@ -196,7 +188,7 @@ codeunit 72009 "Income Tax Creation / Posting"
         MESSAGE('Updation Completed..!!');
     end;
 
-    [Scope('Internal')]
+
     procedure "Processed Salary Checking"(PayElements: Record "Pay Elements"; var IncomeTax: Record "Income Tax")
     var
         ProcessedSalary: Record "Processed Salary";
@@ -313,7 +305,7 @@ codeunit 72009 "Income Tax Creation / Posting"
             UNTIL ProcessedSalary.NEXT = 0;  // Processed Salary Ends Here.
     end;
 
-    [Scope('Internal')]
+
     procedure "Insert Challan Details"(AssessmentYear: Code[20]; SalaryYear: Code[20]; ProcessedSalary: Record "Processed Salary")
     var
         IncomeTaxChallanDetails: Record "Income Tax Challan Details";
@@ -370,7 +362,7 @@ codeunit 72009 "Income Tax Creation / Posting"
         END;
     end;
 
-    [Scope('Internal')]
+
     procedure "Calculate Medical"(LLocationCode: Code[20]; LSalaryPlanCode: Code[20]; LAssessmentYear: Code[20]; LEmployeeNo: Code[20])
     var
         IncomeTax: Record "Income Tax";
@@ -435,7 +427,7 @@ codeunit 72009 "Income Tax Creation / Posting"
         //*******************GET IT EXEMPTIONS******************* STOP
     end;
 
-    [Scope('Internal')]
+
     procedure "Get Income Tax Header"()
     begin
         IncomeTaxHeader.RESET;
@@ -453,7 +445,7 @@ codeunit 72009 "Income Tax Creation / Posting"
             MESSAGE('Income Tax Setup not defined in Income Tax Line ..!!');
     end;
 
-    [Scope('Internal')]
+
     procedure "Calculate Income Tax"(LLocationCode: Code[20]; LSalaryPlanCode: Code[20]; LAssessmentYear: Code[20]; LEmployeeNo: Code[20])
     var
         Employee: Record Employee;

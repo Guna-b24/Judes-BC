@@ -67,6 +67,16 @@ tableextension 50001 "Employee Extension" extends Employee
             Caption = 'Section Code';
             DataClassification = CustomerContent;
         }
+        field(50112; "Attendance Generated"; Boolean)
+        {
+            Caption = 'Attendance Generated';
+            DataClassification = CustomerContent;
+        }
+        field(50113; "Bonus Applicable"; Boolean)
+        {
+            Caption = 'Bonus Applicable';
+            DataClassification = CustomerContent;
+        }
 
     }
 

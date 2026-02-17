@@ -1,14 +1,5 @@
 codeunit 72007 "Payroll Data Creation"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Codeunit Created for PAYROLL Module
-    // -----------------------------------------------------------------------------------------------
-
-
     trigger OnRun()
     begin
         "Pay HR Pay Setup";
@@ -30,7 +21,7 @@ codeunit 72007 "Payroll Data Creation"
         Message('%1', 'System Defined Data is Created..');
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay HR Pay Setup"()
     var
         HRPayrollSetup: Record "HR & Payroll Setup";
@@ -45,7 +36,7 @@ codeunit 72007 "Payroll Data Creation"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay Year"()
     var
         PayrollYear: Record "Payroll Year";
@@ -111,7 +102,7 @@ codeunit 72007 "Payroll Data Creation"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay Shift Master"()
     var
         Shift: Record Shift;
@@ -192,7 +183,7 @@ codeunit 72007 "Payroll Data Creation"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay Weekly Off"()
     var
         WeekOff: Record "Weekly Off";
@@ -220,7 +211,7 @@ codeunit 72007 "Payroll Data Creation"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay Holiday"()
     var
         Holidays: Record Holidays;
@@ -277,7 +268,7 @@ codeunit 72007 "Payroll Data Creation"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay Grade"()
     var
         Grade: Record Grades;
@@ -302,7 +293,7 @@ codeunit 72007 "Payroll Data Creation"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay Elements"()
     var
         PayElements: Record "Pay Elements";
@@ -623,7 +614,7 @@ codeunit 72007 "Payroll Data Creation"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay ESI Setup"()
     var
         ESISetup: Record "ESI Setup";
@@ -642,7 +633,7 @@ codeunit 72007 "Payroll Data Creation"
         end
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay PF Setup"()
     var
         PFSetup: Record "PF Setup";
@@ -668,7 +659,7 @@ codeunit 72007 "Payroll Data Creation"
         end
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay PT Setup"()
     var
         PTSetup: Record "Professional Tax Header";
@@ -682,48 +673,16 @@ codeunit 72007 "Payroll Data Creation"
         end
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay Leave Setup"()
     var
         LeaveMaster: Record "Leave Master";
         LVCode: Code[4];
     begin
         LVCode := '1M';
-        /*
-        WITH  LeaveMaster DO  BEGIN
-        
-          INIT;
-          "Leave Code"                      := 'CL';
-          Description                       := 'Casual Leave';
-          Regular                           := TRUE;
-          EVALUATE("Leave in a Credit Int. Regular", LVCode);
-          Probationary                      := TRUE;
-          "Credit Interval Prob."           := 12;
-          "Leave in a Credit Int. Prob."                      := TRUE;
-          "Maximum Encash Leave"               := "Maximum Encash Leave"::"0";
-          EVALUATE("Carry Forward",LVCode);
-          "Paid Leave"    := 0.5;
-          "UnPaid Leave"        := 1;
-          "Create Leave Balance"        := 6;
-          "First Half Daily Attendance"                    := FALSE;
-          "Second Half Daily Attendance"            := 0;
-          "Maximum Encash Leave"            := 0;
-          "All Grade"                       := TRUE;
-          "Carry Forward"                   := FALSE;
-          "Applicable Date"                 := TODAY;
-        
-          VALIDATE(Probationary);
-          VALIDATE("Paid Leave");
-        
-        
-          IF NOT INSERT THEN;
-        
-        END;
-        */
 
     end;
 
-    [Scope('Internal')]
     procedure "Pay Business Posting Group"()
     var
         PayrollBusinessPostingGroup: Record "Payroll Business Posting Group";
@@ -738,7 +697,7 @@ codeunit 72007 "Payroll Data Creation"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay Product Posting Group"()
     var
         PayrollProductPostingGroup: Record "Payroll Product Posting Group";
@@ -818,7 +777,7 @@ codeunit 72007 "Payroll Data Creation"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay General Posting Group"()
     var
         PayrollGeneralPostingSetup: Record "Payroll General Posting Setup";
@@ -926,7 +885,7 @@ codeunit 72007 "Payroll Data Creation"
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure "Pay Employee Posting Group"()
     var
         PayrollEmployeePostingGroup: Record "Payroll Employee Posting Group";

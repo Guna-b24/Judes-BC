@@ -1,13 +1,5 @@
 codeunit 71041 "Mark Processing"
 {
-    //   No   Date      Sign     Trigger                       Description
-    // -----------------------------------------------------------------------------------------------
-    //   01  01/10/09   KATHIR   Get Students()              Code added to Get students for Mark Processing
-    //   02  14/10/09   KATHIR   Marks Entry Completed()     Function added to Compelete the mark entry process
-    //   03  09/12/09   VIGNESH  Get Students()              Code added to get the studant name
-    //   04  07/07/10   Ankesh   Marks Entry Completed()     Code added to update Exam schedule line with the mark no.
-
-
     trigger OnRun()
     begin
     end;
@@ -16,7 +8,7 @@ codeunit 71041 "Mark Processing"
         ExamSchedLine: Record "Exam Schedule Line - SCH";
         StudMarksHeader: Record "Student Mark Header";
 
-    [Scope('Internal')]
+
     procedure "Get Students"(MarkNo: Code[20])
     var
         MarksHeader: Record "Marks Header";
@@ -313,73 +305,72 @@ codeunit 71041 "Mark Processing"
     end;
 
     [Scope('Internal')]
-    procedure MarkEntryNotCompleted(ClassCode: Code[20]; ExamCode: Code[20]) Ret: array [50] of Text[50]
+    procedure MarkEntryNotCompleted(ClassCode: Code[20]; ExamCode: Code[20]) Ret: array[50] of Text[50]
     var
         ClassSecSubjects: Record "Class Section Subjects";
         MarkHeader: Record "Marks Header";
         FacultySubject: Record "Faculty Subject";
         i: Integer;
     begin
-        i:=1;
-        ClassSecSubjects.SetRange(ClassSecSubjects."Class Code",ClassCode);
+        i := 1;
+        ClassSecSubjects.SetRange(ClassSecSubjects."Class Code", ClassCode);
         if ClassSecSubjects.FindSet then
-        repeat
-          FacultySubject.Reset;
-          FacultySubject.SetRange(FacultySubject."Class Code",ClassCode);
-          FacultySubject.SetRange(FacultySubject."Subject Code",ClassSecSubjects.Subject);
-          if FacultySubject.FindFirst then;
-          MarkHeader.Reset;
-          MarkHeader.SetRange(MarkHeader."Class Code",ClassCode);
-          MarkHeader.SetRange(MarkHeader."Exam Type",ExamCode);
-          MarkHeader.SetRange(MarkHeader.Subject,ClassSecSubjects.Subject);
-          if MarkHeader.FindFirst then
-          begin
-            if MarkHeader."Entry Completed" then begin
-              Ret[i] += ClassSecSubjects.Subject+','
-                       +'TRUE'+','+FacultySubject."Faculty Code"+','+FacultySubject."Faculty Name";
-            end else begin
-              Ret[i] += ClassSecSubjects.Subject+','
-                       +'FALSE'+','+FacultySubject."Faculty Code"+','+FacultySubject."Faculty Name";
-            end;
-          end else
-            Ret[i] += ClassSecSubjects.Subject+','
-                       +'FALSE'+','+FacultySubject."Faculty Code"+','+FacultySubject."Faculty Name";
+            repeat
+                FacultySubject.Reset;
+                FacultySubject.SetRange(FacultySubject."Class Code", ClassCode);
+                FacultySubject.SetRange(FacultySubject."Subject Code", ClassSecSubjects.Subject);
+                if FacultySubject.FindFirst then;
+                MarkHeader.Reset;
+                MarkHeader.SetRange(MarkHeader."Class Code", ClassCode);
+                MarkHeader.SetRange(MarkHeader."Exam Type", ExamCode);
+                MarkHeader.SetRange(MarkHeader.Subject, ClassSecSubjects.Subject);
+                if MarkHeader.FindFirst then begin
+                    if MarkHeader."Entry Completed" then begin
+                        Ret[i] += ClassSecSubjects.Subject + ','
+                                 + 'TRUE' + ',' + FacultySubject."Faculty Code" + ',' + FacultySubject."Faculty Name";
+                    end else begin
+                        Ret[i] += ClassSecSubjects.Subject + ','
+                                 + 'FALSE' + ',' + FacultySubject."Faculty Code" + ',' + FacultySubject."Faculty Name";
+                    end;
+                end else
+                    Ret[i] += ClassSecSubjects.Subject + ','
+                               + 'FALSE' + ',' + FacultySubject."Faculty Code" + ',' + FacultySubject."Faculty Name";
 
-        i+=1;
-        until ClassSecSubjects.Next=0;
+                i += 1;
+            until ClassSecSubjects.Next = 0;
         Ret[i] := '#EOF';
     end;
 
     [Scope('Internal')]
-    procedure StudentMarkHeaderPublish(ClassCode: Code[20];ExamCode: Code[20])
+    procedure StudentMarkHeaderPublish(ClassCode: Code[20]; ExamCode: Code[20])
     var
         MarksLine: Record "Marks Line";
     begin
         // Start .KATHIR
         StudMarksHeader.Reset;
-        StudMarksHeader.SetRange(StudMarksHeader."Class Code",ClassCode);
-        StudMarksHeader.SetRange(StudMarksHeader."Exam Type",ExamCode);
+        StudMarksHeader.SetRange(StudMarksHeader."Class Code", ClassCode);
+        StudMarksHeader.SetRange(StudMarksHeader."Exam Type", ExamCode);
         if StudMarksHeader.FindFirst then
-        repeat
-          if not StudMarksHeader.Failed then //SJ6.01
-            UpdateAcademicPts(StudMarksHeader."Student No.",StudMarksHeader."Academic Year",StudMarksHeader."Exam Type");  //SJ6.01
-          StudMarksHeader.Published := true;
-          StudMarksHeader.Modify;
-        until StudMarksHeader.Next = 0;
+            repeat
+                if not StudMarksHeader.Failed then //SJ6.01
+                    UpdateAcademicPts(StudMarksHeader."Student No.", StudMarksHeader."Academic Year", StudMarksHeader."Exam Type");  //SJ6.01
+                StudMarksHeader.Published := true;
+                StudMarksHeader.Modify;
+            until StudMarksHeader.Next = 0;
 
         MarksLine.Reset;
-        MarksLine.SetRange(MarksLine."Exam Type",ExamCode);
-        MarksLine.SetRange(MarksLine."Class Code",ClassCode);
+        MarksLine.SetRange(MarksLine."Exam Type", ExamCode);
+        MarksLine.SetRange(MarksLine."Class Code", ClassCode);
         if MarksLine.FindSet then
-        repeat
-          MarksLine.Published := true;
-          MarksLine.Modify;
-        until MarksLine.Next=0;
+            repeat
+                MarksLine.Published := true;
+                MarksLine.Modify;
+            until MarksLine.Next = 0;
         // Stop .KATHIR
     end;
 
     [Scope('Internal')]
-    procedure UpdateNoofSubjectsFailed(StudentNo: Code[20];ExamCode: Code[20];ClassCode: Code[20])
+    procedure UpdateNoofSubjectsFailed(StudentNo: Code[20]; ExamCode: Code[20]; ClassCode: Code[20])
     var
         MarksLine: Record "Marks Line";
         StudMarkHead: Record "Student Mark Header";
@@ -396,60 +387,58 @@ codeunit 71041 "Mark Processing"
         Student.Get(StudentNo);
 
         MarksLine.Reset;
-        MarksLine.SetRange(MarksLine."Student No.",StudentNo);
-        MarksLine.SetRange(MarksLine."Exam Type",ExamCode);
-        MarksLine.SetRange(MarksLine."Class Code",ClassCode);
+        MarksLine.SetRange(MarksLine."Student No.", StudentNo);
+        MarksLine.SetRange(MarksLine."Exam Type", ExamCode);
+        MarksLine.SetRange(MarksLine."Class Code", ClassCode);
         if MarksLine.FindSet then
-        repeat
-          Total += MarksLine."Marks Obtained";
-          if MarksLine.Result = MarksLine.Result::Fail then
-            FailCnt+= 1;
-          if MarksLine.Result = MarksLine.Result::Absent then
-          begin
-            AbsSubjCnt+=1;
-            FailCnt+= 1;
-          end;
-          SubjCnt+=1;
-        until MarksLine.Next=0;
+            repeat
+                Total += MarksLine."Marks Obtained";
+                if MarksLine.Result = MarksLine.Result::Fail then
+                    FailCnt += 1;
+                if MarksLine.Result = MarksLine.Result::Absent then begin
+                    AbsSubjCnt += 1;
+                    FailCnt += 1;
+                end;
+                SubjCnt += 1;
+            until MarksLine.Next = 0;
 
         StudMarkHead.Reset;
-        StudMarkHead.SetRange(StudMarkHead."Student No.",StudentNo);
-        StudMarkHead.SetRange(StudMarkHead."Class Code",Student."Class Code");
-        StudMarkHead.SetRange(StudMarkHead."Exam Type",ExamCode);
-        if StudMarkHead.FindFirst then
-        begin
-          StudMarkHead."Total No of Subject Failed":= FailCnt;
-          if FailCnt>0 then begin
-            StudMarkHead.Failed:=true;
-            StudMarkHead.Rank := 0;
-          end
-          else
-            StudMarkHead.Failed:=false;
-          StudMarkHead.Modify;
+        StudMarkHead.SetRange(StudMarkHead."Student No.", StudentNo);
+        StudMarkHead.SetRange(StudMarkHead."Class Code", Student."Class Code");
+        StudMarkHead.SetRange(StudMarkHead."Exam Type", ExamCode);
+        if StudMarkHead.FindFirst then begin
+            StudMarkHead."Total No of Subject Failed" := FailCnt;
+            if FailCnt > 0 then begin
+                StudMarkHead.Failed := true;
+                StudMarkHead.Rank := 0;
+            end
+            else
+                StudMarkHead.Failed := false;
+            StudMarkHead.Modify;
         end;
         // Stop .KATHIR
     end;
 
     [Scope('Internal')]
-    procedure UpdateAcademicPts(StudNo: Code[20];AcademicYear: Code[20];ExamType: Code[20])
+    procedure UpdateAcademicPts(StudNo: Code[20]; AcademicYear: Code[20]; ExamType: Code[20])
     var
         StuMarkHead: Record "Student Mark Header";
         AcadmicPts: Record "Academic Points";
         Grade: Record Grade;
     begin
-        StuMarkHead.Get(StudNo,AcademicYear,ExamType);
+        StuMarkHead.Get(StudNo, AcademicYear, ExamType);
         Grade.Reset;
-        Grade.SetFilter("Min Percentage",'<=%1',StuMarkHead.Average);
-        Grade.SetFilter("Max Percentage",'>=%1',StuMarkHead.Average);
+        Grade.SetFilter("Min Percentage", '<=%1', StuMarkHead.Average);
+        Grade.SetFilter("Max Percentage", '>=%1', StuMarkHead.Average);
         if Grade.FindLast then begin
-          AcadmicPts.Init;
-          AcadmicPts."Student No." := StuMarkHead."Student No.";
-          AcadmicPts."Academic Year" := StuMarkHead."Academic Year";
-          AcadmicPts."Exam Code" := StuMarkHead."Exam Type";
-          AcadmicPts."Class Code" := StuMarkHead."Class Code";
-          AcadmicPts.Points := Grade.Points;
-          if not AcadmicPts.Insert then
-            AcadmicPts.Modify;
+            AcadmicPts.Init;
+            AcadmicPts."Student No." := StuMarkHead."Student No.";
+            AcadmicPts."Academic Year" := StuMarkHead."Academic Year";
+            AcadmicPts."Exam Code" := StuMarkHead."Exam Type";
+            AcadmicPts."Class Code" := StuMarkHead."Class Code";
+            AcadmicPts.Points := Grade.Points;
+            if not AcadmicPts.Insert then
+                AcadmicPts.Modify;
         end;
     end;
 }

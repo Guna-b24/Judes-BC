@@ -62,7 +62,7 @@ table 71000 "Admission Setup"
             TableRelation = "Gen. Journal Template";
             DataClassification = SystemMetadata;
         }
-        field(9; "Application Sales Batch Name"; Code[20])
+        field(9; "Application Sales Batch Name"; Code[10])
         {
             Caption = 'Application Sales Batch Name';
             TableRelation = "Gen. Journal Batch".Name where("Journal Template Name" = field("Journal Template Name"));

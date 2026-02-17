@@ -1,14 +1,5 @@
 codeunit 72010 "Salary Group Posting"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Codeunit Created for PAYROLL Module
-    // -----------------------------------------------------------------------------------------------
-
-
     trigger OnRun()
     begin
     end;
@@ -33,7 +24,7 @@ codeunit 72010 "Salary Group Posting"
         TotAddAmt: Decimal;
         TotDedAmt: Decimal;
 
-    [Scope('Internal')]
+
     procedure Posting(var GSalaryPosting: Record "Salary Posting-1")
     var
         SalaryPosting: Record "Salary Posting-1";
@@ -254,7 +245,7 @@ codeunit 72010 "Salary Group Posting"
         Deductions(GSalaryPosting);
     end;
 
-    [Scope('Internal')]
+
     procedure InitGenJnlLine(LSalaryPosting: Record "Salary Posting-1"; Amount: Decimal)
     var
         JournalLineDimension: Record Table356;
@@ -287,7 +278,7 @@ codeunit 72010 "Salary Group Posting"
         END;
     end;
 
-    [Scope('Internal')]
+
     procedure Deductions(GSalaryPosting: Record "Salary Posting-1")
     var
         LSalaryPosting: Record "Salary Posting-1";

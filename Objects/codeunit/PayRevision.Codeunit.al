@@ -1,19 +1,9 @@
 codeunit 72006 "Pay Revision"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Codeunit Created for PAYROLL Module
-    // -----------------------------------------------------------------------------------------------
-
-
     trigger OnRun()
     begin
     end;
 
-    [Scope('Internal')]
     procedure "Process Monthly Salary"(PayRevisionID: Code[20]; EffectiveDate: Date; EmployeeNo: Code[20]; NewEffectiveDate: Date) Status: Boolean
     var
         Employee: Record Employee;
@@ -26,7 +16,6 @@ codeunit 72006 "Pay Revision"
             until Employee.Next = 0;
     end;
 
-    [Scope('Internal')]
     procedure "Read Pay Employee Elements"(PayRevisionID: Code[20]; LPayrollDate: Date; LEmployeeNo: Code[20]; NewEffectiveDate: Date)
     var
         Employee: Record Employee;
@@ -71,7 +60,7 @@ codeunit 72006 "Pay Revision"
             until EmployeePayElements.Next = 0;
     end;
 
-    [Scope('Internal')]
+
     procedure "Process VDA Revision"(PayRevisionID: Code[20]; EffectiveDate: Date; EmployeeNo: Code[20]; NewEffectiveDate: Date; VDAMaxRange: Decimal) Status: Boolean
     var
         Employee: Record Employee;
@@ -85,7 +74,7 @@ codeunit 72006 "Pay Revision"
             until Employee.Next = 0;
     end;
 
-    [Scope('Internal')]
+
     procedure "Read Daily Wages Elements"(PayRevisionID: Code[20]; LPayrollDate: Date; LEmployeeNo: Code[20]; NewEffectiveDate: Date; VDAMaxRange: Decimal)
     var
         Employee: Record Employee;

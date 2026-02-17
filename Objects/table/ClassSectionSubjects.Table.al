@@ -109,7 +109,7 @@ table 71016 "Class Section Subjects"
             TableRelation = Employee;
             DataClassification = CustomerContent;
         }
-        field(13; "Class Code"; Code[20])
+        field(13; "Class Code"; Text[100])
         {
             Caption = 'Class Code';
             ToolTip = 'Specifies the class associated with this subject.';

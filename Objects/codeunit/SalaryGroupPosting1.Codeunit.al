@@ -1,14 +1,5 @@
 codeunit 72012 "Salary Group Posting-1"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Codeunit Created for PAYROLL Module
-    // -----------------------------------------------------------------------------------------------
-
-
     trigger OnRun()
     begin
     end;
@@ -33,7 +24,7 @@ codeunit 72012 "Salary Group Posting-1"
         TotAddAmt: Decimal;
         TotDedAmt: Decimal;
 
-    [Scope('Internal')]
+
     procedure Posting(var GSalaryPosting: Record "Salary Posting-1")
     var
         SalaryPosting: Record "Salary Posting-1";
@@ -254,7 +245,7 @@ codeunit 72012 "Salary Group Posting-1"
         Deductions(GSalaryPosting);
     end;
 
-    [Scope('Internal')]
+
     procedure InitGenJnlLine(LSalaryPosting: Record "Salary Posting-1"; Amount: Decimal)
     var
         JournalLineDimension: Record Table356;
@@ -275,21 +266,11 @@ codeunit 72012 "Salary Group Posting-1"
             //  GenJournalLine."Shortcut Dimension 1 Code" := LSalaryPosting."Branch Code";
             GenJournalLine."Source Code" := 'GENJNL';
             GenJournalLine.INSERT;
-            /*
-              JournalLineDimension.INIT;
-              JournalLineDimension."Table ID" := DATABASE::"Gen. Journal Line";
-              JournalLineDimension."Journal Template Name" := GenJournalLine."Journal Template Name";
-              JournalLineDimension."Journal Batch Name" := GenJournalLine."Journal Batch Name";
-              JournalLineDimension."Journal Line No." := GenJournalLine."Line No.";
-              JournalLineDimension."Dimension Code" := 'BRANCH';
-              JournalLineDimension."Dimension Value Code" := LSalaryPosting."Branch Code";
-              JournalLineDimension.INSERT;
-            */
         END;
 
     end;
 
-    [Scope('Internal')]
+
     procedure Deductions(GSalaryPosting: Record "Salary Posting-1")
     var
         LSalaryPosting: Record "Salary Posting-1";

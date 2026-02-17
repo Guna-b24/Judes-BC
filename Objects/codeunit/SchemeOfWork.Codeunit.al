@@ -20,7 +20,7 @@ codeunit 71170 "Scheme Of Work"
         Text011: Label 'Do you want reject this plan ?';
         Text012: Label 'Please give the comments for the rejection';
 
-    [Scope('Internal')]
+
     procedure ApplyFacultyPlan(cdeDocument: Code[20])
     begin
         if FacultyClassPlanHeader.Get(cdeDocument) then begin
@@ -35,12 +35,12 @@ codeunit 71170 "Scheme Of Work"
 
             if Confirm(Text004, true) then begin
                 FacultyClassPlanHeader."Plan Status" := FacultyClassPlanHeader."Plan Status"::Applied;
-                FacultyClassPlanHeader.Modify;
+                FacultyClassPlanHeader.Modify();
             end;
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure ApproveFacultyPlan(cdeDocument: Code[20])
     begin
         if FacultyClassPlanHeader.Get(cdeDocument) then begin
@@ -53,12 +53,12 @@ codeunit 71170 "Scheme Of Work"
             if FacultyClassPlanHeader."Plan Status" = FacultyClassPlanHeader."Plan Status"::Applied then
                 if Confirm(Text007, true) then begin
                     FacultyClassPlanHeader."Plan Status" := FacultyClassPlanHeader."Plan Status"::Approved;
-                    FacultyClassPlanHeader.Modify;
+                    FacultyClassPlanHeader.Modify();
                 end;
         end;
     end;
 
-    [Scope('Internal')]
+
     procedure RejectFacultyPlan(cdeDocument: Code[20])
     begin
         if FacultyClassPlanHeader.Get(cdeDocument) then begin
@@ -76,7 +76,7 @@ codeunit 71170 "Scheme Of Work"
                     if FacultyClassPlanHeader.Comments = '' then
                         Error(Text011);
                     FacultyClassPlanHeader."Plan Status" := FacultyClassPlanHeader."Plan Status"::Rejected;
-                    FacultyClassPlanHeader.Modify;
+                    FacultyClassPlanHeader.Modify();
                 end;
         end;
     end;

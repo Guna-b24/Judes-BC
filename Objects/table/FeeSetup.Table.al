@@ -73,14 +73,14 @@ table 71072 "Fee Setup"
             ToolTip = 'No. Series for caution deposit entries.';
         }
 
-        field(70125; "Fee Receipt Template"; Code[20])
+        field(70125; "Fee Receipt Template"; Code[10])
         {
             Caption = 'Fee Receipt Template';
             TableRelation = "Gen. Journal Template";
             DataClassification = ToBeClassified;
             ToolTip = 'Journal template used for fee receipts.';
         }
-        field(70126; "Fee Receipt Batch"; Code[20])
+        field(70126; "Fee Receipt Batch"; Code[10])
         {
             Caption = 'Fee Receipt Batch';
             TableRelation = "Gen. Journal Batch".Name WHERE("Journal Template Name" = FIELD("Fee Receipt Template"));

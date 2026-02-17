@@ -1,14 +1,5 @@
 codeunit 72005 "Salary Posting"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Codeunit Created for PAYROLL Module
-    // -----------------------------------------------------------------------------------------------
-
-
     trigger OnRun()
     begin
     end;
@@ -34,7 +25,7 @@ codeunit 72005 "Salary Posting"
         SalaryPlanCode: Code[20];
         SalaryCyclicCode: Code[20];
 
-    [Scope('Internal')]
+
     procedure Posting(MonthlyAttendance: Record "Monthly Attendance")
     var
         ProcessedSalary: Record "Processed Salary";

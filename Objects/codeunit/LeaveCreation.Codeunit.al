@@ -1,14 +1,5 @@
 codeunit 72004 "Leave Creation"
 {
-    // -----------------------------------------------------------------------------------------------
-    // Firstware Sofware Solutions : Project Name : HR & PAYROLL
-    // -----------------------------------------------------------------------------------------------
-    // No.  Date          Developer     Spec/CU/CR      Description
-    // -----------------------------------------------------------------------------------------------
-    // 1    04.APR.2009   RAJAH.A                       New Codeunit Created for PAYROLL Module
-    // -----------------------------------------------------------------------------------------------
-
-
     trigger OnRun()
     begin
         HRPayrollSetup.Get(UserId);
@@ -17,7 +8,7 @@ codeunit 72004 "Leave Creation"
         SalaryPlanCode := HRPayrollSetup."Salary Plan Code";
         YearCode := HRPayrollSetup."Salary Year Code";
 
-        PayrollYear.Reset;
+        PayrollYear.Reset();
         PayrollYear.SetRange("Location Code", LocationCode);
         PayrollYear.SetRange("Salary Plan Code", SalaryPlanCode);
         PayrollYear.SetRange("Year Code", YearCode);
@@ -35,18 +26,18 @@ codeunit 72004 "Leave Creation"
 
             StartDateTime := CurrentDateTime;
 
-            Employee1.Reset;
+            Employee1.Reset();
             Employee1.SetRange("Location Code", LocationCode);
             Employee1.SetRange("Salary Plan Code", SalaryPlanCode);
             Employee1.SetRange(Status, Employee1.Status::Active);
             Employee1.SetRange("Leave Generated", false);
-            if Employee1.FindFirst then begin
+            if Employee1.FindFirst() then begin
                 repeat
 
                     "Create Leave Entitlement"(PayrollYear);
                     "Leave Balance Update"();
 
-                until Employee1.Next = 0;
+                until Employee1.Next() = 0;
             end;
 
             EndDateTime := CurrentDateTime;
@@ -56,7 +47,7 @@ codeunit 72004 "Leave Creation"
                      StartDateTime, EndDateTime, ElaspedTime);
 
             PayrollYear.Created := true;
-            PayrollYear.Modify;
+            PayrollYear.Modify();
         end
         else
             Error('Leave Records Already Generated..!!');
@@ -78,7 +69,7 @@ codeunit 72004 "Leave Creation"
         SalaryPlanCode: Code[20];
         YearCode: Code[20];
 
-    [Scope('Internal')]
+
     procedure "Create Leave Entitlement"(PayrollYear: Record "Payroll Year") Status: Boolean
     var
         DialogWindow: Dialog;
@@ -134,7 +125,7 @@ codeunit 72004 "Leave Creation"
         Status := true;
     end;
 
-    [Scope('Internal')]
+
     procedure "Create Leave Credited"(PayrollYear: Record "Payroll Year"; LeaveMaster: Record "Leave Master"; Employee: Record Employee)
     var
         LeaveCredited: Record "Leave Credited";
@@ -181,7 +172,7 @@ codeunit 72004 "Leave Creation"
         until PayrollYear."Year Start Date" >= PayrollYear."Year End Date";
     end;
 
-    [Scope('Internal')]
+
     procedure "Leave Balance Update"()
     var
         LeaveEntitlement1: Record "Leave Entitlement";

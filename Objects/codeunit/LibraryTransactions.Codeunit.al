@@ -1,22 +1,5 @@
 codeunit 71630 "Library Transactions"
 {
-    // 
-    // No   Date      Sign      Trigger          Description
-    // -----------------------------------------------------------------------------------------------
-    // 01  18.09.2009  AJAX     Book Issue        Code to change the Status of Book as Issued
-    // 02  19.09.2009  AJAX     Book Return       Code to change the Status of Book as Returned and check for fine if its returned
-    //                                          after the due date.
-    // 03  23.09.2009  AJAX     Book Creation     Code to create Book as Item
-    // 04  25.09.2009  AJAX     AccNo Creation    Code to create AccNo for the Books Purchased
-    // 05  26.09.2009  AJAX     Advance Book      Code to do Advance Booking for the Book
-    // 07  13.10.09    VIGNESH  Calculate Fine()  Code added to calculate the Fine amount
-    // 08  13.10.09    VIGNESH  Pay Fine()        Code added to pay the Fine
-    // 08  16.10.2009  VANDHANA Book Renewal      Code to renewal the Book.
-    // 09  22.02.10    GUNA     Book Issue        Code written to change the booked status in Book Accession.
-    // 10  22.02.10    Ankesh   Pay Fine()        Code written to get the fee setup detail for college.
-    // 11  12.03.10    ABK   Book Renewal()       Code added to check the maximum renewals.
-
-
     trigger OnRun()
     begin
     end;
@@ -373,7 +356,7 @@ codeunit 71630 "Library Transactions"
     end;
 
     [Scope('Internal')]
-    procedure "Book Availablity"(BookNo: Code[20]) Ret: array [2] of Boolean
+    procedure "Book Availablity"(BookNo: Code[20]) Ret: array[2] of Boolean
     var
         Book: Record Table71630;
         BookAccession: Record Table71631;
