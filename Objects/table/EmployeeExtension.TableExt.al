@@ -5,8 +5,8 @@ tableextension 50001 "Employee Extension" extends Employee
         field(50100; "Employee Category"; Option)
         {
             Caption = 'Employee Category';
-            OptionMembers = " ","Staff Permanent","Staff Temporary","Worker Permanent","Worker Temporary","Class IV Permanent";
-            OptionCaption = ' ,Staff Permanent,Staff Temporary,Worker Permanent,Worker Temporary,Class IV Permanent';
+            OptionMembers = " ","Staff Permanent","Staff Temporary","Worker Permanent","Worker Temporary","Class IV Permanent","Class IV Temporary";
+            OptionCaption = ' ,Staff Permanent,Staff Temporary,Worker Permanent,Worker Temporary,Class IV Permanent,Class IV Temporary';
             DataClassification = CustomerContent;
         }
         field(50101; "Working Shift Code"; code[20])
@@ -109,12 +109,123 @@ tableextension 50001 "Employee Extension" extends Employee
             Caption = 'Grade Code';
             DataClassification = CustomerContent;
         }
-
+        field(50120; "Pay Bus. Posting Group"; code[20])
+        {
+            Caption = 'Pay Bus. Posting Group';
+            DataClassification = CustomerContent;
+        }
+        field(50121; "Emp Posting Group"; code[20])
+        {
+            Caption = 'Emp Posting Group';
+            DataClassification = CustomerContent;
+        }
+        field(50122; "Payment Method"; Option)
+        {
+            Caption = 'Payment Method';
+            DataClassification = CustomerContent;
+            OptionMembers = "","Cash","Cheque","Bank Transfer";
+            OptionCaption = ', Cash, Cheque,Bank Transfer';
+        }
+        field(50123; "Blocked"; Boolean)
+        {
+            Caption = 'Blocked';
+            DataClassification = CustomerContent;
+        }
+        field(50124; "Stop Payment"; Boolean)
+        {
+            Caption = 'Stop Payment';
+            DataClassification = CustomerContent;
+        }
+        field(50125; "Layoff Applicable"; Boolean)
+        {
+            Caption = 'Layoff Applicable';
+            DataClassification = CustomerContent;
+        }
+        field(50126; "Credit Days Applicable"; Boolean)
+        {
+            Caption = 'Credit Days Applicable';
+            DataClassification = CustomerContent;
+        }
+        field(50127; "Attendance Bonus Applicable"; Boolean)
+        {
+            Caption = 'Attendance Bonus Applicable';
+            DataClassification = CustomerContent;
+        }
+        field(50128; "Attendance Bonus Amount"; Decimal)
+        {
+            Caption = 'Attendance Bonus Amount';
+            DataClassification = CustomerContent;
+        }
+        field(50129; "PF Applicable"; Boolean)
+        {
+            Caption = 'PF Applicable';
+            DataClassification = CustomerContent;
+        }
+        field(50130; "VPF Applicable"; Boolean)
+        {
+            Caption = 'VPF Applicable';
+            DataClassification = CustomerContent;
+        }
+        field(50131; "Employee VPF ( Employee) %"; Decimal)
+        {
+            Caption = 'Employee VPF ( Employee) %';
+            DataClassification = CustomerContent;
+        }
+        field(50132; "ESI Applicable"; Boolean)
+        {
+            Caption = 'ESI Applicable';
+            DataClassification = CustomerContent;
+        }
+        field(50133; "PT Applicable"; Boolean)
+        {
+            Caption = 'PT Applicable';
+            DataClassification = CustomerContent;
+        }
+        field(50134; "PT Branch Code"; code[20])
+        {
+            Caption = 'PT Branch Code';
+            DataClassification = CustomerContent;
+        }
+        field(50135; "Insurance Applicable"; Boolean)
+        {
+            Caption = 'Insurance Applicable';
+            DataClassification = CustomerContent;
+        }
+        field(50136; "Medical Reimbu. Applicable"; Boolean)
+        {
+            Caption = 'Medical Reimbu. Applicable';
+            DataClassification = CustomerContent;
+        }
+        field(50137; "OT Applicable"; Boolean)
+        {
+            Caption = 'OT Applicable';
+            DataClassification = CustomerContent;
+        }
+        field(50138; "Over Time Multiplier"; Decimal)
+        {
+            Caption = 'Over Time Multiplier';
+            DataClassification = CustomerContent;
+        }
+        field(50139; "Per Daily Amount"; Boolean)
+        {
+            Caption = 'Per Daily Amount';
+            DataClassification = CustomerContent;
+        }
+        field(50140; "Weekly Off Cut"; Boolean)
+        {
+            Caption = 'Weekly Off Cut';
+            DataClassification = CustomerContent;
+        }
+        field(50141; "Weekly Off / Holiday Cut"; Boolean)
+        {
+            Caption = 'Weekly Off / Holiday Cut';
+            DataClassification = CustomerContent;
+        }
     }
 
     keys
     {
-        // Add changes to keys here
+        // Add "Layoff Applicable" to keys here
     }
 
     fieldgroups

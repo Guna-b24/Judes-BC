@@ -47,5 +47,11 @@ tableextension 50000 "GenJournalLine Ext" extends "Gen. Journal Line"
             DataClassification = CustomerContent;
             ToolTip = 'Specifies the fee type such as Initial or Term fees.';
         }
+        field(50008; "Employee No."; Code[20])
+        {
+            Caption = 'Employee No.';
+            DataClassification = CustomerContent;
+            ToolTip = 'Specifies the Employee No.';
+        }
     }
 }

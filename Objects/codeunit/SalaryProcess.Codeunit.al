@@ -145,7 +145,7 @@ codeunit 72002 "Salary Process"
                     ProcessedSalary."Pay Type" := 1;
                     ProcessedSalary."Actual Amount" := EmployeeLoanDetails."EMI Amount";
                     "Insert Pay Processed Salary"(ProcessedSalary);
-                until EmployeeLoanDetails.Next = 0;
+                until EmployeeLoanDetails.Next() = 0;
         end;
     end;
 
@@ -202,8 +202,6 @@ codeunit 72002 "Salary Process"
         LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
         ProcessedSalary: Record "Processed Salary";
         PayElements: Record "Pay Elements";
-        MonthlyAttendance: Record "Monthly Attendance";
-        TempNoDays: Decimal;
     begin
         HRPayrollSetup.Get(UserId);
         LocationHRPayrollSetup.Get(HRPayrollSetup."Location Code");
@@ -267,7 +265,6 @@ codeunit 72002 "Salary Process"
     procedure "Calculate Percentage"(LEmployeeNo: Code[20]; LBasePayElement: Text[250])
     var
         ProcessedSalary: Record "Processed Salary";
-        PayElements: Record "Pay Elements";
     begin
         Clear(ActualBaseTotalAmount);
         Clear(PayableBaseTotalAmount);
@@ -748,7 +745,7 @@ codeunit 72002 "Salary Process"
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetRange("Pay Type", ProcessedSalary."Pay Type"::Addition);
-        if ProcessedSalary.Find('-') then begin
+        if ProcessedSalary.Find('-') then
             repeat
                 PayElements.Get(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
 
@@ -762,18 +759,18 @@ codeunit 72002 "Salary Process"
 
                 //-- New Modification for HTC- on - 25/12/2009.
 
-                if PayElements."Eligible for ESI Earnings" then begin
+                if PayElements."Eligible for ESI Earnings" then
                     if PayElements."Fixed Pay Element" then
                         FixedESIGrossEarnings += ProcessedSalary."Payable Amount";
-                end;
 
-                if PayElements."Eligible for ESI Earnings" then begin
+
+                if PayElements."Eligible for ESI Earnings" then
                     if PayElements."Fixed Pay Element" = false then
                         NonFixedESIGrossEarnings += ProcessedSalary."Payable Amount";
-                end;
 
-            until ProcessedSalary.Next = 0;
-        end;
+
+            until ProcessedSalary.Next() = 0;
+
 
         ESIGrossEarnings := "General Rounding Off"(ESIGrossEarnings);
 
@@ -834,11 +831,9 @@ codeunit 72002 "Salary Process"
         ProfessionalTaxHeader: Record "Professional Tax Header";
         ProfessionalTaxLine: Record "Professional Tax Line";
         ProcessedSalary: Record "Processed Salary";
-        HRPayrollSetup: Record "HR & Payroll Setup";
-        LastEffectiveDate: Date;
         PTGrossEarnings: Decimal;
         EmployeePTAmount: Decimal;
-        RoundingType: Text[2];
+
     begin
         //------ PT Calculation
         //------ Effective Date / PT Gross Salary Limit
@@ -874,31 +869,31 @@ codeunit 72002 "Salary Process"
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetRange("Pay Type", ProcessedSalary."Pay Type"::Addition);
-        if ProcessedSalary.Find('-') then begin
+        if ProcessedSalary.Find('-') then
             repeat
                 PayElements.Get(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
 
                 if PayElements."Eligible for PT" then
                     PTGrossEarnings += ProcessedSalary."Payable Amount";
-            until ProcessedSalary.Next = 0;
-        end;
+            until ProcessedSalary.Next() = 0;
+
 
         PTGrossEarnings := "General Rounding Off"(PTGrossEarnings);
 
-        ProfessionalTaxLine.Reset;
+        ProfessionalTaxLine.Reset();
         ProfessionalTaxLine.SetRange("Location Code", LocationCode);
         ProfessionalTaxLine.SetRange("Salary Plan Code", SalaryPlanCode);
         ProfessionalTaxLine.SetRange("Branch Code", Employee."PT Branch Code");
         ProfessionalTaxLine.SetFilter("Effective Date", '<=%1', PayEndDate);
-        if ProfessionalTaxLine.Find('-') then begin
+        if ProfessionalTaxLine.Find('-') then
             repeat
                 if (ProfessionalTaxLine."Income From" <= PTGrossEarnings) and
-                   (ProfessionalTaxLine."Income To" >= PTGrossEarnings) then begin
+                   (ProfessionalTaxLine."Income To" >= PTGrossEarnings) then
                     EmployeePTAmount := ProfessionalTaxLine."Tax Amount";
-                end;
+
 
             until ProfessionalTaxLine.Next() = 0;
-        end;
+
 
         PayElements.Get('PT', LocationCode, SalaryPlanCode);
         Clear(ProcessedSalary);
@@ -933,7 +928,7 @@ codeunit 72002 "Salary Process"
 
         PayElements.Get('LIC', LocationCode, SalaryPlanCode);
 
-        LICHeader.Reset;
+        LICHeader.Reset();
         LICHeader.SetRange("Location Code", LocationCode);
         LICHeader.SetRange("Salary Plan Code", SalaryPlanCode);
         LICHeader.SetRange("Pay Element Code", PayElements."Pay Element Code");
@@ -978,7 +973,7 @@ codeunit 72002 "Salary Process"
 
         PayElements.Get('MED REIMB', LocationCode, SalaryPlanCode);
 
-        MedicalReimbuHeader.Reset;
+        MedicalReimbuHeader.Reset();
         MedicalReimbuHeader.SetRange("Location Code", LocationCode);
         MedicalReimbuHeader.SetRange("Salary Plan Code", SalaryPlanCode);
         MedicalReimbuHeader.SetRange("Pay Element Code", PayElements."Pay Element Code");
@@ -989,7 +984,7 @@ codeunit 72002 "Salary Process"
 
         Clear(TotalBillAmount);
 
-        MedicalReimbuLine.Reset;
+        MedicalReimbuLine.Reset();
         MedicalReimbuLine.SetRange("Location Code", LocationCode);
         MedicalReimbuLine.SetRange("Salary Plan Code", SalaryPlanCode);
         MedicalReimbuLine.SetRange("Pay Element Code", PayElements."Pay Element Code");
@@ -999,7 +994,7 @@ codeunit 72002 "Salary Process"
         if MedicalReimbuLine.Find('-') then begin
             repeat
                 TotalBillAmount += MedicalReimbuLine."Bill Amount";
-            until MedicalReimbuLine.Next = 0;
+            until MedicalReimbuLine.Next() = 0;
 
             Clear(ProcessedSalary);
             ProcessedSalary."Employee No" := LEmployeeNo;
@@ -1027,7 +1022,6 @@ codeunit 72002 "Salary Process"
         HRPayrollSetup: Record "HR & Payroll Setup";
         LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
         OTGrossEarnings: Decimal;
-        RoundingType: Text[2];
         TotalOverTimeMins: Decimal;
         AmountPerHour: Decimal;
         EmployeeOTAmount: Decimal;
@@ -1078,26 +1072,26 @@ codeunit 72002 "Salary Process"
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetRange("Pay Type", ProcessedSalary."Pay Type"::Addition);
-        if ProcessedSalary.Find('-') then begin
+        if ProcessedSalary.Find('-') then
             repeat
                 PayElements.Get(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
                 if PayElements."Eligible for OT" then
                     OTGrossEarnings += ProcessedSalary."Payable Amount";
-            until ProcessedSalary.Next = 0;
-        end;
+            until ProcessedSalary.Next() = 0;
 
-        if Employee."OT Type" = Employee."OT Type"::"Hourly Based" then begin
+
+        if Employee."OT Type" = Employee."OT Type"::"Hourly Based" then
             if TotalOverTimeMins > 0 then begin
                 AmountPerHour := ((OTGrossEarnings / TotalPayableDays) / LocationHRPayrollSetup."No of Hours Per Day");
                 EmployeeOTAmount := ((TotalOverTimeMins * AmountPerHour) * Employee."Over Time Multiplier");
                 EmployeeOTAmount := "General Rounding Off"(EmployeeOTAmount);
             end;
-        end;
 
-        if Employee."OT Type" = Employee."OT Type"::"Per Daily Amount  " then begin
+
+        if Employee."OT Type" = Employee."OT Type"::"Per Daily Amount" then
             if TotalOverTimeMins > 0 then
                 EmployeeOTAmount := (TotalOverTimeMins * (OTGrossEarnings / TotalPayableDays));
-        end;
+
 
         PayElements.Get('OT', LocationCode, SalaryPlanCode);
         Clear(ProcessedSalary);
@@ -1120,7 +1114,6 @@ codeunit 72002 "Salary Process"
 
     procedure "Extra Wages Calculation"(LEmployeeNo: Code[20])
     var
-        LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
         PayElements: Record "Pay Elements";
         ProcessedSalary: Record "Processed Salary";
         MonthlyAttendance: Record "Monthly Attendance";
@@ -1155,13 +1148,13 @@ codeunit 72002 "Salary Process"
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetRange("Pay Type", ProcessedSalary."Pay Type"::Addition);
-        if ProcessedSalary.Find('-') then begin
+        if ProcessedSalary.Find('-') then
             repeat
                 PayElements.Get(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
                 if PayElements."Eligible for Extra Allowances" then
                     ExtraWagesDaysGrossEarnings += ProcessedSalary."Actual Amount";
-            until ProcessedSalary.Next = 0;
-        end;
+            until ProcessedSalary.Next() = 0;
+
 
         PayElements.Get('EXTRA ALLOW', LocationCode, SalaryPlanCode);
 
@@ -1308,13 +1301,13 @@ codeunit 72002 "Salary Process"
         ProcessedSalary.SetRange("Salary Cycle Code", SalaryCyclicCode);
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetRange("Pay Type", ProcessedSalary."Pay Type"::Addition);
-        if ProcessedSalary.Find('-') then begin
+        if ProcessedSalary.Find('-') then
             repeat
                 PayElements.Get(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
                 if ProcessedSalary."Payment Type" = ProcessedSalary."Payment Type"::"First Payment" then
                     FirstPaymentAmount += ProcessedSalary."Payable Amount";
             until ProcessedSalary.Next() = 0;
-        end;
+
 
         MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Location Code", LocationCode);
@@ -1343,11 +1336,9 @@ codeunit 72002 "Salary Process"
         PayrollMonthYear: Record "Payroll Month & Year";
         PayElements: Record "Pay Elements";
         EmployeePayElements: Record "Employee Pay Elements";
-        MonthlyAttendance: Record "Monthly Attendance";
         ProcessedSalary: Record "Processed Salary";
         LastEffectiveDate: Date;
         TotalMonthlySalary: Decimal;
-        TotalPayableDays: Decimal;
         PerDaySalary: Decimal;
         TotalGrossAmount: Decimal;
         VDAAmount: Decimal;
@@ -1462,12 +1453,12 @@ codeunit 72002 "Salary Process"
         StartWeek := Date2DWY(PayStartDate, 2);
         EndWeek := Date2DWY(PayEndDate, 2);
 
-        DailyAttendance.Reset;
+        DailyAttendance.Reset();
         DailyAttendance.SetRange("Location Code", LocationCode);
         DailyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         DailyAttendance.SetRange("Employee No", LEmployeeNo);
         DailyAttendance.SetRange("Week No", StartWeek, EndWeek);
-        if DailyAttendance.Find('-') then begin
+        if DailyAttendance.Find('-') then
             repeat
                 if DailyAttendance."Lay Off" = 1 then
                     DailyAttendance."Lay Off" := 1;
@@ -1475,46 +1466,44 @@ codeunit 72002 "Salary Process"
                 TotalDaysWorked += (DailyAttendance.Present + DailyAttendance.Holiday
                                   + DailyAttendance."Lay Off");
 
-                if TotalDaysWorked >= LocationHRPayrollSetup."Weekly Off Full Days Limit" then begin
+                if TotalDaysWorked >= LocationHRPayrollSetup."Weekly Off Full Days Limit" then
                     if DailyAttendance."Weekly Off Status" then begin
                         DailyAttendance."First Half Attendance Type" := DailyAttendance."First Half Attendance Type"::"Weekly Off";
                         DailyAttendance."Second Half Attendance Type" := DailyAttendance."Second Half Attendance Type"::"Weekly Off";
                         CheckFlag := true;
                     end;
-                end;
 
-                if (TotalDaysWorked < LocationHRPayrollSetup."Weekly Off Full Days Limit") then begin
+
+                if (TotalDaysWorked < LocationHRPayrollSetup."Weekly Off Full Days Limit") then
                     if DailyAttendance."Weekly Off Status" then begin
                         DailyAttendance."First Half Attendance Type" := DailyAttendance."First Half Attendance Type"::Absent;
                         DailyAttendance."Second Half Attendance Type" := DailyAttendance."Second Half Attendance Type"::Absent;
                         CheckFlag := true;
                     end;
-                end;
 
-                if LocationHRPayrollSetup."Weekly Off Half Days Limit" <> 0 then begin
-                    if (TotalDaysWorked = LocationHRPayrollSetup."Weekly Off Half Days Limit") then begin
+
+                if LocationHRPayrollSetup."Weekly Off Half Days Limit" <> 0 then
+                    if (TotalDaysWorked = LocationHRPayrollSetup."Weekly Off Half Days Limit") then
                         if DailyAttendance."Weekly Off Status" then begin
                             DailyAttendance."First Half Attendance Type" := DailyAttendance."First Half Attendance Type"::"Weekly Off";
                             DailyAttendance."Second Half Attendance Type" := DailyAttendance."Second Half Attendance Type"::Absent;
                             CheckFlag := true;
                         end;
-                    end;
-                end;
+
 
                 if CheckFlag then begin
                     DailyAttendance.Validate("First Half Attendance Type");
                     DailyAttendance.Validate("Second Half Attendance Type");
-                    DailyAttendance.Modify;
+                    DailyAttendance.Modify();
                     TotalDaysWorked := 0;
                     CheckFlag := false;
                 end;
 
-                if DailyAttendance."Weekly Off Status" then begin
+                if DailyAttendance."Weekly Off Status" then
                     TotalDaysWorked := 0;
-                end;
 
-            until DailyAttendance.Next = 0;
-        end;
+            until DailyAttendance.Next() = 0;
+
 
         MonthlyAttendance.Reset();
         MonthlyAttendance.SetRange("Location Code", LocationCode);
@@ -1524,21 +1513,20 @@ codeunit 72002 "Salary Process"
         if MonthlyAttendance.Find('-') then begin
             MonthlyAttendance.CalcFields(Present);
             if MonthlyAttendance.Present = 0 then begin
-                DailyAttendance.Reset;
+                DailyAttendance.Reset();
                 DailyAttendance.SetRange("Location Code", LocationCode);
                 DailyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
                 DailyAttendance.SetRange("Salary Cyclic Code", SalaryCyclicCode);
                 DailyAttendance.SetRange("Employee No", LEmployeeNo);
                 DailyAttendance.SetFilter("Payable Days", '<>%1', 0);
-                if DailyAttendance.Find('-') then begin
+                if DailyAttendance.Find('-') then
                     repeat
                         DailyAttendance."First Half Attendance Type" := DailyAttendance."First Half Attendance Type"::Absent;
                         DailyAttendance."Second Half Attendance Type" := DailyAttendance."Second Half Attendance Type"::Absent;
                         DailyAttendance.Validate("First Half Attendance Type");
                         DailyAttendance.Validate("Second Half Attendance Type");
-                        DailyAttendance.Modify;
+                        DailyAttendance.Modify();
                     until DailyAttendance.Next() = 0;
-                end;
             end;
         end;
     end;
@@ -1546,15 +1534,8 @@ codeunit 72002 "Salary Process"
 
     procedure "Weekly Off / Holiday Cut"(LEmployeeNo: Code[20])
     var
-        HRPayrollSetup: Record "HR & Payroll Setup";
-        LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
-        RVDate: Record Date;
+
         DailyAttendance: Record "Daily Attendance";
-        MonthlyAttendance: Record "Monthly Attendance";
-        TotalDaysWorked: Decimal;
-        CheckFlag: Boolean;
-        AttendanceStartDate: Date;
-        AttendanceEndDate: Date;
     begin
         if Employee.Get(LEmployeeNo) then
             if not Employee."Weekly Off / Holiday Cut" then
@@ -1566,15 +1547,14 @@ codeunit 72002 "Salary Process"
         DailyAttendance.SetRange("Employee No", LEmployeeNo);
         DailyAttendance.SetRange("Attendance Date", PayStartDate, PayEndDate);
         DailyAttendance.SetRange("Non Working Day", true);
-        if DailyAttendance.Find('-') then begin
+        if DailyAttendance.Find('-') then
             repeat
                 DailyAttendance."First Half Attendance Type" := DailyAttendance."First Half Attendance Type"::Absent;
                 DailyAttendance."Second Half Attendance Type" := DailyAttendance."Second Half Attendance Type"::Absent;
                 DailyAttendance.Validate("First Half Attendance Type");
                 DailyAttendance.Validate("Second Half Attendance Type");
-                DailyAttendance.Modify;
+                DailyAttendance.Modify();
             until DailyAttendance.Next() = 0;
-        end;
     end;
 
 
@@ -1602,7 +1582,7 @@ codeunit 72002 "Salary Process"
                 if (ProcessedSalary."Pay Type" = ProcessedSalary."Pay Type"::Deduction) and
                    (ProcessedSalary."Amount Calculation Type" = ProcessedSalary."Amount Calculation Type"::"Full Amount") then
                     TotalDedeAmount += ProcessedSalary."Payable Amount";
-            until ProcessedSalary.Next = 0;
+            until ProcessedSalary.Next() = 0;
             TotalNetAmount := (TotalGrossAmount - TotalDedeAmount);
         end;
 
@@ -1613,15 +1593,15 @@ codeunit 72002 "Salary Process"
         ProcessedSalary.SetRange("Employee No", LEmployeeNo);
         ProcessedSalary.SetRange("Pay Type", ProcessedSalary."Pay Type"::Deduction);
         ProcessedSalary.SetRange("Amount Calculation Type", ProcessedSalary."Amount Calculation Type"::"Full Amount");
-        if ProcessedSalary.Find('-') then begin
+        if ProcessedSalary.Find('-') then
             repeat
                 if ProcessedSalary."Payable Amount" > TotalNetAmount then begin
                     ProcessedSalary."Payable Amount" := 0;
                     ProcessedSalary.Modify();
                 end;
             until ProcessedSalary.Next() = 0;
-        end;
     end;
+
 
 
     procedure "Convert Mins To Hours"(TotalHrsMins: Decimal): Decimal
@@ -1672,7 +1652,7 @@ codeunit 72002 "Salary Process"
         MonthlyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
         MonthlyAttendance.SetRange("Salary Cycle Code", SalaryCyclicCode);
         MonthlyAttendance.SetRange("Employee No", LEmployeeNo);
-        if MonthlyAttendance.FindFirst then begin
+        if MonthlyAttendance.FindFirst() then begin
             MonthlyAttendance.CalcFields("Total Payable Days");
             TotalPayableDays := MonthlyAttendance."Total Payable Days";
             TotalLOPDays := MonthlyAttendance."Manual LOP Days";

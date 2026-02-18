@@ -80,12 +80,11 @@ codeunit 72005 "Salary Posting"
                                 PayElements.TESTFIELD("Pay Prod. Posting Group");
                                 IF NOT PayrollBusinessPostingGroup.GET(Employee."Pay Bus. Posting Group", LocationCode, SalaryPlanCode) THEN
                                     ERROR(Text003, Employee."Pay Bus. Posting Group")
-                                ELSE BEGIN
+                                ELSE
                                     IF NOT PayrollGeneralPostingSetup.GET(PayrollBusinessPostingGroup.Code,
                                        PayElements."Pay Prod. Posting Group",
                                        LocationCode, SalaryPlanCode) THEN
                                         ERROR(Text002, PayrollBusinessPostingGroup.Code, PayElements."Pay Prod. Posting Group");
-                                END;
                             END;
                 END;
             UNTIL ProcessedSalary.NEXT() = 0;
@@ -214,8 +213,7 @@ codeunit 72005 "Salary Posting"
 
     procedure InitGenJnlLine(var ProcessedSalary: Record "Processed Salary"; JournalTemplate: Code[20]; JournalBatch: Code[20]; "DocumentNo.": Code[20]; PostingDate: Date; "AccountNo.": Code[20]; AccountType: Option "G/L Account","Bank Account"; Amount: Decimal)
     var
-        GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
-        JnlDim: Record Table356;
+        JnlDim: Record "Journal Line Dimension";
     begin
         IF Amount <> 0 THEN BEGIN
             PayElements.GET(ProcessedSalary."Pay Element Code", LocationCode, SalaryPlanCode);
