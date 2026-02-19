@@ -11,6 +11,7 @@ table 71904 "Academic Year"
             Caption = 'Code';
             NotBlank = true;
             DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the Code of the academic year.';
         }
         field(2; Description; Text[30])
         {
@@ -23,6 +24,7 @@ table 71904 "Academic Year"
             AutoIncrement = true;
             Caption = 'Sequence';
             DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the Sequence of the academic year.';
         }
         field(4; Closed; Boolean)
         {
@@ -47,6 +49,7 @@ table 71904 "Academic Year"
         {
             Caption = 'Portal ID';
             DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the Portal ID of the academic year.';
         }
     }
 

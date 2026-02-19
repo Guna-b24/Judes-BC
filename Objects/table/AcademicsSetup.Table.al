@@ -113,6 +113,7 @@ table 71040 "Academics Setup"
         {
             Caption = 'Portal ID';
             DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the Portal ID for Academics Setup';
         }
     }
 

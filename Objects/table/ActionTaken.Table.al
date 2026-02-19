@@ -10,6 +10,7 @@ table 71917 "Action Taken"
             Caption = 'Code';
             NotBlank = true;
             DataClassification = SystemMetadata;
+            ToolTip = 'Specifies the Code of the action taken.';
         }
         field(2; Description; Text[250])
         {
@@ -20,6 +21,7 @@ table 71917 "Action Taken"
         field(3; Type; Option)
         {
             Caption = 'Type';
+            ToolTip = 'Specifies the Type of the action taken.';
             OptionCaption = ' ,Staff,Student';
             OptionMembers = " ",Staff,Student;
         }
@@ -27,6 +29,7 @@ table 71917 "Action Taken"
         field(70121; "Portal ID"; Code[20])
         {
             Caption = 'Portal ID';
+            ToolTip = 'Specifies the Portal ID of the action taken.';
             DataClassification = SystemMetadata;
         }
     }
