@@ -1,11 +1,11 @@
-page 50101 Allocation
+page 70025 Allocation
 {
     ApplicationArea = All;
     Caption = 'Allocation';
     PageType = List;
     SourceTable = Allocation;
     UsageCategory = Lists;
-    
+
     layout
     {
         area(Content)

@@ -89,16 +89,16 @@ codeunit 71000 Admission
                 GenJnlLine."Journal Batch Name" := AdmissionSetup."Application Sales Batch Name";
                 GenJnlLine."Posting Date" := Application."Date of Sale";
                 GenJnlLine."Credit Amount" := Application."Application Cost";
-                GenJnlLine."Cheque No." := Application."Cheque / DD No.";
-                GenJnlLine."Cheque Date" := Application."Cheque / DD Date";
+                //GenJnlLine."Cheque No." := Application."Cheque / DD No.";
+                //GenJnlLine."Cheque Date" := Application."Cheque / DD Date";
             END;
 
             IF Process = Process::Registration THEN BEGIN
                 GenJnlLine."Journal Batch Name" := AdmissionSetup."Registration Batch Name";
                 GenJnlLine."Posting Date" := Application."Date of Receive";
                 GenJnlLine."Credit Amount" := Application."Registration Cost";
-                GenJnlLine."Cheque No." := Application."Reg DD / Cheque No";
-                GenJnlLine."Cheque Date" := Application."Reg DD / Cheque Date";
+                //GenJnlLine."Cheque No." := Application."Reg DD / Cheque No";
+                //GenJnlLine."Cheque Date" := Application."Reg DD / Cheque Date";
             END;
 
             GenJnlLine.VALIDATE("Credit Amount");

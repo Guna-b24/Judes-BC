@@ -8,6 +8,7 @@ table 71003 "Application Mark"
         field(1; "Application No"; Code[20])
         {
             Caption = 'Application No';
+            TableRelation = Application."No.";
             ToolTip = 'Specifies the application number to which the mark details belong.';
             DataClassification = CustomerContent;
         }
@@ -42,7 +43,7 @@ table 71003 "Application Mark"
             trigger OnValidate()
             begin
                 if Maximum < "Mark Obtained" then begin
-                    Message(Text000);
+                    Error(Text000);
                     "Mark Obtained" := 0;
                 end
             end;
@@ -70,7 +71,7 @@ table 71003 "Application Mark"
         }
         field(8; "Exam Code"; Code[20])
         {
-            Caption = 'Register Number';
+            Caption = 'Exam Code';
             ToolTip = 'Specifies the examination register number of the applicant.';
             DataClassification = CustomerContent;
         }

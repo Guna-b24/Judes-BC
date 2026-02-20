@@ -1,37 +1,39 @@
-page 70008 "Admission Grade List"
+page 70013 "Agency List"
 {
     PageType = List;
-    SourceTable = "Admission Grade";
+    SourceTable = Agency;
     ApplicationArea = All;
     UsageCategory = Lists;
-    CardPageId = "Admission Grade Card";
-    Caption = 'Admission Grades';
-
-    SourceTableView = sorting("Academic Year", Code);
+    CardPageId = "Agency Card";
+    Caption = 'Agencies';
 
     layout
     {
         area(Content)
         {
-            repeater(General)
+            repeater(Group)
             {
-                field("Academic Year"; Rec."Academic Year")
+                field("Indenting No"; Rec."Indenting No")
                 {
                     ApplicationArea = All;
                 }
-                field(Code; Rec.Code)
+                field("Agency Code"; Rec."Agency Code")
                 {
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
+                field("Agency Name"; Rec."Agency Name")
                 {
                     ApplicationArea = All;
                 }
-                field("Obtained Mark"; Rec."Obtained Mark")
+                field("Contact Person"; Rec."Contact Person")
                 {
                     ApplicationArea = All;
                 }
-                field("Maximum Mark"; Rec."Maximum Mark")
+                field(Phone; Rec.Phone)
+                {
+                    ApplicationArea = All;
+                }
+                field(City; Rec.City)
                 {
                     ApplicationArea = All;
                 }

@@ -57,7 +57,7 @@ table 71005 "Application Co-Curricular"
 
     keys
     {
-        key(Key1; "Student No.", "Co-Curricular Code")
+        key(Key1; "Application No.", "Co-Curricular Code")
         {
             Clustered = true;
         }

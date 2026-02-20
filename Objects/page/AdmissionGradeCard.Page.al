@@ -1,4 +1,4 @@
-page 71017 "Admission Grade Card"
+page 70007 "Admission Grade Card"
 {
     PageType = Card;
     SourceTable = "Admission Grade";

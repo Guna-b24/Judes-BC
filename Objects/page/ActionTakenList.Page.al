@@ -1,4 +1,4 @@
-page 71919 "Action Taken List"
+page 70006 "Action Taken List"
 {
     PageType = List;
     SourceTable = "Action Taken";

@@ -1,4 +1,4 @@
-page 72012 "Advertisement Card"
+page 70010 "Advertisement Card"
 {
     PageType = Card;
     UsageCategory = Administration;

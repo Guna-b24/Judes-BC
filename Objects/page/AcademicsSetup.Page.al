@@ -1,4 +1,4 @@
-page 71040 "Academics Setup"
+page 70001 "Academics Setup"
 {
     PageType = Card;
     SourceTable = "Academics Setup";

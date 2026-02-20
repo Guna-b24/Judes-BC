@@ -1,37 +1,38 @@
-page 70008 "Admission Grade List"
+page 70021 "Application Certificate List"
 {
     PageType = List;
-    SourceTable = "Admission Grade";
+    SourceTable = "Application Certificate";
     ApplicationArea = All;
     UsageCategory = Lists;
-    CardPageId = "Admission Grade Card";
-    Caption = 'Admission Grades';
-
-    SourceTableView = sorting("Academic Year", Code);
+    Caption = 'Application Certificates';
 
     layout
     {
-        area(Content)
+        area(content)
         {
-            repeater(General)
+            repeater(Group)
             {
-                field("Academic Year"; Rec."Academic Year")
+                field("Application No."; Rec."Application No.")
                 {
                     ApplicationArea = All;
                 }
-                field(Code; Rec.Code)
+
+                field("Certificate"; Rec."Certificate")
                 {
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
+
+                field("Certificate Status"; Rec."Certificate Status")
                 {
                     ApplicationArea = All;
                 }
-                field("Obtained Mark"; Rec."Obtained Mark")
+
+                field("Receipt Date / Submission Date"; Rec."Receipt Date / Submission Date")
                 {
                     ApplicationArea = All;
                 }
-                field("Maximum Mark"; Rec."Maximum Mark")
+
+                field("Portal ID"; Rec."Portal ID")
                 {
                     ApplicationArea = All;
                 }

@@ -9,10 +9,11 @@ table 71010 "Application Certificate"
         field(1; "Application No."; Code[20])
         {
             Caption = 'Application No.';
+            TableRelation = Application."No.";
             ToolTip = 'Specifies the application number to which the certificate is linked.';
             DataClassification = CustomerContent;
         }
-        field(2; Ceritificate; Code[20])
+        field(2; Certificate; Code[20])
         {
             Caption = 'Certificate';
             ToolTip = 'Specifies the certificate required or submitted for the application.';
@@ -43,7 +44,7 @@ table 71010 "Application Certificate"
 
     keys
     {
-        key(Key1; "Application No.", Ceritificate)
+        key(Key1; "Application No.", Certificate)
         {
             Clustered = true;
         }

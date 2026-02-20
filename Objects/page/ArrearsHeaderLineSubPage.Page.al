@@ -1,35 +1,34 @@
-page 70011 "Advertisement List"
+page 70037 "Arrears Header Line SubPage"
 {
-    PageType = List;
-    SourceTable = Advertisement;
+    PageType = ListPart;
+    SourceTable = "Arrears Header Line";
     ApplicationArea = All;
-    UsageCategory = Lists;
-    CardPageId = "Advertisement Card";
-    Caption = 'Advertisements';
+    Caption = 'Arrears Employees';
+    AutoSplitKey = true;
 
     layout
     {
         area(Content)
         {
-            repeater(General)
+            repeater(Group)
             {
-                field("No."; Rec."No.")
+                field("Employee No"; Rec."Employee No")
                 {
                     ApplicationArea = All;
                 }
-                field("Company Name"; Rec."Company Name")
+                field(Name; Rec.Name)
                 {
                     ApplicationArea = All;
                 }
-                field("Required Vacancy"; Rec."Required Vacancy")
+                field("Location Code"; Rec."Location Code")
                 {
                     ApplicationArea = All;
                 }
-                field("No. Of Vacancy"; Rec."No. Of Vacancy")
+                field("Salary Plan Code"; Rec."Salary Plan Code")
                 {
                     ApplicationArea = All;
                 }
-                field("Required Date"; Rec."Required Date")
+                field("Total Arrear Amount"; Rec."Total Arrear Amount")
                 {
                     ApplicationArea = All;
                 }

@@ -2,19 +2,6 @@ tableextension 50000 "GenJournalLine Ext" extends "Gen. Journal Line"
 {
     fields
     {
-        field(50001; "Cheque Date"; Date)
-        {
-            Caption = 'Cheque Date';
-            DataClassification = CustomerContent;
-            ToolTip = 'Specifies the cheque date for the journal line.';
-        }
-
-        field(50002; "Cheque No."; Code[50])
-        {
-            Caption = 'Cheque No.';
-            DataClassification = CustomerContent;
-            ToolTip = 'Specifies the cheque number for the journal line.';
-        }
         field(50003; "Class"; Code[10])
         {
             Caption = 'Class';

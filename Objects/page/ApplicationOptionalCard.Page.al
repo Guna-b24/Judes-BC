@@ -1,10 +1,9 @@
-page 70005 "Action Taken Card"
+page 70031 "Application Optional Card"
 {
     PageType = Card;
-    SourceTable = "Action Taken";
+    SourceTable = "Application Optional Subjects";
     ApplicationArea = All;
-    Caption = 'Action Taken';
-    UsageCategory = Administration;
+    Caption = 'Application Optional Subject Card';
 
     layout
     {
@@ -12,23 +11,23 @@ page 70005 "Action Taken Card"
         {
             group(General)
             {
-                field(Code; Rec.Code)
+                field("Application No"; Rec."Application No")
+                {
+                    ApplicationArea = All;
+                }
+                field("Subject Group"; Rec."Subject Group")
+                {
+                    ApplicationArea = All;
+                }
+                field(Subject; Rec.Subject)
                 {
                     ApplicationArea = All;
                 }
                 field(Description; Rec.Description)
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the description of the action taken.';
+                    Editable = false;
                 }
-                field(Type; Rec.Type)
-                {
-                    ApplicationArea = All;
-                }
-            }
-
-            group(Integration)
-            {
                 field("Portal ID"; Rec."Portal ID")
                 {
                     ApplicationArea = All;

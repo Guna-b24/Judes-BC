@@ -1149,7 +1149,7 @@ codeunit 71883 "Common List"
         GenJnlLine."Posting Date" := Postingdate;
         GenJnlLine."Document Type" := GenJnlLine."Document Type"::Payment;
         GenJnlLine."Document No." := NoSeriesMgt.GetNextNo(GenJnlBatch."No. Series", GenJnlLine."Posting Date", TRUE);
-        GenJnlLine."Cheque No." := PayRef;
+        // GenJnlLine."Cheque No." := PayRef;
         GenJnlLine."Account Type" := GenJnlLine."Account Type"::Customer;
         GenJnlLine.VALIDATE("Account No.", StudentNo);
         GenJnlLine.VALIDATE(Amount, -Amt);

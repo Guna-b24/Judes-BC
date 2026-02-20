@@ -1,37 +1,35 @@
-page 70008 "Admission Grade List"
+page 70035 "Arrears Header List"
 {
     PageType = List;
-    SourceTable = "Admission Grade";
+    SourceTable = "Arrears Header";
     ApplicationArea = All;
     UsageCategory = Lists;
-    CardPageId = "Admission Grade Card";
-    Caption = 'Admission Grades';
-
-    SourceTableView = sorting("Academic Year", Code);
+    Caption = 'Arrears List';
+    CardPageId = "Arrears Header Card";
 
     layout
     {
         area(Content)
         {
-            repeater(General)
+            repeater(Group)
             {
-                field("Academic Year"; Rec."Academic Year")
+                field("Arrears Id"; Rec."Arrears Id")
                 {
                     ApplicationArea = All;
                 }
-                field(Code; Rec.Code)
+                field("Arrears Process Date"; Rec."Arrears Process Date")
                 {
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
+                field("Location Code"; Rec."Location Code")
                 {
                     ApplicationArea = All;
                 }
-                field("Obtained Mark"; Rec."Obtained Mark")
+                field("Salary Plan Code"; Rec."Salary Plan Code")
                 {
                     ApplicationArea = All;
                 }
-                field("Maximum Mark"; Rec."Maximum Mark")
+                field("Pay Revision Id"; Rec."Pay Revision Id")
                 {
                     ApplicationArea = All;
                 }

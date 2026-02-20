@@ -9,6 +9,7 @@ table 72022 "Appraisal Line"
             Caption = 'App No.';
             Editable = false;
             DataClassification = CustomerContent;
+            ToolTip = 'Specifies the App No.';
 
         }
         field(2; "Employee No"; Code[20])

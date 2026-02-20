@@ -1,47 +1,48 @@
-page 70003 "Academic Year Card"
+page 70022 "Application Co-Curricular Card"
 {
     PageType = Card;
-    SourceTable = "Academic Year";
+    SourceTable = "Application Co-Curricular";
     ApplicationArea = All;
-    Caption = 'Academic Year';
     UsageCategory = Administration;
+    Caption = 'Application Co-Curricular';
 
     layout
     {
-        area(Content)
+        area(content)
         {
             group(General)
             {
-                field(Code; Rec.Code)
+                field("Application No."; Rec."Application No.")
                 {
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
+
+                field("Student No."; Rec."Student No.")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the description of the academic year.';
-                }
-                field(Sequence; Rec.Sequence)
-                {
-                    ApplicationArea = All;
-                    Editable = false; // AutoIncrement field
-                }
-                field("Start Date"; Rec."Start Date")
-                {
-                    ApplicationArea = All;
-                }
-                field("End Date"; Rec."End Date")
-                {
-                    ApplicationArea = All;
-                }
-                field(Closed; Rec.Closed)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies whether the academic year is closed.';
                 }
             }
 
-            group(Integration)
+            group(Activity)
+            {
+                field("Co-Curricular Code"; Rec."Co-Curricular Code")
+                {
+                    ApplicationArea = All;
+                }
+
+                field("Classification Code"; Rec."Classification Code")
+                {
+                    ApplicationArea = All;
+                }
+
+                field(Description; Rec.Description)
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+            }
+
+            group(System)
             {
                 field("Portal ID"; Rec."Portal ID")
                 {

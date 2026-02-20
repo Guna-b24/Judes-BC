@@ -1,4 +1,4 @@
-page 71945 "Academic Points List"
+page 70000 "Academic Points List"
 {
     PageType = List;
     SourceTable = "Academic Points";

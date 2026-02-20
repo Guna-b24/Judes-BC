@@ -1,4 +1,4 @@
-page 71908 "Academic Year List"
+page 70004 "Academic Year List"
 {
     PageType = List;
     SourceTable = "Academic Year";
