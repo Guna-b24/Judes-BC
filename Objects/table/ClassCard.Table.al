@@ -36,7 +36,7 @@ table 71006 "Class Card"
             BlankZero = true;
             DataClassification = CustomerContent;
         }
-        field(15; "Miniimum Age Limit"; Integer)
+        field(15; "Minimum Age Limit"; Integer)
         {
             Caption = 'Minimum Age Limit';
             BlankZero = true;
@@ -186,7 +186,7 @@ table 71006 "Class Card"
         ClassCardRec."Academic Year" := getAcademic;
         ClassCardRec.SetRange(ClassCardRec."Academic Year", getAcademic);
         ClassCardRec.Closed := false;
-        if PAGE.RunModal(71011, ClassCardRec, ClassCardRec.Class) = ACTION::LookupOK then begin
+        if PAGE.RunModal(PAGE::"Class Card List", ClassCardRec, ClassCardRec.Class) = ACTION::LookupOK then begin
             getClass := ClassCardRec.Class;
             getCurriculum := ClassCardRec.Curriculum;
             getAcademic := ClassCardRec."Academic Year";

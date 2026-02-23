@@ -123,7 +123,7 @@ codeunit 72002 "Salary Process"
         ProcessedSalary: Record "Processed Salary";
         EmployeeLoan: Record "Employee Loan";
         EmployeeLoanDetails: Record "Employee Loan Details";
-        EmployeeLoans: Record "Employee Loans";
+    //  EmployeeLoans: Record "Employee Loans";
     begin
         EmployeeLoan.Reset();
         EmployeeLoan.SetRange("Location Code", LocationCode);

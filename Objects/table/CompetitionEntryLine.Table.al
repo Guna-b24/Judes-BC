@@ -12,7 +12,10 @@ table 71082 "Competition Entry Line"
             Caption = 'Document No.';
             DataClassification = CustomerContent;
         }
-
+        field(2; "Line No."; Integer)
+        {
+            DataClassification = CustomerContent;
+        }
         field(3; "Student Division"; Code[20])
         {
             Caption = 'Student Division';
@@ -72,11 +75,14 @@ table 71082 "Competition Entry Line"
 
     keys
     {
-        key(Key1; "Document No.", "Student Division")
+        key(Key1; "Document No.", "Line No.")
         {
             Clustered = true;
         }
-        key(Key2; "Max Age")
+        key(Key2; "Document No.", "Student Division")
+        {
+        }
+        key(Key3; "Max Age")
         {
         }
     }

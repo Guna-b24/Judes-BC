@@ -120,6 +120,7 @@ table 72088 "Employee Loan Details"
         {
             Caption = 'Loan Id';
             DataClassification = CustomerContent;
+            TableRelation = "Employee Loan"."Loan Id";
         }
     }
 

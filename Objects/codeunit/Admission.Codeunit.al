@@ -305,8 +305,8 @@ codeunit 71000 Admission
         ClassCard.SETRANGE(Curriculum, Curriculum);
         ClassCard.SETRANGE("Academic Year", AcadYr);
         IF ClassCard.FINDFIRST() THEN BEGIN
-            IF (ClassCard."Miniimum Age Limit" <> 0) AND (ClassCard."Maximum Age Limit" <> 0) THEN BEGIN
-                IF (ClassCard."Miniimum Age Limit" >= Age) AND (ClassCard."Maximum Age Limit" <= Age) THEN
+            IF (ClassCard."Minimum Age Limit" <> 0) AND (ClassCard."Maximum Age Limit" <> 0) THEN BEGIN
+                IF (ClassCard."Minimum Age Limit" >= Age) AND (ClassCard."Maximum Age Limit" <= Age) THEN
                     EXIT(TRUE)
                 ELSE
                     EXIT(FALSE);

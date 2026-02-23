@@ -70,7 +70,9 @@ table 71170 "Class Syllabus Header"
             TableRelation = Department;
             DataClassification = CustomerContent;
         }
+
     }
+
 
     keys
     {

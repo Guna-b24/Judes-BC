@@ -33,7 +33,7 @@ codeunit 72003 "Loan Calculation"
 
         if EmployeeLoan."Loan Type" = EmployeeLoan."Loan Type"::"Interest Free" then begin
             for I := 1 to EmployeeLoan."No of Installment" do begin
-                EmployeeLoanDetails.Init;
+                EmployeeLoanDetails.Init();
                 EmployeeLoanDetails.LoanId := EmployeeLoan."Loan Id";
                 EmployeeLoanDetails."Location Code" := EmployeeLoan."Location Code";
                 EmployeeLoanDetails."Salary Plan Code" := EmployeeLoan."Salary Plan Code";
@@ -50,7 +50,7 @@ codeunit 72003 "Loan Calculation"
                 if Employee.Get(EmployeeLoan."Employee No") then
                     EmployeeLoanDetails.Name := Employee."First Name";
 
-                if EmployeeLoanDetails.Insert then;
+                if EmployeeLoanDetails.Insert() then;
 
                 PaymentDate := CalcDate('1M', PaymentDate);
                 PaymentDate := CalcDate('CM', PaymentDate);
@@ -58,7 +58,7 @@ codeunit 72003 "Loan Calculation"
 
             EmployeeLoan."Installment Amount" := Round((EmployeeLoan."Total Loan Amount" / EmployeeLoan."No of Installment"), 0.01, '=');
             EmployeeLoan."Loan Balance Amount" := EmployeeLoan."Total Loan Amount";
-            EmployeeLoan.Modify;
+            EmployeeLoan.Modify();
             Message('Create a Installment Successfully');
 
         end;
@@ -87,7 +87,7 @@ codeunit 72003 "Loan Calculation"
 
         if EmployeeLoan."Loan Type" = EmployeeLoan."Loan Type"::"Flat Rate" then begin
             for I := 1 to EmployeeLoan."No of Installment" do begin
-                EmployeeLoanDetails.Init;
+                EmployeeLoanDetails.Init();
                 EmployeeLoanDetails."Location Code" := EmployeeLoan."Location Code";
                 EmployeeLoanDetails."Salary Plan Code" := EmployeeLoan."Salary Plan Code";
                 EmployeeLoanDetails."Employee No" := EmployeeLoan."Employee No";
@@ -105,7 +105,7 @@ codeunit 72003 "Loan Calculation"
                 if Employee.Get(EmployeeLoan."Employee No") then
                     EmployeeLoanDetails.Name := Employee."First Name";
 
-                if EmployeeLoanDetails.Insert then;
+                if EmployeeLoanDetails.Insert() then;
 
                 PaymentDate := CalcDate('1M', PaymentDate);
                 PaymentDate := CalcDate('CM', PaymentDate);
@@ -120,7 +120,7 @@ codeunit 72003 "Loan Calculation"
                 EmployeeLoan."Installment Amount" :=
                     Round((EmployeeLoan."Total Loan Amount" /
                   EmployeeLoan."No of Installment"), 1, '=');
-            EmployeeLoan.Modify;
+            EmployeeLoan.Modify();
 
             Message('Create a Installment Successfully');
         end;
@@ -153,7 +153,7 @@ codeunit 72003 "Loan Calculation"
         Balance := EmployeeLoan."Total Loan Amount";
         for J := 1 to EmployeeLoan."No of Installment" do begin
             BufferDate := PaymentDate;
-            EmployeeLoanDetails.Init;
+            EmployeeLoanDetails.Init();
             EmployeeLoanDetails."Location Code" := EmployeeLoan."Location Code";
             EmployeeLoanDetails."Salary Plan Code" := EmployeeLoan."Salary Plan Code";
             EmployeeLoanDetails."Employee No" := EmployeeLoan."Employee No";
@@ -167,7 +167,7 @@ codeunit 72003 "Loan Calculation"
             EmployeeLoanDetails.Principal := EMIAmount - EmployeeLoanDetails.Interest;
             EmployeeLoanDetails."Balance Amount" := Balance;
             Balance := Balance - EmployeeLoanDetails.Principal;
-            if EmployeeLoanDetails.Insert then;
+            if EmployeeLoanDetails.Insert() then;
 
             PaymentDate := CalcDate('1M', PaymentDate);
             PaymentDate := CalcDate('CM', PaymentDate);
@@ -175,7 +175,7 @@ codeunit 72003 "Loan Calculation"
         end;
 
         EmployeeLoan."Installment Amount" := EmployeeLoanDetails."EMI Amount";
-        EmployeeLoan.Modify;
+        EmployeeLoan.Modify();
     end;
 }
 
