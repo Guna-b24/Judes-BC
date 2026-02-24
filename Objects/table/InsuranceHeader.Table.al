@@ -2,8 +2,8 @@ table 72070 "Insurance Header"
 {
     Caption = 'Insurance Header';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Pay Element Code", "Employee No.", Name;
-    // DrillDownPageID = 72091;
-    // LookupPageID = 72091;
+    DrillDownPageId = "Insurance Header List";
+    LookupPageId = "Insurance Header List";
 
     fields
     {

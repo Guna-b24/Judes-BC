@@ -2,8 +2,8 @@ table 71083 "Participant Entry Header"
 {
     Caption = 'Participant Entry Header';
     DataClassification = ToBeClassified;
-    // DrillDownPageID = 71097;
-    // LookupPageID = 71097;
+    LookupPageID = "Participant Entry List";
+    DrillDownPageID = "Participant Entry List";
 
     fields
     {

@@ -3,6 +3,8 @@ table 72000 "HR Setup"
     Caption = 'HR Setup';
     DataCaptionFields = "Primary Key";
     DataClassification = CustomerContent;
+    DrillDownPageId = "HR Setup";
+    LookupPageId = "HR Setup";
 
     fields
     {
@@ -12,7 +14,6 @@ table 72000 "HR Setup"
             DataClassification = SystemMetadata;
             ToolTip = 'Specifies the primary key for the setup record.';
         }
-
         field(2; "Indenting SNo"; Code[10])
         {
             Caption = 'Indenting No. Series';

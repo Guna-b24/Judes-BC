@@ -3,8 +3,8 @@ table 72069 "Leave Master"
     Caption = 'Leave Master';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Leave Code", Description;
     DataClassification = CustomerContent;
-    // DrillDownPageID = 72096;
-    // LookupPageID = 72096;
+    DrillDownPageId = "Leave Master List";
+    LookupPageId = "Leave Master List";
 
     fields
     {

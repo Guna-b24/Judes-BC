@@ -2,7 +2,8 @@ table 72068 "Income Tax Line"
 {
     Caption = 'Income Tax Line';
     DataClassification = CustomerContent;
-
+    DrillDownPageId = "Income Tax Line List";
+    LookupPageId = "Income Tax Line List";
 
     fields
     {

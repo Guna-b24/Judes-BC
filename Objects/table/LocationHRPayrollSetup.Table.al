@@ -3,8 +3,8 @@ table 72052 "Location HR & Payroll Setup"
     Caption = 'Location HR & Payroll Setup';
     DataCaptionFields = "Location Code", "Location Name";
     DataClassification = CustomerContent;
-    // DrillDownPageID = 72063;
-    // LookupPageID = 72063;
+    DrillDownPageId = "LocationHR & PayrollSetup List";
+    LookupPageId = "LocationHR & PayrollSetup List";
 
     fields
     {

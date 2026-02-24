@@ -3,6 +3,8 @@ table 50010 "Fee Structure"
     Caption = 'Fee Structure';
     DataPerCompany = false;
     DataClassification = ToBeClassified;
+    DrillDownPageId = "Fee Structure List";
+    LookupPageId = "Fee Structure List";
 
     fields
     {

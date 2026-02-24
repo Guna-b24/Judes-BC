@@ -1,6 +1,9 @@
 table 72102 "Income Tax Challan Details"
 {
     Caption = 'Income Tax Challan Details';
+    DataClassification = CustomerContent;
+    DrillDownPageId = "Income Tax Challan List";
+    LookupPageId = "Income Tax Challan List";
 
     fields
     {

@@ -2,6 +2,8 @@ table 50120 "Journal Line Dimension"
 {
     Caption = 'Journal Line Dimension';
     DataClassification = CustomerContent;
+    DrillDownPageId = "Journal Line Dimension List";
+    LookupPageId = "Journal Line Dimension List";
 
     fields
     {

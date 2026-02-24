@@ -3,8 +3,8 @@ table 72101 "Income Tax"
     Caption = 'Income Tax';
     DataClassification = CustomerContent;
     DataCaptionFields = "Employee No", Name, "Assessment Year";
-    // DrillDownPageID = 72138;
-    // LookupPageID = 72138;
+    DrillDownPageId = "Income Tax List";
+    LookupPageId = "Income Tax List";
 
     fields
     {

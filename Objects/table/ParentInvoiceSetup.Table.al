@@ -2,6 +2,8 @@ table 60008 ParentInvoiceSetup
 {
     Caption = 'Parent Invoice Setup';
     DataClassification = ToBeClassified;
+    LookupPageID = "Parent Invoice Setup";
+    DrillDownPageID = "Parent Invoice Setup";
 
     fields
     {

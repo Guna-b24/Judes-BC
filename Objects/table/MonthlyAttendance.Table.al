@@ -4,6 +4,8 @@ table 72082 "Monthly Attendance"
     Caption = 'Monthly Attendance';
     DataClassification = CustomerContent;
     DataCaptionFields = "Location Code", "Salary Plan Code", "Salary Cycle Code", Name;
+    DrillDownPageId = "Monthly Attendance List";
+    LookupPageId = "Monthly Attendance List";
 
     fields
     {

@@ -2,7 +2,8 @@ table 71052 "Marks Header"
 {
     Caption = 'Marks Header';
     DataClassification = CustomerContent;
-    // LookupPageID = 71055;
+    LookupPageID = "Marks Header List";
+    DrillDownPageID = "Marks Header List";
 
     fields
     {

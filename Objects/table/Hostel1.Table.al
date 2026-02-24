@@ -2,6 +2,8 @@ table 71680 "Hostel1"
 {
     Caption = 'Hostel1';
     DataClassification = CustomerContent;
+    DrillDownPageId = "Hostel List";
+    LookupPageId = "Hostel List";
 
     fields
     {

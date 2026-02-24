@@ -1,6 +1,8 @@
 table 72067 "Income Tax Header"
 {
     Caption = 'Income Tax Header';
+    DrillDownPageId = "Income Tax Header List";
+    LookupPageId = "Income Tax Header List";
 
     fields
     {

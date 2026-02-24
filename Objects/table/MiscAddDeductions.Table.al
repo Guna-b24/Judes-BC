@@ -2,6 +2,8 @@ table 72089 "Misc Add/Deductions"
 {
     Caption = 'Misc Add/Deductions';
     DataClassification = CustomerContent;
+    LookupPageID = "Misc Add/Deduction List";
+    DrillDownPageID = "Misc Add/Deduction List";
 
     fields
     {

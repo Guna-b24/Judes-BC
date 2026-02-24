@@ -2,8 +2,8 @@ table 72072 "Medical Reimbu. Header"
 {
     Caption = 'Medical Reimbu. Header';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Pay Element Code", "Employee No.", Name;
-    // DrillDownPageID = 72094;
-    // LookupPageID = 72094;
+    LookupPageID = "Medical Reimbu. List";
+    DrillDownPageID = "Medical Reimbu. List";
 
     fields
     {

@@ -3,8 +3,8 @@ table 71905 "Fee Components"
     Caption = 'Fee Components';
     DataPerCompany = false;
     DataClassification = ToBeClassified;
-    // DrillDownPageID = 71909;
-    // LookupPageID = 71909;
+    DrillDownPageId = "Fee Components List";
+    LookupPageId = "Fee Components List";
 
     fields
     {

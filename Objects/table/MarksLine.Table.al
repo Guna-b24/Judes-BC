@@ -2,6 +2,8 @@ table 71053 "Marks Line"
 {
     Caption = 'Marks Line';
     DataClassification = CustomerContent;
+    LookupPageID = "Marks Line List";
+    DrillDownPageID = "Marks Line List";
 
     fields
     {

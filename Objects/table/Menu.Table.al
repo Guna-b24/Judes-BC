@@ -3,7 +3,7 @@ table 60000 Menu
     Caption = 'Menu';
     DataClassification = CustomerContent;
     // DrillDownPageID = 60001;
-    // LookupPageID = 60001;
+    LookupPageID = "Menu List";
 
     fields
     {

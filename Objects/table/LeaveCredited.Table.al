@@ -1,8 +1,8 @@
 table 72085 "Leave Credited"
 {
     Caption = 'Leave Credited';
-    // DrillDownPageID = 72117;
-    // LookupPageID = 72117;
+    DrillDownPageId = "Leave Credited List";
+    LookupPageId = "Leave Credited List";
 
     fields
     {

@@ -1,9 +1,9 @@
 table 71920 "Family Code"
 {
     Caption = 'Family Code';
-    // DrillDownPageID = 71926;
-    // LookupPageID = 71926;
     DataClassification = CustomerContent;
+    DrillDownPageId = "Family Code List";
+    LookupPageId = "Family Code List";
 
     fields
     {

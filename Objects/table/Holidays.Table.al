@@ -3,6 +3,8 @@ table 72057 Holidays
     Caption = 'Holidays';
     DataClassification = CustomerContent;
     DataCaptionFields = "Location Code", "Salary Plan Code", "Calendar Year", "Holiday Date", "Holiday Name";
+    DrillDownPageID = "Holidays List";
+    LookupPageID = "Holidays List";
 
     fields
     {

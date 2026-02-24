@@ -2,7 +2,7 @@ table 71880 "Medium of Instruction"
 {
     Caption = 'Medium of Instruction';
     DataClassification = CustomerContent;
-    //LookupPageID = 71880;
+    LookupPageID = "Medium of Instruction List";
 
     fields
     {

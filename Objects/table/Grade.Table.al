@@ -2,8 +2,8 @@ table 71889 Grade
 {
     Caption = 'Grade';
     DataClassification = SystemMetadata;
-    // DrillDownPageID = 71889;
-    // LookupPageID = 71889;
+    DrillDownPageID = "Grade List";
+    LookupPageID = "Grade List";
 
     fields
     {

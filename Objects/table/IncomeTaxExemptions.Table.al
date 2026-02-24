@@ -63,9 +63,6 @@ table 72103 "Income Tax Exemptions"
         field(16; "Created Date"; Date)
         {
         }
-        field(17; "User ID"; Code[20])
-        {
-        }
         field(18; "Effective Date"; Date)
         {
         }

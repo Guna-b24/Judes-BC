@@ -1,7 +1,8 @@
 table 71891 "Mother Tongue"
 {
     Caption = 'Mother Tongue';
-    //  LookupPageID = 71891;
+    DrillDownPageID = "Mother Tongue List";
+    LookupPageID = "Mother Tongue List";
     DataClassification = CustomerContent;
 
     fields

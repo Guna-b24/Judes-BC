@@ -2,8 +2,8 @@ table 71044 KeyStages
 {
     Caption = 'KeyStages';
     DataClassification = CustomerContent;
-    // DrillDownPageID = 71044;
-    // LookupPageID = 71044;
+    DrillDownPageId = "KeyStages List";
+    LookupPageId = "KeyStages List";
 
     fields
     {

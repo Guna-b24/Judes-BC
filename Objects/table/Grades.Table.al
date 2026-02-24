@@ -3,8 +3,8 @@ table 72061 Grades
     Caption = 'Grades';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Grade Code", "Grade Name";
     DataClassification = SystemMetadata;
-    // DrillDownPageID = 72079;
-    // LookupPageID = 72079;
+    DrillDownPageID = "Grades List";
+    LookupPageID = "Grades List";
 
     fields
     {

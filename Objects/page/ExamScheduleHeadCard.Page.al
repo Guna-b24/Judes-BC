@@ -22,6 +22,11 @@ page 71065 "Exam Schedule Head Card"
                 field("No. Series"; Rec."No. Series") { }
                 field("Portal ID"; Rec."Portal ID") { }
             }
+            part(ExamScheduleLines; "Exam Schedule Line Part")
+            {
+                SubPageLink = "Document No." = field("No.");
+            }
+
         }
     }
 

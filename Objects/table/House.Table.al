@@ -2,8 +2,8 @@ table 71073 House
 {
     Caption = 'House';
     DataClassification = CustomerContent;
-    // DrillDownPageID = 71082;
-    // LookupPageID = 71082;
+    DrillDownPageId = "House List";
+    LookupPageId = "House List";
 
     fields
     {

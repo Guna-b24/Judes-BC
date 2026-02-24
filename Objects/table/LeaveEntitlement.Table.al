@@ -1,7 +1,7 @@
 table 72084 "Leave Entitlement"
 {
-    // DrillDownPageID = 72116;
-    // LookupPageID = 72116;
+    DrillDownPageId = "Leave Entitlement List";
+    LookupPageId = "Leave Entitlement List";
 
     fields
     {

@@ -1,6 +1,9 @@
 table 72071 "Insurance Line"
 {
     Caption = 'Insurance Line';
+    DrillDownPageId = "Insurance Line List";
+    LookupPageId = "Insurance Line List";
+
 
     fields
     {
