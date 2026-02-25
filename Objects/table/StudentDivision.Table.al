@@ -3,7 +3,7 @@ table 71076 "Student Division"
     Caption = 'Student Division';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71086;
-    // LookupPageID = 71086;
+    LookupPageID = "Student Division List";
 
     fields
     {

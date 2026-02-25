@@ -4,7 +4,7 @@ table 72091 "Revision Header"
     Caption = 'Revision Header';
     DataClassification = CustomerContent;
     // DrillDownPageID = 72129;
-    // LookupPageID = 72129;
+    LookupPageID = "Revision List";
 
     fields
     {

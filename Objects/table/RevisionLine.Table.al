@@ -3,6 +3,7 @@ table 72092 "Revision Line"
 
     Caption = 'Revision Line';
     DataClassification = CustomerContent;
+    LookupPageId = "Revision Line List";
 
     fields
     {

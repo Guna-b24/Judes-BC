@@ -1,6 +1,7 @@
 table 71059 "Promotion Suggestion"
 {
     Caption = 'Promotion Suggestion';
+    LookupPageId = "Promotion Suggestion";
 
     fields
     {

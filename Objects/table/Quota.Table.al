@@ -2,7 +2,7 @@ table 71885 Quota
 {
     Caption = 'Quota';
     // DrillDownPageID = 71885;
-    // LookupPageID = 71885;
+    LookupPageID = "Quota Card";
     DataClassification = CustomerContent;
 
     fields

@@ -2,6 +2,7 @@ table 72121 "Salary Posting-1"
 {
     Caption = 'Salary Posting';
     DataClassification = CustomerContent;
+    LookupPageId = "Salary Posting1 Worksheet";
 
     fields
     {

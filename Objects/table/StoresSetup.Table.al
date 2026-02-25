@@ -2,6 +2,7 @@ table 71854 "Stores Setup"
 {
     Caption = 'Stores Setup';
     DataClassification = CustomerContent;
+    LookupPageId = "Stores Setup";
 
     fields
     {

@@ -3,7 +3,7 @@ table 72030 Sections
     Caption = 'Sections';
     DataClassification = CustomerContent;
     // DrillDownPageID = 72040;
-    // LookupPageID = 72040;
+    LookupPageID = "Sections List";
 
     fields
     {

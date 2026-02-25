@@ -2,6 +2,7 @@ table 71057 "Student Attendance Line"
 {
     Caption = 'Student Attendance Line';
     DataClassification = CustomerContent;
+    LookupPageId = "Student Attendance Line List";
 
     fields
     {

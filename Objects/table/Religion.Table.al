@@ -3,7 +3,7 @@ table 71886 Religion
 
     Caption = 'Religion';
     DataClassification = CustomerContent;
-    // LookupPageID = 71886;
+    LookupPageID = "Religion List";
 
     fields
     {

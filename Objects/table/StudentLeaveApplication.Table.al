@@ -3,7 +3,7 @@ table 71089 "Student Leave Application"
     Caption = 'Student Leave Application';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71104;
-    // LookupPageID = 71104;
+    LookupPageID = "Student Leave Application List";
 
     fields
     {

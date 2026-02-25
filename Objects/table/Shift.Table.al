@@ -4,7 +4,7 @@ table 72059 Shift
     DataClassification = CustomerContent;
     DataCaptionFields = "Location Code", "Salary Plan Code", "Code", Description;
     // DrillDownPageID = 72074;
-    // LookupPageID = 72074;
+    LookupPageID = "Shift List";
 
     fields
     {

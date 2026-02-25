@@ -2,7 +2,7 @@ table 71013 "Selection process"
 {
     Caption = 'Selection process';
     DataClassification = CustomerContent;
-    //LookupPageID = 71024;
+    LookupPageID = "Selection Process List";
 
     fields
     {

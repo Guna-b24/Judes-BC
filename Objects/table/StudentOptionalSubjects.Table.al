@@ -2,7 +2,7 @@ table 71051 "Student Optional Subjects"
 {
     Caption = 'Student Optional Subjects';
     DataClassification = CustomerContent;
-    // LookupPageID = 71052;
+    LookupPageID = "Student Optional Subjects";
 
     fields
     {

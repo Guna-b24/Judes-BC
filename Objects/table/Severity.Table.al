@@ -3,7 +3,7 @@ table 71915 Severity
     Caption = 'Severity';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71920;
-    // LookupPageID = 71920;
+    LookupPageID = "Severity List";
 
     fields
     {

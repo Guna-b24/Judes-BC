@@ -4,7 +4,7 @@ table 72053 "Salary Plan"
     DataCaptionFields = "Code", Description;
     DataClassification = CustomerContent;
     // DrillDownPageID = 72064;
-    // LookupPageID = 72064;
+    LookupPageID = "Salary Plan List";
 
     fields
     {

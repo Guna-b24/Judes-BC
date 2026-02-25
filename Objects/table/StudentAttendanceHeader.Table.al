@@ -2,7 +2,7 @@ table 71056 "Student Attendance Header"
 {
     Caption = 'Student Attendance Header';
     DataClassification = CustomerContent;
-    //  LookupPageID = 71066;
+    LookupPageID = "Student Attendance List";
 
     fields
     {

@@ -2,6 +2,7 @@ table 71899 "Report Selections1"
 {
     Caption = 'Report Selections';
     DataClassification = CustomerContent;
+    DrillDownPageId = "Report Selections";
 
     fields
     {

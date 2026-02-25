@@ -2,6 +2,7 @@ table 71058 "Promotion Weightage"
 {
     Caption = 'Promotion Weightage';
     DataClassification = CustomerContent;
+    LookupPageId = "Promotion Weightage";
 
     fields
     {

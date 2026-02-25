@@ -2,7 +2,7 @@ table 71055 "Student Mark Header"
 {
     Caption = 'Student Mark Header';
     DataClassification = CustomerContent;
-    // LookupPageID = 71067;
+    LookupPageID = "Student Mark List";
 
     fields
     {
