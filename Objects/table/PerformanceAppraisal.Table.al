@@ -4,7 +4,7 @@ table 72006 "Performance Appraisal"
     Caption = 'Performance Appraisal';
     DataCaptionFields = "Code";
     // DrillDownPageID = 72006;
-    // LookupPageID = 72006;
+    LookupPageID = "Performance Appraisal List";
     DataClassification = CustomerContent;
 
     fields

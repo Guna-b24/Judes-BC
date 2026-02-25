@@ -4,7 +4,7 @@ table 72075 "Payroll Product Posting Group"
     DataClassification = ToBeClassified;
     DataCaptionFields = "Location Code", "Salary Plan Code", "Code", Description;
     // DrillDownPageID = 72102;
-    // LookupPageID = 72102;
+    LookupPageID = "Payroll PP Group List";
 
     fields
     {

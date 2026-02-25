@@ -5,7 +5,7 @@ table 72064 "PF Setup"
     DataClassification = CustomerContent;
     DataCaptionFields = "Effective Date", "Location Code", "Salary Plan Code", "PF Gross Salary Limit";
     // DrillDownPageID = 72083;
-    // LookupPageID = 72083;
+    LookupPageID = "PF Setup";
 
     fields
     {

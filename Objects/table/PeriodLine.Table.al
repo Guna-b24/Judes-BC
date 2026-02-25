@@ -2,7 +2,7 @@ table 71152 "Period Line"
 {
     Caption = 'Period Line';
     DataClassification = CustomerContent;
-    //LookupPageID = 71424;
+    LookupPageID = "Period Line List";
 
     fields
     {

@@ -3,7 +3,7 @@ table 71151 "Period Header"
     Caption = 'Period Header';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71151;
-    // LookupPageID = 71151;
+    LookupPageID = "Period Header List";
 
     fields
     {

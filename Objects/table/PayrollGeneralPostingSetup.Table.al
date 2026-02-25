@@ -4,7 +4,7 @@ table 72076 "Payroll General Posting Setup"
     DataClassification = ToBeClassified;
     DataCaptionFields = "Location Code", "Salary Plan Code", "Pay Bus.Posting Group", "Pay Prod. Posting Group", "G/L Code";
     // DrillDownPageID = 72104;
-    // LookupPageID = 72104;
+    LookupPageID = "Payroll GP Setup List";
 
     fields
     {

@@ -3,7 +3,7 @@ table 71074 "Participant Type"
 
     Caption = 'Participant Type';
     // DrillDownPageID = 71083;
-    // LookupPageID = 71083;
+    LookupPageID = "Participant Type List";
     DataClassification = ToBeClassified;
 
     fields

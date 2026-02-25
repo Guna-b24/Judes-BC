@@ -3,8 +3,7 @@ table 72060 "Pay Elements"
     Caption = 'Pay Elements';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Pay Element Code", Description;
     DataClassification = ToBeClassified;
-    // DrillDownPageID = 72076;
-    // LookupPageID = 72076;
+    LookupPageID = "Pay Elements List";
 
     fields
     {

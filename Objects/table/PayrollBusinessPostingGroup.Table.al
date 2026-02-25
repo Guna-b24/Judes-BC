@@ -4,7 +4,7 @@ table 72074 "Payroll Business Posting Group"
     Caption = 'Payroll Business Posting Group';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Code", Description;
     // DrillDownPageID = 72100;
-    // LookupPageID = 72100;
+    LookupPageID = "Payroll BP Group List";
 
     DataClassification = ToBeClassified;
 

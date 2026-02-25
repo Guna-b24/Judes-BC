@@ -1,6 +1,7 @@
 table 72066 "Professional Tax Line"
 {
     Caption = 'Professional Tax Line';
+    LookupPageId = "Professional Tax Line List";
 
     fields
     {

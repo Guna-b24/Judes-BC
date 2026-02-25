@@ -3,7 +3,7 @@ table 72065 "Professional Tax Header"
     Caption = 'Professional Tax Header';
     DataCaptionFields = "Effective Date", "Location Code", "Salary Plan Code", "Branch Code";
     // DrillDownPageID = 72086;
-    // LookupPageID = 72086;
+    LookupPageID = "Professional Tax List";
 
     fields
     {

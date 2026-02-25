@@ -2,8 +2,7 @@ table 71084 "Participant Entry Line"
 {
     Caption = 'Participant Entry Line';
     DataClassification = ToBeClassified;
-    // DrillDownPageID = 71102;
-    // LookupPageID = 71102;
+    LookupPageID = "Participant Entry Line List";
 
     fields
     {

@@ -3,7 +3,7 @@ table 71895 "Portal Users"
     Caption = 'Portal Users';
     DataClassification = CustomerContent;
     DataPerCompany = false;
-    // LookupPageID = 71897;
+    LookupPageID = "Portal Users List";
 
     fields
     {

@@ -37,6 +37,12 @@ page 71197 "Participant Entry Card"
                 field("Update Entry"; Rec."Update Entry") { }
                 field("Update Results"; Rec."Update Results") { }
             }
+            part(Lines; "Participant Entry Line Subform")
+            {
+                Caption = 'Participant Entry Lines';
+                SubPageLink = "Document No." = FIELD("No.");
+
+            }
         }
     }
 }

@@ -3,8 +3,8 @@ table 72055 "Payroll Month & Year"
     Caption = 'Payroll Month & Year';
     DataClassification = ToBeClassified;
     DataCaptionFields = "Location Code", "Salary Plan Code", "Salary Year Code", "Salary Cyclic Code", "Salary Start Date", "Salary End Date";
-    // DrillDownPageID = 72069;
-    // LookupPageID = 72069;
+    DrillDownPageID = "Payroll Month & Year List";
+    LookupPageID = "Payroll Month & Year List";
 
     fields
     {

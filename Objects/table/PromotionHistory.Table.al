@@ -2,6 +2,7 @@ table 71060 "Promotion History"
 {
     Caption = 'Promotion History';
     DataClassification = CustomerContent;
+    LookupPageId = "Promotion History List";
 
     fields
     {

@@ -3,8 +3,8 @@ table 72054 "Payroll Year"
     Caption = 'Payroll Year';
     DataClassification = CustomerContent;
     DataCaptionFields = "Location Code", "Salary Plan Code", "Year Code", "Year Type", "Year Start Date", "Year End Date";
-    // DrillDownPageID = 72067;
-    // LookupPageID = 72067;
+    DrillDownPageID = "Payroll Year List";
+    LookupPageID = "Payroll Year List";
 
     fields
     {
