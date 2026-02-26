@@ -2,6 +2,7 @@ table 71153 "Time Table Setup"
 {
     Caption = 'Time Table Setup';
     DataClassification = CustomerContent;
+    LookupPageId = "Time Table Setup Card";
 
     fields
     {

@@ -3,7 +3,7 @@ table 71896 "User Group Company"
     Caption = 'User Group Company';
     DataPerCompany = false;
     DataClassification = CustomerContent;
-    //  LookupPageID = 71899;
+    LookupPageID = "User Group Company List";
 
     fields
     {

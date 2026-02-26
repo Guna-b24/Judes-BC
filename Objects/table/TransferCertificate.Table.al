@@ -2,7 +2,7 @@ table 71062 "Transfer Certificate"
 {
     Caption = 'Transfer Certificate';
     DataClassification = CustomerContent;
-    // LookupPageID = 71071;
+    LookupPageID = "Transfer Certificate List";
 
     fields
     {

@@ -4,7 +4,7 @@ table 72008 Training
     DataCaptionFields = "Code";
     DataClassification = CustomerContent;
     // DrillDownPageID = 72008;
-    // LookupPageID = 72008;
+    LookupPageID = "Training List";
 
     fields
     {

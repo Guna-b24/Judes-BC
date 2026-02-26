@@ -3,7 +3,7 @@ table 71061 Withdrawal
     Caption = 'Withdrawal';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71069;
-    // LookupPageID = 71069;
+    LookupPageID = "Withdrawal List";
 
     fields
     {

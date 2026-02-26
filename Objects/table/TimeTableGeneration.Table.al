@@ -2,6 +2,7 @@ table 71154 "Time Table Generation"
 {
     Caption = 'Time Table Generation';
     DataClassification = CustomerContent;
+    LookupPageId = "Time Table Generation List";
 
     fields
     {

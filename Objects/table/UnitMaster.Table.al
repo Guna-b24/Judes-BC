@@ -3,7 +3,7 @@ table 71900 "Unit Master"
     Caption = 'Unit Master';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71904;
-    // LookupPageID = 71904;
+    LookupPageID = "Unit Master List";
 
     fields
     {

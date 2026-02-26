@@ -4,7 +4,7 @@ table 72081 "Time Sheet"
     Caption = 'Time Sheet';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Employee No";
     // DrillDownPageID = 72113;
-    // LookupPageID = 72113;
+    LookupPageID = "TimeSheet List";
 
     fields
     {

@@ -3,6 +3,7 @@ table 72056 "Weekly Off"
     Caption = 'Weekly Off';
     DataClassification = CustomerContent;
     DataCaptionFields = "Location Code", "Salary Plan Code", "Calendar Year", "Day No.";
+    LookupPageId = "Weekly Off List";
 
     fields
     {

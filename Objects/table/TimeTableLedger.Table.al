@@ -2,6 +2,7 @@ table 71155 "Time Table Ledger"
 {
     Caption = 'Time Table Ledger';
     DataClassification = CustomerContent;
+    LookupPageId = "Time Table Ledger List";
 
     fields
     {
