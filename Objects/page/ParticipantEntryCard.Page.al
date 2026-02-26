@@ -1,6 +1,6 @@
 page 71197 "Participant Entry Card"
 {
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Participant Entry Header";
     ApplicationArea = All;
     UsageCategory = Documents;

@@ -4,6 +4,7 @@ page 70007 "Admission Grade Card"
     SourceTable = "Admission Grade";
     ApplicationArea = All;
     Caption = 'Admission Grade';
+    UsageCategory = Lists;
 
     layout
     {

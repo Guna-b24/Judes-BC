@@ -2,7 +2,7 @@ table 71911 Announcement
 {
     Caption = 'Announcement';
     DataClassification = CustomerContent;
-    // LookupPageID = 71917;
+    LookupPageID = "Announcement List";
 
     fields
     {

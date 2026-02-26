@@ -7,6 +7,8 @@ page 70004 "Academic Year List"
     CardPageId = "Academic Year Card";
     Caption = 'Academic Years';
 
+
+
     layout
     {
         area(Content)

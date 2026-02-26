@@ -2,6 +2,7 @@ table 71003 "Application Mark"
 {
     Caption = 'Application Mark';
     DataClassification = CustomerContent;
+    LookupPageId = "Application Mark List";
 
     fields
     {

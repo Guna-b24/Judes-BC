@@ -2,7 +2,7 @@ table 71016 "Class Section Subjects"
 {
     Caption = 'Class Section Subjects';
     // DrillDownPageID = 71031;
-    // LookupPageID = 71031;
+    LookupPageID = "Class Section Subjects List";
 
     fields
     {

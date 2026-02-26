@@ -4,6 +4,7 @@ page 71173 "Faculty Class Plan List"
     SourceTable = "Faculty Class Plan Header";
     ApplicationArea = All;
     UsageCategory = Administration;
+    CardPageId = "Faculty Class Plan Card";
 
     layout
     {

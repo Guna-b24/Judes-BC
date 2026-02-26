@@ -6,6 +6,7 @@ page 70099 "Event Master List"
     Caption = 'Event Master List';
     Editable = true;
     UsageCategory = Lists;
+    CardPageId = "Event Master Card";
 
     layout
     {

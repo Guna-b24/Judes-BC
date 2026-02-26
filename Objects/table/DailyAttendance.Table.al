@@ -3,7 +3,7 @@ table 72080 "Daily Attendance"
     Caption = 'Daily Attendance';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Salary Cyclic Code", "Employee No", Name;
     // DrillDownPageID = 72112;
-    // LookupPageID = 72112;
+    LookupPageID = "Daily Attendance List";
 
     fields
     {

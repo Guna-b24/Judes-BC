@@ -1,89 +1,90 @@
-page 71072 "Faculty Class Plan Card"
+page 72172 "Class Syllabus Line List"
 {
-    PageType = Document;
-    SourceTable = "Faculty Class Plan Header";
+    PageType = List;
+    SourceTable = "Class Syllabus Line";
     ApplicationArea = All;
+    UsageCategory = Lists;
+    Caption = 'Class Syllabus Lines';
     Editable = true;
-    UsageCategory = Administration;
 
     layout
     {
         area(content)
         {
-            group(General)
+            repeater(Group)
             {
-                field("No."; Rec."No.")
+                field("Document No."; Rec."Document No.")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Faculty Class Plan Number.';
                 }
-                field("No.Series"; Rec."No.Series")
+                field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
-                    Editable = false;
                 }
                 field("Class Code"; Rec."Class Code")
                 {
                     ApplicationArea = All;
                 }
-                field(Class; Rec.Class)
+                field(Curriculam; Rec.Curriculam)
                 {
                     ApplicationArea = All;
-                    Editable = false;
-                }
-                field(Curriculum; Rec.Curriculum)
-                {
-                    ApplicationArea = All;
-                    Editable = false;
                 }
                 field("Subject Code"; Rec."Subject Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Unit Code"; Rec."Unit Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Unit Name"; Rec."Unit Name")
+                {
+                    ApplicationArea = All;
+                }
+                field("Chapter Code"; Rec."Chapter Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Chapter Name"; Rec."Chapter Name")
                 {
                     ApplicationArea = All;
                 }
                 field("Academic Year"; Rec."Academic Year")
                 {
                     ApplicationArea = All;
-                    Editable = false;
                 }
-                field("Faculty Code"; Rec."Faculty Code")
+                field("No of Hours"; Rec."No of Hours")
                 {
                     ApplicationArea = All;
                 }
-                field(Department; Rec.Department)
+                field("Teaching Aids"; Rec."Teaching Aids")
                 {
                     ApplicationArea = All;
                 }
-                field("Plan Status"; Rec."Plan Status")
+                field(Aim; Rec.Aim)
                 {
                     ApplicationArea = All;
                 }
-                field("Total Week Hours"; Rec."Total Week Hours")
+                field(Explaination; Rec.Explaination)
                 {
                     ApplicationArea = All;
                 }
-                field("Perc Completed"; Rec."Perc Completed")
+                field(Assignment; Rec.Assignment)
                 {
                     ApplicationArea = All;
-                }
-                field(Comments; Rec.Comments)
-                {
-                    ApplicationArea = All;
-                }
-                field(Section; Rec.Section)
-                {
-                    ApplicationArea = All;
-                    Editable = false;
                 }
                 field("Portal ID"; Rec."Portal ID")
                 {
                     ApplicationArea = All;
                 }
             }
-            part(Lines; "Faculty Class Plan Subform")
-            {
-                ApplicationArea = All;
-                SubPageLink = "Document No." = field("No.");
-            }
+        }
+    }
+
+    actions
+    {
+        area(processing)
+        {
         }
     }
 }

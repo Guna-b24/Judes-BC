@@ -4,6 +4,7 @@ page 70050 "Chapter Master Card"
     PageType = Card;
     SourceTable = "Chapter Master";
     ApplicationArea = All;
+    UsageCategory = Administration;
 
     layout
     {

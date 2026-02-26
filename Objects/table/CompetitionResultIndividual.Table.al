@@ -3,6 +3,7 @@ table 71085 "Competition Result Individual"
 
     Caption = 'Competition Result Individual';
     DataClassification = CustomerContent;
+    LookupPageId = "Competition Result Ind List";
 
     fields
     {

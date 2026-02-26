@@ -3,7 +3,7 @@ table 71171 "Class Syllabus Line"
     Caption = 'Class Syllabus Line';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71176;
-    // LookupPageID = 71176;
+    LookupPageID = "Class Syllabus Line List";
 
     fields
     {

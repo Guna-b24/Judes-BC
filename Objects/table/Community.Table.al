@@ -3,7 +3,7 @@ table 71890 Community
     Caption = 'Community';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71890;
-    // LookupPageID = 71890;
+    LookupPageID = "Community";
 
     fields
     {

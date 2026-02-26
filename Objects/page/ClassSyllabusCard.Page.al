@@ -1,6 +1,6 @@
 page 71172 "Class Syllabus Card"
 {
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Class Syllabus Header";
     Caption = 'Class Syllabus';
     ApplicationArea = All;

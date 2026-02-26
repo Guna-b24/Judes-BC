@@ -1,6 +1,6 @@
 table 72001 Departments
 {
-    // LookupPageID = 72001;
+    LookupPageID = "Departments List";
 
     fields
     {

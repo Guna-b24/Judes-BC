@@ -3,7 +3,7 @@ table 71065 "Exam Schedule Head - SCH"
     Caption = 'Exam Schedule Head - SCH';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71108;
-    // LookupPageID = 71108;
+    LookupPageID = "Exam Schedule Head List";
 
     fields
     {

@@ -1,6 +1,7 @@
 table 50035 "Competition Values"
 {
     DataClassification = CustomerContent;
+    LookupPageId = "Competition Values List";
 
     fields
     {

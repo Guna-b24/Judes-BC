@@ -1,6 +1,6 @@
 table 72103 "Income Tax Exemptions"
 {
-
+    LookupPageId = "Income Tax Exemptions List";
     fields
     {
         field(1; "Employee No."; Code[20])

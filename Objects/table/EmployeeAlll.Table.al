@@ -3,7 +3,7 @@ table 71091 "Employee Alll"
     Caption = 'Employee All';
     DataPerCompany = false;
     // DrillDownPageID = 71936;
-    // LookupPageID = 71936;
+    LookupPageID = "Employee All List";
     fields
 
     {

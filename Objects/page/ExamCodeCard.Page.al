@@ -5,7 +5,7 @@ page 71913 "Exam Code Card"
     ApplicationArea = All;
     Caption = 'Exam Code Card';
     Editable = true;
-    UsageCategory = Administration; // Master data entry
+    UsageCategory = Administration;
 
     layout
     {

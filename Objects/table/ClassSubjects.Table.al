@@ -2,7 +2,7 @@ table 71048 "Class Subjects"
 {
     Caption = 'Class Subjects';
     DataClassification = CustomerContent;
-    // LookupPageID = 71062;
+    LookupPageID = "Class Subjects List";
 
     fields
     {

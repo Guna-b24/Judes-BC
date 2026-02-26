@@ -2,7 +2,7 @@ table 71180 "Alumni Registration"
 {
     Caption = 'Alumni Registration';
     // DrillDownPageID = 71181;
-    // LookupPageID = 71181;
+    LookupPageID = "Alumni Registration List";
 
     fields
     {

@@ -6,7 +6,7 @@ page 71125 "Participant Type Card"
     UsageCategory = Administration;
     Caption = 'Participant Type Card';
     Editable = true;
-    // LookupPageID = 70026; // the list page
+
 
     layout
     {

@@ -2,7 +2,7 @@ table 71043 Divsion
 {
     Caption = 'Divsion';
     DataClassification = CustomerContent;
-    //   LookupPageID = 71043;
+    LookupPageID = "Divsion List";
 
     fields
     {

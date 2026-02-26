@@ -3,7 +3,7 @@ table 71903 "Exam Code"
     Caption = 'Exam Code';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71907;
-    // LookupPageID = 71907;
+    LookupPageID = "Exam Code List";
 
     fields
     {

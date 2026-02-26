@@ -6,6 +6,7 @@ page 72064 "ESI Setup List"
     Caption = 'ESI Setup List';
     Editable = true;
     UsageCategory = Lists;
+    CardPageId = "ESI Setup Card";
 
     layout
     {

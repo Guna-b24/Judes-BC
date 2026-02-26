@@ -1,6 +1,6 @@
 page 71093 "Competition Entry Card"
 {
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Competition Entry Header";
     Caption = 'Competition Entry';
     ApplicationArea = All;

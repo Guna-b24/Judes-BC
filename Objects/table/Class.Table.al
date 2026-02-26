@@ -1,7 +1,7 @@
 table 71041 Class
 {
     Caption = 'Class';
-    //LookupPageID = 71041;
+    LookupPageID = "Class List";
 
     fields
     {

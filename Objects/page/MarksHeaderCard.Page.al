@@ -1,6 +1,6 @@
 page 71056 "Marks Header Card"
 {
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Marks Header";
     ApplicationArea = All;
     UsageCategory = Lists;

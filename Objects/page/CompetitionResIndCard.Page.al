@@ -4,6 +4,7 @@ page 71097 "Competition Res Ind Card"
     SourceTable = "Competition Res Indvu Line";
     ApplicationArea = All;
     Caption = 'Competition Individual Result';
+    UsageCategory = Lists;
 
     layout
     {

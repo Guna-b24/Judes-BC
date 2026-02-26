@@ -4,6 +4,7 @@ page 71073 "Faculty Class Plan Line List"
     SourceTable = "Faculty Class Plan Line";
     ApplicationArea = All;
     UsageCategory = Lists;
+    CardPageId = "Faculty Class Plan Subform";
 
     layout
     {

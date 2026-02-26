@@ -2,6 +2,7 @@ table 71683 "Hostel Setup"
 {
     Caption = 'Hostel Setup';
     DataClassification = CustomerContent;
+    LookupPageId = "Hostel Setup";
 
     fields
     {

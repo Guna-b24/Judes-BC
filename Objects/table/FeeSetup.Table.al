@@ -2,6 +2,7 @@ table 71072 "Fee Setup"
 {
     Caption = 'Fee Setup';
     DataClassification = ToBeClassified;
+    LookupPageId = "Fee Setup";
 
     fields
     {

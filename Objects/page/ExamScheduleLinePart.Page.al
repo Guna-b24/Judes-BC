@@ -1,6 +1,6 @@
 page 71166 "Exam Schedule Line Part"
 {
-    PageType = CardPart;
+    PageType = ListPart;
     SourceTable = "Exam Schedule Line - SCH";
     ApplicationArea = All;
     Caption = 'Exam Schedule Lines';

@@ -4,6 +4,7 @@ page 70064 "Class Group Card"
     PageType = Card;
     SourceTable = "Class Group";
     ApplicationArea = All;
+    UsageCategory = Administration;
 
     layout
     {

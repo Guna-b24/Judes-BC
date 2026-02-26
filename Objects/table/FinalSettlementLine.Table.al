@@ -2,6 +2,7 @@ table 72096 "Final Settlement Line"
 {
     Caption = 'Final Settlement Line';
     DataClassification = CustomerContent;
+    LookupPageId = "Final Settlement Lines";
 
 
     fields

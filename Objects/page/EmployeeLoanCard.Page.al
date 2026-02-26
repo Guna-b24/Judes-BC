@@ -1,7 +1,7 @@
 page 72120 "Employee Loan Card"
 {
     Caption = 'Employee Loan Card';
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Employee Loan";
     ApplicationArea = All;
     UsageCategory = Lists;

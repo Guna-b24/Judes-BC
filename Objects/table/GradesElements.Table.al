@@ -3,7 +3,7 @@ table 72062 "Grades Elements"
     Caption = 'Grades Elements';
     DataClassification = CustomerContent;
     DataCaptionFields = "Location Code", "Salary Plan Code", "Effective Date", "Grade Code";
-    DrillDownPageID = "Grades Elements List";
+    // DrillDownPageID = "Grades Elements List";
     LookupPageID = "Grades Elements List";
 
     fields

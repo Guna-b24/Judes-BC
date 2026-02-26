@@ -2,7 +2,7 @@ table 71008 "Class Evaluation"
 {
     Caption = 'Class Evaluation';
     // DrillDownPageID = 71016;
-    // LookupPageID = 71016;
+    LookupPageID = "Class Evaluation List";
 
     fields
     {

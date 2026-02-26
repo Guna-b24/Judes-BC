@@ -1,26 +1,26 @@
-page 71072 "Faculty Class Plan Card"
+page 71067 "Exam Schedule Line List - SCH"
 {
-    PageType = Document;
-    SourceTable = "Faculty Class Plan Header";
+    PageType = List;
+    SourceTable = "Exam Schedule Line - SCH";
     ApplicationArea = All;
+    UsageCategory = Lists;
+    Caption = 'Exam Schedule Lines';
     Editable = true;
-    UsageCategory = Administration;
+    CardPageId = "Exam Schedule Line Part";
 
     layout
     {
         area(content)
         {
-            group(General)
+            repeater(Group)
             {
-                field("No."; Rec."No.")
+                field("Document No."; Rec."Document No.")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Faculty Class Plan Number.';
                 }
-                field("No.Series"; Rec."No.Series")
+                field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
-                    Editable = false;
                 }
                 field("Class Code"; Rec."Class Code")
                 {
@@ -29,61 +29,75 @@ page 71072 "Faculty Class Plan Card"
                 field(Class; Rec.Class)
                 {
                     ApplicationArea = All;
-                    Editable = false;
+                }
+                field(Section; Rec.Section)
+                {
+                    ApplicationArea = All;
                 }
                 field(Curriculum; Rec.Curriculum)
                 {
                     ApplicationArea = All;
-                    Editable = false;
                 }
                 field("Subject Code"; Rec."Subject Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Exam Code"; Rec."Exam Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Exam Date"; Rec."Exam Date")
+                {
+                    ApplicationArea = All;
+                }
+                field("Exam Slot"; Rec."Exam Slot")
+                {
+                    ApplicationArea = All;
+                }
+                field("Start Time"; Rec."Start Time")
+                {
+                    ApplicationArea = All;
+                }
+                field("End Time"; Rec."End Time")
+                {
+                    ApplicationArea = All;
+                }
+                field("Hall Code"; Rec."Hall Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("No of Students"; Rec."No of Students")
+                {
+                    ApplicationArea = All;
+                }
+                field("Examiner Type"; Rec."Examiner Type")
+                {
+                    ApplicationArea = All;
+                }
+                field("Examiner Code"; Rec."Examiner Code")
                 {
                     ApplicationArea = All;
                 }
                 field("Academic Year"; Rec."Academic Year")
                 {
                     ApplicationArea = All;
-                    Editable = false;
                 }
-                field("Faculty Code"; Rec."Faculty Code")
+                field("Mark Header Code"; Rec."Mark Header Code")
                 {
                     ApplicationArea = All;
-                }
-                field(Department; Rec.Department)
-                {
-                    ApplicationArea = All;
-                }
-                field("Plan Status"; Rec."Plan Status")
-                {
-                    ApplicationArea = All;
-                }
-                field("Total Week Hours"; Rec."Total Week Hours")
-                {
-                    ApplicationArea = All;
-                }
-                field("Perc Completed"; Rec."Perc Completed")
-                {
-                    ApplicationArea = All;
-                }
-                field(Comments; Rec.Comments)
-                {
-                    ApplicationArea = All;
-                }
-                field(Section; Rec.Section)
-                {
-                    ApplicationArea = All;
-                    Editable = false;
                 }
                 field("Portal ID"; Rec."Portal ID")
                 {
                     ApplicationArea = All;
                 }
             }
-            part(Lines; "Faculty Class Plan Subform")
-            {
-                ApplicationArea = All;
-                SubPageLink = "Document No." = field("No.");
-            }
+        }
+    }
+
+    actions
+    {
+        area(processing)
+        {
         }
     }
 }

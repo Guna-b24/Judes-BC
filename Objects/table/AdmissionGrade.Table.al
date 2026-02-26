@@ -1,7 +1,7 @@
 table 71017 "Admission Grade"
 {
     // DrillDownPageID = 71114;
-    // LookupPageID = 71114;
+    LookupPageID = "Admission Grade List";
 
     fields
     {

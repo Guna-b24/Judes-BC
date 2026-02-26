@@ -1,6 +1,7 @@
 table 72022 "Appraisal Line"
 {
     Caption = 'Appraisal Line';
+    LookupPageId = "Appraisal Line List";
 
     fields
     {

@@ -3,7 +3,7 @@ table 72011 Agency
     Caption = 'Agency';
     DataCaptionFields = "Indenting No";
     // DrillDownPageID = 72016;
-    // LookupPageID = 72016;
+    LookupPageID = "Agency List";
 
     fields
     {

@@ -2,7 +2,7 @@ table 71001 Enquiry
 {
     Caption = 'Enquiry';
     DataClassification = CustomerContent;
-    //LookupPageID = 71002;
+    LookupPageID = "Enquiry List";
 
     fields
     {

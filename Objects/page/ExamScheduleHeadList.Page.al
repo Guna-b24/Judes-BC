@@ -6,6 +6,7 @@ page 71066 "Exam Schedule Head List"
     Caption = 'Exam Schedule Head List';
     Editable = true;
     UsageCategory = Lists;
+    CardPageId = "Exam Schedule Head Card";
 
     layout
     {

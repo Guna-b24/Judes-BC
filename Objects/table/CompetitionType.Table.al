@@ -3,7 +3,7 @@ table 71075 "Competition Type"
     Caption = 'Competition Type';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71084;
-    // LookupPageID = 71084;
+    LookupPageID = "Competition Type List";
 
     fields
     {

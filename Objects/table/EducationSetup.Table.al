@@ -2,6 +2,7 @@ table 71884 "Education Setup"
 {
     Caption = 'Education Setup';
     DataPerCompany = false;
+    LookupPageId = "Education Setup";
 
     fields
     {

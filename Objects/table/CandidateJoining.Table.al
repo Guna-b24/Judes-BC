@@ -3,7 +3,7 @@ table 72020 "Candidate Joining"
     Caption = 'Candidate Joining';
     DataCaptionFields = "No.", "First Name";
     // DrillDownPageID = 72030;
-    // LookupPageID = 72030;
+    LookupPageID = "Candidate Joining List";
 
     fields
     {

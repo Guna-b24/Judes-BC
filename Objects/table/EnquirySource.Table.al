@@ -1,7 +1,7 @@
 table 71883 "Enquiry Source"
 {
     Caption = 'Enquiry Source';
-    // LookupPageID = 71883;
+    LookupPageID = "Enquiry Source List";
 
     fields
     {

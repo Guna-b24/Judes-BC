@@ -6,6 +6,7 @@ page 70000 "Academic Points List"
     UsageCategory = Lists;
     Caption = 'Academic Points';
 
+
     layout
     {
         area(Content)

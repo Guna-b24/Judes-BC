@@ -1,7 +1,7 @@
 table 71893 Certificate
 {
     Caption = 'Certificate';
-    //LookupPageID = 71894;
+    LookupPageID = "Certificate_List";
 
     fields
     {

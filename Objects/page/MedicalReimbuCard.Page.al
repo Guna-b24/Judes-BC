@@ -1,6 +1,6 @@
 page 72094 "Medical Reimbu. Card"
 {
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Medical Reimbu. Header";
     ApplicationArea = All;
     UsageCategory = Lists;

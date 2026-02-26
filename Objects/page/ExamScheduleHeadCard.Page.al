@@ -1,11 +1,12 @@
 page 71065 "Exam Schedule Head Card"
 {
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Exam Schedule Head - SCH";
     ApplicationArea = All;
     Caption = 'Exam Schedule Head Card';
     Editable = true;
     UsageCategory = Administration;
+
     layout
     {
         area(Content)

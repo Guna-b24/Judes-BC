@@ -2,7 +2,7 @@ table 71006 "Class Card"
 {
     Caption = 'Class Card';
     // DrillDownPageID = 71011;
-    // LookupPageID = 71011;
+    LookupPageID = "Class Card List";
 
     fields
     {

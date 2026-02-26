@@ -5,7 +5,6 @@ page 71090 "Competition Result Team List"
     ApplicationArea = All;
     UsageCategory = Lists;
     Caption = 'Competition Result Team';
-
     CardPageId = "Competition Result Team Card";
 
     layout

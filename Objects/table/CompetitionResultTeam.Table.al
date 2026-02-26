@@ -2,6 +2,7 @@ table 71087 "Competition Result Team"
 {
     Caption = 'Competition Result Team';
     DataClassification = CustomerContent;
+    LookupPageId = "Competition Result Team List";
 
     fields
     {

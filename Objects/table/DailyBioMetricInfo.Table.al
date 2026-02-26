@@ -1,6 +1,7 @@
 table 72027 "Daily BioMetric Info"
 {
     Caption = 'Daily BioMetric Info';
+    LookupPageId = "Daily BioMetric Info List";
 
     fields
     {

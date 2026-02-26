@@ -2,6 +2,7 @@ table 71088 "Competition Res Team Line"
 {
 
     Caption = 'Competition Res Team Line';
+    LookupPageId = "Competition Res Team List";
 
     fields
     {

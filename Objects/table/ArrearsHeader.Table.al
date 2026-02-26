@@ -2,7 +2,7 @@ table 72093 "Arrears Header"
 {
     Caption = 'Arrears Header';
     // DrillDownPageID = 72141;
-    // LookupPageID = 72141;
+    LookupPageID = "Arrears Header List";
 
     fields
     {

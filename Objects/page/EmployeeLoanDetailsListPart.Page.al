@@ -5,6 +5,7 @@ page 72121 "Employee Loan Details ListPart"
     SourceTable = "Employee Loan Details";
     ApplicationArea = All;
     AutoSplitKey = true;
+    CardPageId = "Employee Loan Card";
 
     layout
     {

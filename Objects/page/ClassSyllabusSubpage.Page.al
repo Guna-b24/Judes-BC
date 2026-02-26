@@ -4,7 +4,7 @@ page 71176 "Class Syllabus Subpage"
     SourceTable = "Class Syllabus Line";
     Caption = 'Syllabus Lines';
     ApplicationArea = All;
-    AutoSplitKey = true;   // Automatically increments Line No.
+    AutoSplitKey = true;
 
     layout
     {

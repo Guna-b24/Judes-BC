@@ -2,6 +2,7 @@ table 71172 "Faculty Class Plan Header"
 {
     Caption = 'Faculty Class Plan Header';
     DataClassification = CustomerContent;
+    LookupPageId = "Faculty Class Plan List";
 
     fields
     {

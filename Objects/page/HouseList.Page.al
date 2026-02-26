@@ -4,6 +4,7 @@ page 71082 "House List"
     ApplicationArea = All;
     SourceTable = "House";
     UsageCategory = Lists;
+    CardPageId = "House Card";
 
     layout
     {

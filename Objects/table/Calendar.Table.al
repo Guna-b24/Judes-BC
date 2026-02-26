@@ -2,6 +2,7 @@ table 72058 Calendar
 {
     Caption = 'Calendar';
     DataCaptionFields = "Location Code", "Salary Plan Code", "Calendar Year", Date, Description;
+    LookupPageId = "Calendar List";
 
     fields
     {

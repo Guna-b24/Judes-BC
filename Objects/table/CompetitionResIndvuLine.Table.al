@@ -2,6 +2,7 @@ table 71086 "Competition Res Indvu Line"
 {
     Caption = 'Competition Res Indvu Line';
     DataClassification = CustomerContent;
+    LookupPageId = "Competition Res Ind List";
 
     fields
     {

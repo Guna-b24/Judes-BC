@@ -2,7 +2,7 @@ table 71002 Application
 {
     Caption = 'Application';
     // DrillDownPageID = 71004;
-    // LookupPageID = 71004;
+    LookupPageID = "Application List";
 
     fields
     {

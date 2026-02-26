@@ -1,6 +1,6 @@
 page 70042 "Bonus Header Card"
 {
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Bonus Header";
     ApplicationArea = All;
     Caption = 'Bonus Header';
@@ -105,6 +105,14 @@ page 70042 "Bonus Header Card"
                 {
                     ApplicationArea = All;
                 }
+            }
+            part(BonusLines; "Bonus Line Subform")
+            {
+                SubPageLink =
+        "Bonus Id." = FIELD("Bonus Id."),
+        "Location Code" = FIELD("Location Code"),
+        "Salary Plan Code" = FIELD("Salary Plan Code"),
+        "Bonus Year" = FIELD("Bonus Year");
             }
         }
     }

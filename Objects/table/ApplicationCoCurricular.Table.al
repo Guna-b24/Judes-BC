@@ -2,6 +2,7 @@ table 71005 "Application Co-Curricular"
 {
     Caption = 'Application Co-Curricular';
     DataClassification = CustomerContent;
+    LookupPageId = "Application Co-Curricular List";
 
     fields
     {

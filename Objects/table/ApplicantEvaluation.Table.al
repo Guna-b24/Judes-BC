@@ -2,6 +2,7 @@ table 71009 "Applicant Evaluation"
 {
     Caption = 'Applicant Evaluation';
     DataClassification = CustomerContent;
+    LookupPageId = "Applicant Evaluation List";
 
     fields
     {

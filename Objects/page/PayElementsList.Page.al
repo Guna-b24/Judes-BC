@@ -6,6 +6,7 @@ page 70140 "Pay Elements List"
     UsageCategory = Administration;
     Caption = 'Pay Elements List';
     Editable = true;
+    CardPageId = "Pay Elements Card";
 
     layout
     {

@@ -4,7 +4,7 @@ table 71078 "Co-Curricular Academic Points"
     DataClassification = CustomerContent;
 
     // DrillDownPageID = 71088;
-    // LookupPageID = 71088;
+    LookupPageID = "Co-Curricular Points";
 
     fields
     {

@@ -3,7 +3,7 @@ table 71012 "Evaluation Header"
     Caption = 'Evaluation Header';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71021;
-    // LookupPageID = 71021;
+    LookupPageID = "Evaluation Header List";
 
     fields
     {

@@ -4,6 +4,7 @@ page 70054 "Citizenship Card"
     PageType = Card;
     SourceTable = Citizenship;
     ApplicationArea = All;
+    UsageCategory = Administration;
 
     layout
     {

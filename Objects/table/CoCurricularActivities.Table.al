@@ -2,7 +2,7 @@ table 71892 "Co-Curricular Activities"
 {
 
     Caption = 'Co-Curricular Activities';
-    //LookupPageID = 71892;
+    LookupPageID = "Co-Curricular Activities";
 
     fields
     {

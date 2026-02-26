@@ -3,7 +3,7 @@ table 71081 "Competition Entry Header"
     Caption = 'Competition Entry Header';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71093;
-    // LookupPageID = 71093;
+    LookupPageID = "Competition Entry List";
 
     fields
     {

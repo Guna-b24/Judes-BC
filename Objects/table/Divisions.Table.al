@@ -1,7 +1,7 @@
 table 72029 Divisions
 {
     // DrillDownPageID = 72039;
-    // LookupPageID = 72039;
+    LookupPageID = "Divisions List";
 
     fields
     {

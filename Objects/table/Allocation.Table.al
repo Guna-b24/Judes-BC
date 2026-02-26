@@ -1,5 +1,7 @@
 table 50012 Allocation
 {
+    LookupPageId = "Allocation List";
+
     fields
     {
         field(1; "Document No"; Code[20])

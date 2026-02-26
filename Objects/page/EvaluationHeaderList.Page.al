@@ -6,6 +6,8 @@ page 71013 "Evaluation Header List"
     Caption = 'Evaluation Header List';
     Editable = true;
     UsageCategory = Lists;
+    CardPageId = "Evaluation Header Card";
+
     layout
     {
         area(Content)

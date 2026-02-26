@@ -2,6 +2,7 @@ table 72028 "Daily Punch Details"
 {
     Caption = 'Daily Punch Details';
     DataClassification = CustomerContent;
+    LookupPageId = "Daily Punch Details List";
 
     fields
     {

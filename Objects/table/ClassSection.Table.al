@@ -3,7 +3,7 @@ table 71015 "Class Section"
     Caption = 'Class Section';
     DataPerCompany = false;
     // DrillDownPageID = 71027;
-    // LookupPageID = 71027;
+    LookupPageID = "Class Section List";
 
     fields
     {

@@ -2,7 +2,7 @@ table 71907 "Fee Classification"
 {
     Caption = 'Fee Classification';
     DataClassification = CustomerContent;
-    DrillDownPageId = "Fee Classification List";
+    // DrillDownPageId = "Fee Classification List";
     LookupPageId = "Fee Classification List";
 
     fields

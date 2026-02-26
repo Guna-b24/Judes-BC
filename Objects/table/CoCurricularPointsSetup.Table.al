@@ -2,7 +2,7 @@ table 71077 "Co-Curricular Points Setup"
 {
     Caption = 'Co-Curricular Points Setup';
     // DrillDownPageID = 71087;
-    // LookupPageID = 71087;
+    LookupPageID = "Co-Curricular Points Setup";
 
     fields
     {

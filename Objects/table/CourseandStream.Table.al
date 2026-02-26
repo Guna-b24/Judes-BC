@@ -1,6 +1,7 @@
 table 73000 "Course and Stream"
 {
     DataClassification = ToBeClassified;
+    LookupPageId = "Course and Stream List";
 
     fields
     {

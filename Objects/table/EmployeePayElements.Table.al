@@ -2,6 +2,7 @@ table 72078 "Employee Pay Elements"
 {
     Caption = 'Employee Pay Elements';
     DataClassification = CustomerContent;
+    LookupPageId = "Employee Pay Elements List";
 
     fields
     {

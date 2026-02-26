@@ -1,7 +1,7 @@
 table 71090 "Event Master"
 {
     // DrillDownPageID = 71113;
-    // LookupPageID = 71113;
+    LookupPageID = "Event Master List";
     Caption = 'Event Master';
     DataClassification = CustomerContent;
 

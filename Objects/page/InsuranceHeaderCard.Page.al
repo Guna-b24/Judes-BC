@@ -1,6 +1,6 @@
 page 72091 "Insurance Header Card"
 {
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Insurance Header";
     ApplicationArea = All;
     Caption = 'Insurance Header';

@@ -2,6 +2,7 @@ table 71066 "Exam Schedule Line - SCH"
 {
     Caption = 'Exam Schedule Line - SCH';
     DataClassification = CustomerContent;
+    LookupPageId = "Exam Schedule Line List - SCH";
 
     fields
     {

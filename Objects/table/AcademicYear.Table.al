@@ -2,7 +2,7 @@ table 71904 "Academic Year"
 {
     Caption = 'Academic Year';
     // DrillDownPageID = 71908;
-    // LookupPageID = 71908;
+    LookupPageID = "Academic Year List";
 
     fields
     {

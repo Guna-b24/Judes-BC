@@ -4,6 +4,7 @@ page 71040 "Department Card"
     PageType = Card;
     SourceTable = Department;
     ApplicationArea = All;
+    UsageCategory = Administration;
 
     layout
     {

@@ -2,7 +2,7 @@ table 71010 "Application Certificate"
 {
     Caption = 'Application Certificate';
     DataClassification = CustomerContent;
-    //LookupPageID = 71017;
+    LookupPageID = "Application Certificate List";
 
     fields
     {

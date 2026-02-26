@@ -6,6 +6,7 @@ page 72079 "Employee Pay Elements List"
     Caption = 'Employee Pay Elements';
     Editable = true;
     UsageCategory = Lists;
+    CardPageId = "Employee Pay Elements Card";
 
     layout
     {

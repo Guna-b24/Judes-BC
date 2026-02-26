@@ -2,7 +2,7 @@ table 71919 Department
 {
     Caption = 'Department';
     // DrillDownPageID = 71925;
-    // LookupPageID = 71925;
+    LookupPageID = "Department List";
 
     fields
     {

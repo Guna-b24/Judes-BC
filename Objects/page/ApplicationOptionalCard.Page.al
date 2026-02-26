@@ -4,6 +4,7 @@ page 70031 "Application Optional Card"
     SourceTable = "Application Optional Subjects";
     ApplicationArea = All;
     Caption = 'Application Optional Subject Card';
+    UsageCategory = Administration;
 
     layout
     {

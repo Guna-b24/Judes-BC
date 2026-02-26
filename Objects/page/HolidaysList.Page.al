@@ -5,6 +5,7 @@ page 72057 "Holidays List"
     ApplicationArea = All;
     UsageCategory = Lists;
     Caption = 'Holidays';
+    CardPageId = "Hostel Card";
 
     layout
     {

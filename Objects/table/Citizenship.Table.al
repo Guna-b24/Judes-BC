@@ -1,7 +1,7 @@
 table 71881 Citizenship
 {
     Caption = 'Citizenship';
-    //LookupPageID = 71881;
+    LookupPageID = "Citizenship List";
 
     fields
     {

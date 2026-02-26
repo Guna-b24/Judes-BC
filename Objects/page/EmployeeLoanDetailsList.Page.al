@@ -1,113 +1,94 @@
-page 70043 "Bonus Line List"
+page 72189 "Employee Loan Details List"
 {
     PageType = List;
-    SourceTable = "Bonus Line";
+    SourceTable = "Employee Loan Details";
     ApplicationArea = All;
     UsageCategory = Lists;
-    Caption = 'Bonus Lines';
-    CardPageId = "Bonus Line Subform";
+    Caption = 'Employee Loan Details';
+    Editable = true;
 
     layout
     {
-        area(Content)
+        area(content)
         {
             repeater(Group)
             {
-                field("Select (Y/N)"; Rec."Select (Y/N)")
-                {
-                    ApplicationArea = All;
-                }
-
-                field("Bonus Id."; Rec."Bonus Id.")
-                {
-                    ApplicationArea = All;
-                }
-
-                field("Location Code"; Rec."Location Code")
-                {
-                    ApplicationArea = All;
-                }
-
-                field("Salary Plan Code"; Rec."Salary Plan Code")
-                {
-                    ApplicationArea = All;
-                }
-
-                field("Bonus Year"; Rec."Bonus Year")
-                {
-                    ApplicationArea = All;
-                }
-
                 field("Employee No"; Rec."Employee No")
                 {
                     ApplicationArea = All;
                 }
-
                 field(Name; Rec.Name)
                 {
                     ApplicationArea = All;
                 }
-
-                field("Employee Category"; Rec."Employee Category")
+                field("Loan Code"; Rec."Loan Code")
                 {
                     ApplicationArea = All;
                 }
-
-                field("Service Year"; Rec."Service Year")
+                field(LoanId; Rec.LoanId)
                 {
                     ApplicationArea = All;
                 }
-
-                field("Service Month"; Rec."Service Month")
+                field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
                 }
-
-                field("No of Days Worked"; Rec."No of Days Worked")
+                field("Salary Process Date"; Rec."Salary Process Date")
                 {
                     ApplicationArea = All;
                 }
-
-                field("Bonusable Earnings"; Rec."Bonusable Earnings")
+                field("Loan Amount"; Rec."Loan Amount")
                 {
                     ApplicationArea = All;
                 }
-
-                field("Bonus %"; Rec."Bonus %")
+                field("EMI Amount"; Rec."EMI Amount")
                 {
                     ApplicationArea = All;
                 }
-
-                field("Bonus Amt"; Rec."Bonus Amt")
+                field("EMI Deducted"; Rec."EMI Deducted")
                 {
                     ApplicationArea = All;
                 }
-
-                field("Ex-Gratia %"; Rec."Ex-Gratia %")
+                field(Principal; Rec.Principal)
                 {
                     ApplicationArea = All;
                 }
-
-                field("Ex-Gratia Amt"; Rec."Ex-Gratia Amt")
+                field(Interest; Rec.Interest)
                 {
                     ApplicationArea = All;
                 }
-
-                field("Gross Bonus Amt"; Rec."Gross Bonus Amt")
+                field("Payment Due"; Rec."Payment Due")
                 {
                     ApplicationArea = All;
                 }
-
-                field("Deduction Amt"; Rec."Deduction Amt")
+                field("Balance Amount"; Rec."Balance Amount")
                 {
                     ApplicationArea = All;
                 }
-
-                field("Total Net Bonus Amt"; Rec."Total Net Bonus Amt")
+                field("Repayment Date"; Rec."Repayment Date")
+                {
+                    ApplicationArea = All;
+                }
+                field("Loan Closed"; Rec."Loan Closed")
+                {
+                    ApplicationArea = All;
+                }
+                field("Location Code"; Rec."Location Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Salary Plan Code"; Rec."Salary Plan Code")
                 {
                     ApplicationArea = All;
                 }
             }
+        }
+    }
+
+    actions
+    {
+        area(processing)
+        {
         }
     }
 }

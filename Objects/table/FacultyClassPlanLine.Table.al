@@ -3,7 +3,7 @@ table 71173 "Faculty Class Plan Line"
     Caption = 'Faculty Class Plan Line';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71533;
-    // LookupPageID = 71533;
+    LookupPageID = "Faculty Class Plan Line List";
 
     fields
     {

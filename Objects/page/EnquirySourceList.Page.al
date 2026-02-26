@@ -6,6 +6,8 @@ page 70884 "Enquiry Source List"
     Caption = 'Enquiry Source List';
     Editable = true;
     UsageCategory = Lists;
+    CardPageId = "Enquiry Source Card";
+
     layout
     {
         area(Content)

@@ -1,6 +1,7 @@
 table 71054 "Class Grade"
 {
     Caption = 'Class Grade';
+    LookupPageId = "Class Grade List";
 
     fields
     {

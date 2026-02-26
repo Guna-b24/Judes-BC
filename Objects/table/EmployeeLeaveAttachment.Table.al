@@ -1,6 +1,7 @@
 table 72079 "Employee Leave Attachment"
 {
     Caption = 'Employee Leave Attachment';
+    LookupPageId = "Employee Leave Attachment List";
 
     fields
     {

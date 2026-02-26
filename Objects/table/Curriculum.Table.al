@@ -2,7 +2,7 @@ table 71042 Curriculum
 {
     Caption = 'Curriculum';
     DataClassification = CustomerContent;
-    // LookupPageID = 71042;
+    LookupPageID = "Curriculum List";
 
     fields
     {

@@ -6,6 +6,7 @@ page 71002 "Enquiry List"
     Caption = 'Enquiry List';
     Editable = true;
     UsageCategory = Lists;
+    CardPageId = "Enquiry Card";
 
     layout
     {

@@ -1,7 +1,7 @@
 table 71011 "Application Optional Subjects"
 {
     Caption = 'Application Optional Subjects';
-    //LookupPageID = 71018;
+    LookupPageID = "Application Optional Subjects";
 
     fields
     {

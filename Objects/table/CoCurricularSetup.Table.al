@@ -2,6 +2,7 @@ table 71080 "Co-Curricular Setup"
 {
     Caption = 'Co-Curricular Setup';
     DataClassification = SystemMetadata;
+    LookupPageId = "Co-Curricular Setup";
 
     fields
     {

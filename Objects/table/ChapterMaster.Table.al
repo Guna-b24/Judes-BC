@@ -2,7 +2,7 @@ table 71901 "Chapter Master"
 {
     Caption = 'Chapter Master';
     // DrillDownPageID = 71905;
-    // LookupPageID = 71905;
+    LookupPageID = "Chapter Master List";
 
     fields
     {

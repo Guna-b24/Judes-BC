@@ -5,6 +5,7 @@ page 71126 "Participant Type List"
     ApplicationArea = All;
     UsageCategory = Administration;
     Caption = 'Participant Type List';
+    CardPageId = "Participant Type Card";
 
     layout
     {

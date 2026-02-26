@@ -5,7 +5,8 @@ page 71904 "Exam Code List"
     ApplicationArea = All;
     Caption = 'Exam Code List';
     Editable = true;
-    UsageCategory = Lists; // Appears under Lists in menu
+    UsageCategory = Lists;
+    CardPageId = "Exam Code Card";
 
     layout
     {

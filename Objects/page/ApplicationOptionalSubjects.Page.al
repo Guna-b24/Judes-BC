@@ -5,6 +5,7 @@ page 70030 "Application Optional Subjects"
     ApplicationArea = All;
     UsageCategory = Lists;
     Caption = 'Application Optional Subjects';
+    CardPageId = "Application Optional Card";
 
     layout
     {

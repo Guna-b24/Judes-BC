@@ -2,7 +2,7 @@ table 72116 "Bonus Header"
 {
     Caption = 'Bonus Header';
     // DrillDownPageID = 72160;
-    // LookupPageID = 72160;
+    LookupPageID = "Bonus Header List";
 
     fields
     {

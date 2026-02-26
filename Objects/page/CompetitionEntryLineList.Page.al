@@ -1,58 +1,56 @@
-page 70060 "Class Evaluation Card"
+page 71183 "Competition Entry Line List"
 {
-    Caption = 'Class Evaluation Card';
-    PageType = Card;
-    SourceTable = "Class Evaluation";
+    PageType = List;
+    SourceTable = "Competition Entry Line";
     ApplicationArea = All;
     UsageCategory = Lists;
+    Caption = 'Competition Entry Lines';
+    Editable = true;
+    CardPageId = "Competition Entry Subform";
 
     layout
     {
         area(content)
         {
-            group(General)
+            repeater(Group)
             {
-                field(Class; Rec.Class)
+                field("Document No."; Rec."Document No.")
                 {
                     ApplicationArea = All;
                 }
-                field(Curriculum; Rec.Curriculum)
+                field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
                 }
-                field("Academic Year"; Rec."Academic Year")
+                field("Student Division"; Rec."Student Division")
                 {
                     ApplicationArea = All;
                 }
-                field("Evaluation Method Code"; Rec."Evaluation Method Code")
+                field(Gender; Rec.Gender)
                 {
                     ApplicationArea = All;
                 }
-            }
-
-            group(Marks)
-            {
-                field("Maximum Mark"; Rec."Maximum Mark")
+                field("Min Age"; Rec."Min Age")
                 {
                     ApplicationArea = All;
                 }
-                field("Pass Mark"; Rec."Pass Mark")
+                field("Max Age"; Rec."Max Age")
                 {
                     ApplicationArea = All;
                 }
-                field(Weightage; Rec.Weightage)
+                field("Cut Off Date"; Rec."Cut Off Date")
                 {
                     ApplicationArea = All;
                 }
-                field("Prequalification Mark"; Rec."Prequalification Mark")
+                field("Temp Cut off Date"; Rec."Temp Cut off Date")
                 {
                     ApplicationArea = All;
                 }
-            }
-
-            group(Settings)
-            {
-                field(Compulsory; Rec.Compulsory)
+                field("Team Size"; Rec."Team Size")
+                {
+                    ApplicationArea = All;
+                }
+                field(Substitute; Rec.Substitute)
                 {
                     ApplicationArea = All;
                 }
@@ -61,6 +59,13 @@ page 70060 "Class Evaluation Card"
                     ApplicationArea = All;
                 }
             }
+        }
+    }
+
+    actions
+    {
+        area(processing)
+        {
         }
     }
 }

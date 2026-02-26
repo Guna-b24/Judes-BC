@@ -3,7 +3,7 @@ table 72004 Certification
     Caption = 'Certification';
     DataCaptionFields = "Code";
     // DrillDownPageID = 72004;
-    // LookupPageID = 72004;
+    LookupPageID = "Certification List";
 
     fields
     {

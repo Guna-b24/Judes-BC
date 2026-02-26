@@ -3,7 +3,7 @@ table 72021 "Appraisal Header"
     Caption = 'Appraisal Header';
     DataCaptionFields = "App No.", "Employee No", "Employee Name";
     // DrillDownPageID = 72033;
-    // LookupPageID = 72033;
+    LookupPageID = "Appraisal Header List";
 
     fields
     {

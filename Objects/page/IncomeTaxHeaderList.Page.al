@@ -5,6 +5,7 @@ page 72067 "Income Tax Header List"
     ApplicationArea = All;
     UsageCategory = Lists;
     Caption = 'Income Tax Header';
+    CardPageId = "Income Tax Header Card";
 
     layout
     {

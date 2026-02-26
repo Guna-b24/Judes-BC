@@ -1,6 +1,7 @@
 table 71040 "Academics Setup"
 {
     Caption = 'Academics Setup';
+    LookupPageId = "Academics Setup";
 
     fields
     {

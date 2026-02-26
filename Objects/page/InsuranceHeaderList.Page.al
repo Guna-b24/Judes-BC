@@ -5,6 +5,7 @@ page 72090 "Insurance Header List"
     ApplicationArea = All;
     UsageCategory = Lists;
     Caption = 'Insurance Header';
+    CardPageId = "Insurance Header Card";
 
     layout
     {

@@ -1,6 +1,6 @@
 page 70036 "Arrears Header Card"
 {
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Arrears Header";
     ApplicationArea = All;
     Caption = 'Arrears Card';

@@ -2,7 +2,7 @@ table 71898 "Co-Curricular Classification"
 {
     Caption = 'Co-Curricular Classification';
     // DrillDownPageID = 71903;
-    // LookupPageID = 71903;
+    LookupPageID = "Co-Curricular Classification";
 
     fields
     {

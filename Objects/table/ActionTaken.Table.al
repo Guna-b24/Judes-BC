@@ -1,7 +1,7 @@
 table 71917 "Action Taken"
 {
     Caption = 'Action Taken';
-    //LookupPageID = 71919;
+    LookupPageID = "Action Taken List";
 
     fields
     {

@@ -1,6 +1,6 @@
 table 72002 Designation
 {
-    //LookupPageID = 72002;
+    LookupPageID = "Designation List";
     Caption = 'Designation';
     DataClassification = CustomerContent;
 

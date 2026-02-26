@@ -1,66 +1,66 @@
-page 70060 "Class Evaluation Card"
+page 72023 "Appraisal Line List"
 {
-    Caption = 'Class Evaluation Card';
-    PageType = Card;
-    SourceTable = "Class Evaluation";
+    PageType = List;
+    SourceTable = "Appraisal Line";
     ApplicationArea = All;
     UsageCategory = Lists;
+    Caption = 'Appraisal Line List';
+    Editable = true;
 
     layout
     {
         area(content)
         {
-            group(General)
+            repeater(Group)
             {
-                field(Class; Rec.Class)
+                field("App No."; Rec."App No.")
                 {
                     ApplicationArea = All;
                 }
-                field(Curriculum; Rec.Curriculum)
+                field("Employee No"; Rec."Employee No")
                 {
                     ApplicationArea = All;
                 }
-                field("Academic Year"; Rec."Academic Year")
+                field("Objectives Code"; Rec."Objectives Code")
                 {
                     ApplicationArea = All;
                 }
-                field("Evaluation Method Code"; Rec."Evaluation Method Code")
+                field("Objectives Description"; Rec."Objectives Description")
+                {
+                    ApplicationArea = All;
+                }
+                field("Self Rating %"; Rec."Self Rating %")
+                {
+                    ApplicationArea = All;
+                }
+                field(Performance; Rec.Performance)
+                {
+                    ApplicationArea = All;
+                }
+                field("Positive Attitude"; Rec."Positive Attitude")
+                {
+                    ApplicationArea = All;
+                }
+                field("Future Responsibility"; Rec."Future Responsibility")
+                {
+                    ApplicationArea = All;
+                }
+                field("Training Code"; Rec."Training Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Training Description"; Rec."Training Description")
                 {
                     ApplicationArea = All;
                 }
             }
+        }
+    }
 
-            group(Marks)
-            {
-                field("Maximum Mark"; Rec."Maximum Mark")
-                {
-                    ApplicationArea = All;
-                }
-                field("Pass Mark"; Rec."Pass Mark")
-                {
-                    ApplicationArea = All;
-                }
-                field(Weightage; Rec.Weightage)
-                {
-                    ApplicationArea = All;
-                }
-                field("Prequalification Mark"; Rec."Prequalification Mark")
-                {
-                    ApplicationArea = All;
-                }
-            }
-
-            group(Settings)
-            {
-                field(Compulsory; Rec.Compulsory)
-                {
-                    ApplicationArea = All;
-                }
-                field("Portal ID"; Rec."Portal ID")
-                {
-                    ApplicationArea = All;
-                }
-            }
+    actions
+    {
+        area(processing)
+        {
         }
     }
 }

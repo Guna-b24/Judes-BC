@@ -4,7 +4,7 @@ table 72063 "ESI Setup"
     DataCaptionFields = "Effective Date", "Location Code", "Salary Plan Code";
     DataClassification = CustomerContent;
     // DrillDownPageID = 72081;
-    // LookupPageID = 72081;
+    LookupPageID = "ESI Setup List";
 
     fields
     {

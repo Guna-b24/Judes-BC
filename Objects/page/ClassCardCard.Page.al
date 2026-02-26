@@ -4,6 +4,7 @@ page 70058 "Class Card Card"
     PageType = Card;
     SourceTable = "Class Card";
     ApplicationArea = All;
+    UsageCategory = Lists;
 
     layout
     {

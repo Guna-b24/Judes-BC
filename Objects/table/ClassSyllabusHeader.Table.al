@@ -1,6 +1,7 @@
 table 71170 "Class Syllabus Header"
 {
     Caption = 'Class Syllabus Header';
+    LookupPageId = "Class Syllabus List";
 
     fields
     {

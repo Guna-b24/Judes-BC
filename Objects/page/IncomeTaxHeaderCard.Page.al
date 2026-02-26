@@ -1,6 +1,6 @@
 page 72068 "Income Tax Header Card"
 {
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Income Tax Header";
     ApplicationArea = All;
     Caption = 'Income Tax Header';

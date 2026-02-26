@@ -4,7 +4,7 @@ table 71007 "Evaluation Method"
     Caption = 'Evaluation Method';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71015;
-    // LookupPageID = 71015;
+    LookupPageID = "Evaluation Method List";
 
     fields
     {

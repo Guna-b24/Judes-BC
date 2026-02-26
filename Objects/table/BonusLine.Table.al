@@ -2,6 +2,7 @@ table 72117 "Bonus Line"
 {
     Caption = 'Bonus Line';
     DataClassification = CustomerContent;
+    LookupPageId = "Bonus Line List";
 
     fields
     {

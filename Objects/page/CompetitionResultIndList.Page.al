@@ -5,7 +5,6 @@ page 71086 "Competition Result Ind List"
     ApplicationArea = All;
     UsageCategory = Lists;
     Caption = 'Competition Result Individual';
-
     CardPageId = "Competition Result Ind Card";
 
     layout

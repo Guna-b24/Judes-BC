@@ -1,6 +1,6 @@
 page 70033 "Appraisal Header Card"
 {
-    PageType = Card;
+    PageType = Document;
     SourceTable = "Appraisal Header";
     ApplicationArea = All;
     Caption = 'Appraisal Card';

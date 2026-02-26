@@ -3,7 +3,7 @@ table 71150 "Faculty Subject"
     Caption = 'Faculty Subject';
     DataClassification = CustomerContent;
     // DrillDownPageID = 71150;
-    // LookupPageID = 71150;
+    LookupPageID = "Faculty Subject List";
 
     fields
     {

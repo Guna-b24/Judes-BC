@@ -76,14 +76,14 @@ page 71937 "Employee All Card"
                     ApplicationArea = All;
                 }
             }
-            group("Leave Assignment")
-            {
-                part("Employee Leaves"; "Employee Leave Attachment")
-                {
-                    ApplicationArea = All;
-                    SubPageLink = "Employee No" = FIELD("Employee No.");
-                }
-            }
+            // group("Leave Assignment")
+            // {
+            //     part("Employee Leaves"; "Employee Leave Attachment")
+            //     {
+            //         ApplicationArea = All;
+            //         SubPageLink = "Employee No" = FIELD("Employee No.");
+            //     }
+            // }
         }
     }
 }

@@ -2,7 +2,8 @@ table 72012 Advertisement
 {
     Caption = 'Advertisement';
     DataCaptionFields = "No.";
-    // DrillDownPageID = 72017; // LookupPageID = 72017;
+    // DrillDownPageID = 72017; 
+    LookupPageID = "Advertisement List";
 
     fields
     {

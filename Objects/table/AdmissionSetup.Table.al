@@ -2,6 +2,7 @@ table 71000 "Admission Setup"
 {
 
     Caption = 'Admission Setup';
+    LookupPageId = "Admission Setup";
 
     fields
     {
