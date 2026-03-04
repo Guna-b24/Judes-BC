@@ -22,6 +22,7 @@ page 71025 "Student Card"
                 field("Student Status"; Rec."Student Status") { ApplicationArea = All; }
                 field("New Student"; Rec."New Student") { ApplicationArea = All; }
                 field("Date Joined"; Rec."Date Joined") { ApplicationArea = All; }
+                field(Image; rec."Student Image") { ApplicationArea = all; }
             }
 
             group("Personal Details")
@@ -97,4 +98,119 @@ page 71025 "Student Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            group(Student)
+            {
+                Caption = 'Student';
+
+                action(OptionalSubjects)
+                {
+                    Caption = 'Optional Subjects';
+                    ApplicationArea = All;
+                    Image = Item;
+
+                    RunObject = page "Student Optional Subjects";
+                    RunPageLink = "Student No" = field("No.");
+
+                    ToolTip = 'Opens the optional subjects assigned to this student.';
+                }
+
+                // Subjects
+                action(Subjects)
+                {
+                    Caption = 'Subjects';
+                    ApplicationArea = All;
+                    Image = Item;
+
+                    RunObject = page "Student Subjects List";
+                    RunPageLink = "Student No." = field("No.");
+
+                    ToolTip = 'Opens the subjects assigned to this student.';
+                }
+
+                // Co-Curricular
+                action(CoCurricular)
+                {
+                    Caption = 'Co-Curricular';
+                    ApplicationArea = All;
+                    Image = Activities;
+
+                    RunObject = page "Application Co-Curricular List";
+                    RunPageLink = "Student No." = field("No.");
+
+                    ToolTip = 'Opens the co-curricular activities assigned to this student.';
+                }
+
+                // Marks
+                action(Marks)
+                {
+                    Caption = 'Marks';
+                    ApplicationArea = All;
+                    Image = Statistics;
+
+                    RunObject = page "Student Mark List";
+                    RunPageLink = "Student No." = field("No.");
+
+                    ToolTip = 'Opens the marks records for this student.';
+                }
+                action(UpdateStudentGrade)
+                {
+                    Caption = 'Update Student &Grade';
+                    ApplicationArea = All;
+                    Image = Calculate;
+                    ToolTip = 'Calculates and updates the CGPA and Grade for the current student based on posted academic records.';
+
+                    trigger OnAction()
+                    begin
+                        Academics.UpdateStudentCPGAGrade(Rec);
+                        CurrPage.Update();
+                    end;
+                }
+
+                action(ImportStudentImage)
+                {
+                    Caption = 'Import Student Image';
+                    ApplicationArea = All;
+                    Image = Import;
+                    ToolTip = 'Imports an image for the current student.';
+
+                    trigger OnAction()
+                    begin
+                        if Rec."Student Image".Count > 0 then
+                            if not Confirm('The student already has an image. Do you want to replace it?') then
+                                exit;
+
+                        Clear(Rec."Student Image");
+                        Rec.Modify(true);
+                        CurrPage.Update();
+                    end;
+                }
+
+                action(DeleteStudentImage)
+                {
+                    Caption = 'Delete Student Image';
+                    ApplicationArea = All;
+                    Image = Delete;
+                    ToolTip = 'Deletes the image of the current student.';
+
+                    trigger OnAction()
+                    begin
+                        if Rec."Student Image".Count = 0 then
+                            exit;
+
+                        if Confirm('Are you sure you want to delete the image?') then begin
+                            Clear(Rec."Student Image");
+                            Rec.Modify(true);
+                            CurrPage.Update();
+                        end;
+                    end;
+                }
+            }
+        }
+    }
+    VAR
+        Academics: Codeunit Academics;
 }

@@ -47,4 +47,39 @@ page 70025 Allocation
             }
         }
     }
+    actions
+    {
+        area(Navigation)
+        {
+            group(Account)
+            {
+                action(Card)
+                {
+                    ApplicationArea = All;
+                    RunObject = Page "G/L Account Card";
+                    Image = EditLines;
+                    ToolTip = 'Open the G/L Account Card for the selected account.';
+                }
+
+                action("Ledger Entries")
+                {
+                    ApplicationArea = All;
+                    RunObject = Page "General Ledger Entries";
+                    Image = LedgerEntries;
+                    ToolTip = 'View the general ledger entries for the selected account.';
+                }
+            }
+
+            group(Line)
+            {
+                action(Dimensions)
+                {
+                    ApplicationArea = All;
+                    RunObject = Page "Journal Line Dimension List";
+                    Image = Dimensions;
+                    ToolTip = 'View or edit dimensions for the selected journal line.';
+                }
+            }
+        }
+    }
 }

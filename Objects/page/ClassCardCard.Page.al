@@ -125,4 +125,72 @@ page 70058 "Class Card Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            group("Class Setup")
+            {
+                action(Section)
+                {
+                    ApplicationArea = All;
+                    Image = List;
+                    ToolTip = 'Open the class sections for the selected class.';
+
+                    RunObject = Page "Class Section List";
+                    RunPageLink = "Class Code" = field(Class);
+                }
+
+                action("Optional Subject Group")
+                {
+                    ApplicationArea = All;
+                    Image = List;
+                    ToolTip = 'Open the optional subject groups for the selected class.';
+
+                    RunObject = Page "Class Section Subjects List";
+                    RunPageLink = "Class Code" = field("Class");
+                }
+
+                action("Class Subjects")
+                {
+                    ApplicationArea = All;
+                    Image = List;
+                    ToolTip = 'View the subjects assigned to the selected class.';
+
+                    RunObject = Page "Class Subjects List";
+                    RunPageLink = Class = field("Class");
+                }
+
+                action(Grade)
+                {
+                    ApplicationArea = All;
+                    Image = List;
+                    ToolTip = 'Open the grading setup for the selected class.';
+
+                    RunObject = Page "Class Grade List";
+                    RunPageLink = "Class" = field("Class");
+                }
+
+                action("Promotion Weightage")
+                {
+                    ApplicationArea = All;
+                    Image = Calculate;
+                    ToolTip = 'Open the promotion weightage setup for the selected class.';
+
+                    RunObject = Page "Promotion Weightage";
+                    RunPageLink = "Class Code" = field("Class");
+                }
+
+                action(Evaluation)
+                {
+                    ApplicationArea = All;
+                    Image = View;
+                    ToolTip = 'Open the evaluation setup for the selected class.';
+
+                    RunObject = Page "Class Evaluation List";
+                    RunPageLink = "Class" = field("Class");
+                }
+            }
+        }
+    }
 }

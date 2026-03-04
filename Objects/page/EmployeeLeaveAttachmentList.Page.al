@@ -32,4 +32,20 @@ page 72080 "Employee Leave Attachment List"
             }
         }
     }
+
+    // actions
+    // {
+    //     area(Processing)
+    //     {
+    //         action("Attach Leave Code")
+    //         {
+    //             ApplicationArea = All;
+    //             Image = Attach;
+    //             ToolTip = 'Run the Employee Leave Attachments report for the selected record.';
+
+    //             RunObject = Report "Employee Leave Attachments";
+    //             RunPageLink = "Employee No" = field("Employee No");
+    //         }
+    //     }
+    // }
 }

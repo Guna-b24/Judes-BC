@@ -653,7 +653,7 @@ table 71046 Student
             ToolTip = 'Specifies the latest grade achieved.';
         }
 
-        field(20014; "Student Image"; Text[100])
+        field(20014; "Student Image"; MediaSet)
         {
             Caption = 'Student Image';
             DataClassification = EndUserIdentifiableInformation;
@@ -865,6 +865,7 @@ table 71046 Student
             DataClassification = CustomerContent;
             ToolTip = 'Specifies the previous class code.';
         }
+
     }
 
     keys

@@ -35,4 +35,5 @@ page 70056 "Class Card"
             }
         }
     }
+
 }

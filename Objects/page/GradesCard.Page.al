@@ -41,4 +41,21 @@ page 72062 "Grades Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action(Card)
+            {
+                Caption = '&Card';
+                ToolTip = ' ToolTip = Opens the selected grade record in the Grades Card page';
+                Image = EditLines;
+                ShortCutKey = 'Shift+F5';
+                ApplicationArea = All;
+
+                RunObject = page "Pay Elements Card";
+                RunPageLink = "Salary Plan Code" = field("Salary Plan Code");
+            }
+        }
+    }
 }

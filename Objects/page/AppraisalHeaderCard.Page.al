@@ -102,4 +102,19 @@ page 70033 "Appraisal Header Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("Pay Elements")
+            {
+                ApplicationArea = All;
+                Caption = 'Pay Elements';
+                Image = List;
+                ToolTip = 'View and manage the pay elements for the selected employee.';
+                RunObject = Page "Employee Pay Elements List";
+                RunPageLink = "Employee No" = field("Employee No");
+            }
+        }
+    }
 }
