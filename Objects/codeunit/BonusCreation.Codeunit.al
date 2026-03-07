@@ -478,5 +478,40 @@ codeunit 72011 "Bonus Creation"
         exit(PerDaySalary);
 
     end;
+
+    procedure GetEmployees(var BonusHeader: Record "Bonus Misc Add/Deductions")
+    var
+        Employee: Record Employee;
+        BonusLine: Record "Bonus Misc Add/Deductions";
+    begin
+        // Validation
+        if (BonusHeader."Bonus Start Date" = 0D) or
+           (BonusHeader."Bonus End Date" = 0D) or
+           (BonusHeader."Pay Element Code" = '') then
+            Error('Enter the Start Date, End Date and Element Code.');
+
+        // Filter employees
+        Employee.Reset();
+        Employee.SetRange("Location Code", BonusHeader."Location Code");
+        Employee.SetRange("Salary Plan Code", BonusHeader."Salary Plan Code");
+
+        if Employee.FindSet() then
+            repeat
+                // Prevent duplicates
+                BonusLine.Reset();
+                BonusLine.SetRange("Bonus ID.", BonusHeader."Bonus ID.");
+                BonusLine.SetRange("Employee No.", Employee."No.");
+
+                if not BonusLine.IsEmpty() then
+                    continue;
+
+                BonusLine.Init();
+                BonusLine.TransferFields(BonusHeader);
+                BonusLine."Employee No." := Employee."No.";
+                BonusLine.Name := Employee."First Name";
+                BonusLine."Created Date" := Today();
+                BonusLine.Insert();
+            until Employee.Next() = 0;
+    end;
 }
 

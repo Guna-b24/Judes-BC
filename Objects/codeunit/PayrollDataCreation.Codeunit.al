@@ -910,5 +910,77 @@ codeunit 72007 "Payroll Data Creation"
             if not Insert() then;
         end;
     end;
+
+    procedure GetPayElements(LocationCode: Code[20]; SalaryPlanCode: Code[20]; GradeCode: Code[20]; EffectiveDate: Date)
+    var
+        PayElements: Record "Pay Elements";
+        GradeElements: Record "Grades Elements";
+    begin
+        if EffectiveDate = 0D then
+            Error('Effective Date cannot be blank.');
+
+        PayElements.Reset();
+        if PayElements.Find('-') then
+            repeat
+                GradeElements.Init();
+                GradeElements."Location Code" := LocationCode;
+                GradeElements."Salary Plan Code" := SalaryPlanCode;
+                GradeElements."Effective Date" := EffectiveDate;
+                GradeElements."Pay Element Code" := PayElements."Pay Element Code";
+                GradeElements."Grade Code" := GradeCode;
+                GradeElements."Pay Type" := PayElements."Pay Type";
+                GradeElements."Fixed / Percent" := PayElements."Fixed/Percent";
+                GradeElements."Amount Calculation Type" := PayElements."Amount Calculation Type";
+                GradeElements."Base Pay Elements" := PayElements."Base Pay Elements";
+                GradeElements."Percent (%)" := PayElements."Percent (%)";
+                GradeElements.Amount := PayElements.Amount;
+                GradeElements."Sorting Order" := PayElements."Sorting Order";
+                GradeElements.Description := PayElements.Description;
+
+                GradeElements.Insert();
+            until PayElements.Next() = 0;
+    end;
+
+    procedure UpdateHolidays()
+    var
+        PayrollYear: Record "Payroll Year";
+        HRPayrollSetup: Record "HR & Payroll Setup";
+    begin
+        PayrollYear.RESET();
+        PayrollYear.SETRANGE("Location Code", HRPayrollSetup."Location Code");
+        PayrollYear.SETRANGE("Salary Plan Code", HRPayrollSetup."Salary Plan Code");
+        PayrollYear.SETRANGE("Year Code", HRPayrollSetup."Salary Year Code");
+        PayrollYear.SETRANGE("Year Type", PayrollYear."Year Type"::"Salary Year");
+        PayrollYear.SETRANGE(Closed, FALSE);
+
+        if PayrollYear.FINDFIRST() then begin
+            PayrollYear.Created := false;
+            PayrollYear.MODIFY();
+            CODEUNIT.RUN(CODEUNIT::"Calendar Creation");
+        end;
+    end;
+
+    procedure PayRollPPGroup(LocationCode: Code[20]; SalaryPlanCode: Code[20])
+    var
+        PayElements: Record "Pay Elements";
+        PPGroup: Record "Payroll Product Posting Group";
+    begin
+        PayElements.Reset();
+        PayElements.SetRange("Location Code", LocationCode);
+        PayElements.SetRange("Salary Plan Code", SalaryPlanCode);
+
+        if PayElements.Find('-') then
+            repeat
+                PPGroup.Init();
+                PPGroup."Location Code" := LocationCode;
+                PPGroup."Salary Plan Code" := SalaryPlanCode;
+                PPGroup.Code := PayElements."Pay Element Code";
+                PPGroup.Description := PayElements.Description;
+
+                if not PPGroup.Insert() then;
+            until PayElements.Next() = 0;
+    end;
+
+
 }
 

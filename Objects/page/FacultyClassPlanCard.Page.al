@@ -86,4 +86,48 @@ page 71072 "Faculty Class Plan Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action(Apply)
+            {
+                Caption = 'Apply';
+                ApplicationArea = All;
+                Image = Process;
+                ToolTip = 'Applies the faculty plan for the current record.';
+
+                trigger OnAction()
+                begin
+                    SchemeOfWork.ApplyFacultyPlan(Rec."No.");
+                end;
+            }
+            action(Approve)
+            {
+                Caption = 'A&pprove';
+                ApplicationArea = All;
+                Image = Approve;
+                ToolTip = 'Approves the faculty plan for the current record.';
+
+                trigger OnAction()
+                begin
+                    SchemeOfWork.ApproveFacultyPlan(Rec."No.");
+                end;
+            }
+            action(Reject)
+            {
+                Caption = 'Reject';
+                ApplicationArea = All;
+                Image = Reject;
+                ToolTip = 'Rejects the faculty plan for the current record.';
+
+                trigger OnAction()
+                begin
+                    SchemeOfWork.RejectFacultyPlan(Rec."No.");
+                end;
+            }
+        }
+    }
+    var
+        SchemeOfWork: Codeunit "Scheme Of Work";
 }

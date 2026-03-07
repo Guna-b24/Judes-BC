@@ -49,4 +49,82 @@ page 72284 "Monthly Attendance Card"
             }
         }
     }
+    actions
+    {
+        area(processing)
+        {
+            action("Process Salary")
+            {
+                Caption = 'Process Salary';
+                ShortCutKey = 'F5';
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    MonthlyAttendance.ProcessSalary(
+                        Rec."Location Code",
+                        Rec."Salary Plan Code",
+                        Rec."Salary Cycle Code",
+                        Rec."Payroll Start Date",
+                        Rec."Payroll End Date",
+                        Rec."Employee No",
+                        Rec."Employee Category");
+                end;
+            }
+
+            action("Current Employee")
+            {
+                Caption = 'Current Employee';
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    MonthlyAttendance.CurrentEmployee(
+                        Rec."Location Code",
+                        Rec."Salary Plan Code",
+                        Rec."Salary Cycle Code",
+                         Rec."Payroll Start Date",
+                        Rec."Payroll End Date",
+                        Rec."Employee Category");
+                end;
+            }
+
+            action("All Employee")
+            {
+                Caption = 'All Employee';
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    MonthlyAttendance.AllEmployee(
+                        Rec."Journal Template Name",
+                        Rec."Journal Batch Name",
+                        Rec."Posted Document No",
+                        Rec."Posted Date",
+                        Rec."Location Code",
+                        Rec."Salary Plan Code",
+                        Rec."Salary Cycle Code",
+                        Rec."Employee Category");
+                end;
+            }
+
+            action("Post Salary")
+            {
+                Caption = 'Post Salary';
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    MonthlyAttendance.PostSalary(
+                        Rec."Journal Template Name",
+                        Rec."Journal Batch Name",
+                        Rec."Posted Document No",
+                        Rec."Posted Date",
+                        Rec."Location Code",
+                        Rec."Salary Plan Code",
+                        Rec."Salary Cycle Code",
+                        Rec."Employee Category");
+                end;
+            }
+        }
+    }
+    var
+        MonthlyAttendance: Codeunit "Monthly Attendance Process";
+
 }

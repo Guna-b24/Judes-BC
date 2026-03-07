@@ -69,4 +69,66 @@ page 71262 "Transfer Certificate Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+
+            action(IssueTC)
+            {
+                Caption = 'Issue TC';
+                ApplicationArea = All;
+                Image = SendTo;
+                ToolTip = 'Issues a Transfer Certificate for the selected student.';
+
+                trigger OnAction()
+                var
+                    withdrawl: Codeunit Withdrawal;
+                begin
+                    Withdrawl."Issue TC"(Rec."TC No.", Rec."Withdrawl No.", Rec."Student No.");
+                    CurrPage.Update();
+                end;
+            }
+            action(TCReport)
+            {
+                Caption = 'TC Report';
+                ApplicationArea = All;
+                Image = Print;
+                ToolTip = 'Prints the Transfer Certificate report for the selected record.';
+
+                trigger OnAction()
+                var
+                    TransferCertificate: Record "Transfer Certificate";
+                begin
+                    TransferCertificate.Reset();
+                    TransferCertificate.SetRange("TC No.", Rec."TC No.");
+                    TransferCertificate.SetRange("Student No.", Rec."Student No.");
+
+                    //if TransferCertificate.FindFirst() then
+                    //Report.RunModal(Report::"Transfer Certificate Report", true, false, TransferCertificate);
+                end;
+            }
+            action(PrePrintedTCReport)
+            {
+                Caption = 'Pre-Printed TC Report';
+                ApplicationArea = All;
+                Image = Print;
+                ToolTip = 'Prints the pre-printed Transfer Certificate for the selected record.';
+
+                trigger OnAction()
+                var
+                    TransferCertificate: Record "Transfer Certificate";
+                begin
+                    TransferCertificate.Reset();
+                    TransferCertificate.SetRange("TC No.", Rec."TC No.");
+                    TransferCertificate.SetRange("Student No.", Rec."Student No.");
+
+                    // if TransferCertificate.FindFirst() then
+                    //     Report.RunModal(Report::"Pre-Printed TC Report", true, false, TransferCertificate);
+                end;
+            }
+        }
+    }
+
+
 }

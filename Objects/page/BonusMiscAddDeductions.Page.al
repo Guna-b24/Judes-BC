@@ -99,4 +99,24 @@ page 70044 "Bonus Misc Add/Deductions"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action(GetEmployees)
+            {
+                Caption = 'Get Employees';
+                ApplicationArea = All;
+                Image = Process;
+
+                trigger OnAction()
+                var
+                    BonusMgmt: Codeunit "Bonus Creation";
+                begin
+                    BonusMgmt.GetEmployees(Rec);
+                    CurrPage.Update();
+                end;
+            }
+        }
+    }
 }

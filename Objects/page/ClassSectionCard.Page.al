@@ -95,4 +95,25 @@ page 70066 "Class Section Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action(UpdateStudentSubjects)
+            {
+                Caption = 'Update Student Subjects';
+                ApplicationArea = All;
+                Image = Refresh;
+                ToolTip = 'Updates student subject entries based on the subjects defined for the selected class.';
+
+
+                trigger OnAction()
+                var
+                    AcademicsMgt: Codeunit Academics;
+                begin
+                    AcademicsMgt."Insert Student Subjects"(Rec."Class Code");
+                end;
+            }
+        }
+    }
 }

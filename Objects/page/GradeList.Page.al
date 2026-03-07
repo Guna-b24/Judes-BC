@@ -23,4 +23,24 @@ page 71889 "Grade List"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action(CopyGrades)
+            {
+                Caption = '&Copy Grades';
+                ApplicationArea = All;
+                Image = Copy;
+                ToolTip = 'Copies grade records based on the defined setup.';
+
+                trigger OnAction()
+                begin
+                    EducationVertical.CopyGrades();
+                end;
+            }
+        }
+    }
+    var
+        EducationVertical: Codeunit "Education Vertical";
 }

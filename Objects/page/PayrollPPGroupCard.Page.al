@@ -20,4 +20,26 @@ page 72184 "Payroll PP Group Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("Get Pay Elements")
+            {
+                ApplicationArea = All;
+                Caption = 'Get Pay Elements';
+                Image = GetEntries;
+                ToolTip = 'Retrieve pay elements based on the selected location and salary plan and insert them into the payroll group.';
+
+                trigger OnAction()
+                var
+                    PayrollMgmt: Codeunit "Payroll Data Creation";
+                begin
+                    PayrollMgmt.PayRollPPGroup(Rec."Location Code", Rec."Salary Plan Code");
+                    CurrPage.Update(false);
+                end;
+            }
+        }
+    }
+
 }

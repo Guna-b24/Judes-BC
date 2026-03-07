@@ -84,6 +84,26 @@ page 72264 "LocationHR & PayrollSetup Card"
                 field("Extended Properties"; Rec."Extended Properties") { }
                 field("Connection String"; Rec."Connection String") { Editable = false; }
             }
+            group(Pictures)
+            {
+                Caption = 'Pictures';
+
+                field("Location Logo"; Rec."Location Logo")
+                {
+                    ApplicationArea = All;
+                }
+
+                field("PF Logo"; rec."PF Logo")
+                {
+                    ApplicationArea = All;
+                }
+
+                field("ESI Logo"; Rec."ESI Logo")
+                {
+                    ApplicationArea = All;
+                }
+            }
         }
     }
+
 }

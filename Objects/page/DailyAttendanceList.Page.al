@@ -5,6 +5,7 @@ page 71036 "Daily Attendance List"
     SourceTable = "Daily Attendance";
     ApplicationArea = All;
     UsageCategory = Lists;
+    CardPageId = "Daily Attendance Worksheet";
 
     layout
     {
@@ -72,23 +73,23 @@ page 71036 "Daily Attendance List"
         }
     }
 
-    actions
-    {
-        area(Processing)
-        {
-            action(EditAttendance)
-            {
-                Caption = 'Edit';
-                ApplicationArea = All;
-                Image = EditLines;
-                Promoted = true;
-                PromotedCategory = Process;
+    // actions
+    // {
+    //     area(Processing)
+    //     {
+    //         action(EditAttendance)
+    //         {
+    //             Caption = 'Edit';
+    //             ApplicationArea = All;
+    //             Image = EditLines;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
 
-                trigger OnAction()
-                begin
-                    PAGE.Run(PAGE::"Daily Attendance List", Rec);
-                end;
-            }
-        }
-    }
+    //             trigger OnAction()
+    //             begin
+    //                 PAGE.Run(PAGE::"Daily Attendance List", Rec);
+    //             end;
+    //         }
+    //     }
+    // }
 }

@@ -61,4 +61,57 @@ page 70029 "Income Tax Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("Income Tax Calculation")
+            {
+                Caption = 'Income Tax Calculation';
+                ApplicationArea = All;
+                ToolTip = 'Calculates income tax for the selected employee.';
+
+                trigger OnAction()
+                begin
+                    Calculate_Tax(Rec."Employee No");
+                end;
+            }
+
+            action("Current Employee")
+            {
+                Caption = 'Current Employee';
+                ApplicationArea = All;
+                ToolTip = 'Calculates income tax for the current employee.';
+
+                trigger OnAction()
+                begin
+                    Calculate_Tax(Rec."Employee No");
+                end;
+            }
+
+            action("All Employees")
+            {
+                Caption = 'All Employees';
+                ApplicationArea = All;
+                ToolTip = 'Calculates income tax for all employees.';
+
+                trigger OnAction()
+                begin
+                    Calculate_Tax('ALL');
+                end;
+            }
+        }
+    }
+    procedure Calculate_Tax(EmployeeFilter: Code[20])
+    var
+        CUIncomeTaxCreationPosting: Codeunit "Income Tax Creation / Posting";
+    begin
+        CUIncomeTaxCreationPosting."Calculate Income Tax"(
+            Rec."Location Code",
+            Rec."Salary Plan Code",
+            Rec."Assessment Year",
+            EmployeeFilter);
+
+        Message('Tax Calculated Successfully..!!');
+    end;
 }

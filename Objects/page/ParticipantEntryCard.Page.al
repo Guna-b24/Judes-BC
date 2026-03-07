@@ -45,4 +45,34 @@ page 71197 "Participant Entry Card"
             }
         }
     }
+    actions
+    {
+        area(processing)
+        {
+            action("&Update Participant Entry")
+            {
+                Caption = 'Update Participant Entry';
+                ApplicationArea = All;
+                Image = EditLines;
+                trigger OnAction()
+                begin
+                    CoCurricular.UpdateEntry(Rec."No.");
+                end;
+            }
+
+            action("&Get Students")
+            {
+                Caption = 'Get Students';
+                ApplicationArea = All;
+                Image = OpenInNewWindow;
+                trigger OnAction()
+                begin
+                    CoCurricular.GetStudents(Rec."No.");
+                end;
+            }
+        }
+    }
+    var
+        CoCurricular: Codeunit "Co-Curricular";
+
 }

@@ -25,4 +25,45 @@ page 72057 "Holidays List"
             }
         }
     }
+    actions
+    {
+        area(processing)
+        {
+            action("Update Holidays")
+            {
+                ApplicationArea = All;
+                Caption = 'Update Holidays';
+
+                trigger OnAction()
+                begin
+                    Updateholidays.UpdateHolidays();
+                    SelectLocation();
+                    SelectSalaryPlan();
+                    SelectPayrollYear();
+                end;
+            }
+        }
+    }
+
+    procedure SelectLocation()
+    begin
+        Rec.SetRange("Location Code", Rec."Location Code");
+        CurrPage.Update(false);
+    end;
+
+    procedure SelectSalaryPlan()
+    begin
+        Rec.SetRange("Salary Plan Code", rec."Salary Plan Code");
+        CurrPage.Update(false);
+    end;
+
+    procedure SelectPayrollYear()
+    begin
+        Rec.SetRange("Calendar Year", rec."Calendar Year");
+        CurrPage.Update(false);
+    end;
+
+    var
+        Updateholidays: Codeunit "Payroll Data Creation";
+
 }

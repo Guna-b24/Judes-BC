@@ -6,6 +6,7 @@ page 70143 "Designation List"
     ApplicationArea = All;
     UsageCategory = Lists;
     CardPageId = "Designation Card";
+    Editable = true;
 
     layout
     {

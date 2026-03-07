@@ -5,6 +5,7 @@ page 70142 "Departments Card"
     SourceTable = Departments;
     ApplicationArea = All;
     UsageCategory = Lists;
+    Editable = true;
 
     layout
     {

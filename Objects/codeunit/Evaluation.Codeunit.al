@@ -87,7 +87,7 @@ codeunit 71001 Evaluation
     end;
 
 
-    procedure "Selection Process"("SelectionNo.": Code[10]): Decimal
+    procedure "Selection Process"("SelectionNo.": Code[20]): Decimal
     var
         SelectionProcess: Record "Selection process";
     begin
@@ -201,7 +201,7 @@ codeunit 71001 Evaluation
     // end;
 
 
-    procedure UpdateStatus(SelectionNo: Code[10])
+    procedure UpdateStatus(SelectionNo: Code[20])
     begin
 
         SelectionProcessLine.Reset();

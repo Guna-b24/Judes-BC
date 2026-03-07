@@ -27,4 +27,36 @@ page 71050 "Selection Process Card"
             }
         }
     }
+    actions
+    {
+        area(processing)
+        {
+            action("&Get Applicants")
+            {
+                ApplicationArea = All;
+                Caption = 'Get Applicants';
+                ToolTip = 'Fetches all applicants for the selected selection number.';
+                Image = New;
+                trigger OnAction()
+                begin
+                    Evaluate."Selection Process"(Rec."Selection No.");
+                end;
+            }
+
+            action("&Update Status")
+            {
+                ApplicationArea = All;
+                Caption = 'Update Status';
+                ToolTip = 'Updates the status of the selection process for the selected selection number.';
+                Image = Edit;
+                trigger OnAction()
+                begin
+                    Evaluate.UpdateStatus(Rec."Selection No.");
+                end;
+            }
+        }
+    }
+    var
+        Evaluate: Codeunit Evaluation;
+
 }

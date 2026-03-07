@@ -6,6 +6,7 @@ page 72290 "Misc Add/Deduction List"
     UsageCategory = Lists;
     Editable = true;
     Caption = 'Misc Add/Deductions';
+    CardPageId = "Misc Add/Deductions Worksheet";
 
     layout
     {

@@ -33,5 +33,82 @@ page 72122 "Salary Posting1 Worksheet"
         }
     }
 
+    actions
+    {
+        area(Processing)
+        {
+            action(Consolidate)
+            {
+                Caption = 'Consolidate';
+                ApplicationArea = All;
+                Image = Calculate;
+                ToolTip = 'Consolidate salary posting entries from processed salary';
+                trigger OnAction()
+                var
+                    SalaryCU: Codeunit "Post Salary";
+                begin
+                    SalaryCU.Consolidate(
+                        Rec."Journal Batch Name",
+                        Rec."Journal Template Name",
+                        Rec."Salary Due Document No",
+                        Rec."Salary Due Posted Date",
+                        Rec."Location Code",
+                        Rec."Salary Plan Code",
+                        Rec."Salary Cycle Code",
+                        Rec."Branch Code",
+                        Rec."Payroll Start Date",
+                        Rec."Payroll End Date"
+                    );
+                    Message('Consolidation completed.');
+                end;
+            }
 
+            action(MonthlyEmployee)
+            {
+                Caption = 'Monthly Employee';
+                ApplicationArea = All;
+                Image = Calculate;
+                ToolTip = 'Calculate monthly employee salary postings';
+                trigger OnAction()
+                var
+                    SalaryCU: Codeunit "Post Salary";
+                begin
+                    SalaryCU.PostMonthlyEmployee(
+                        Rec."Journal Batch Name",
+                        Rec."Journal Template Name",
+                        Rec."Salary Due Document No",
+                        Rec."Salary Due Posted Date",
+                        Rec."Location Code",
+                        Rec."Salary Plan Code",
+                        Rec."Salary Cycle Code",
+                        Rec."Branch Code",
+                        Rec."Payroll Start Date",
+                        Rec."Payroll End Date"
+                    );
+                    Message('Monthly employee salary calculated.');
+                end;
+            }
+
+            action(PostSalaryAction)
+            {
+                Caption = 'Post Salary';
+                ApplicationArea = All;
+                Image = Calculate;
+                ToolTip = 'Post salary to General Ledger and update attendance';
+                trigger OnAction()
+                var
+                    SalaryCU: Codeunit "Post Salary";
+                begin
+                    SalaryCU.PostSalary(
+                        Rec."Journal Batch Name",
+                        Rec."Journal Template Name",
+                           Rec."Location Code",
+                        Rec."Salary Plan Code",
+                        Rec."Salary Cycle Code",
+                        Rec."Branch Code");
+                    Message('Salary posted successfully.');
+                end;
+            }
+        }
+    }
 }

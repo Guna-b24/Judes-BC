@@ -821,9 +821,238 @@ codeunit 72009 "Income Tax Creation / Posting"
         MESSAGE('%1', TotalBasicDAAmount);
         MESSAGE('%1', TotalHRAAmount);
         MESSAGE('%1', TotalRentPaid);
-        MESSAGE('%1', CalcHRAAmount);
-        */
+        MESSAGE('%1', CalcHRAAmount);        */
 
     end;
+
+
+    //Incometax Challan card page coding
+    procedure UpdateChallanDetails(LocationCode: Code[20]; SalaryPlanCode: Code[20]; SalaryYear: Code[20]; SalaryCyclicCode: Code[20];
+                                     SectionCode: Code[20]; ChallanNo: Code[20]; ChallanDate: Date; BankCode: Code[20];
+                                     BankCash: Option; TotalChallanAmt: Decimal)
+    var
+        IncomeTaxChallan: Record "Income Tax Challan Details";
+    begin
+        IncomeTaxChallan.SetRange("Location Code", LocationCode);
+        IncomeTaxChallan.SetRange("Salary Plan Code", SalaryPlanCode);
+        IncomeTaxChallan.SetRange("Salary Year", SalaryYear);
+        IncomeTaxChallan.SetRange("Salary Cyclic Code", SalaryCyclicCode);
+
+        if IncomeTaxChallan.Find('-') then
+            repeat
+                IncomeTaxChallan."Section Code" := SectionCode;
+                IncomeTaxChallan."Voucher / Challan No" := ChallanNo;
+                IncomeTaxChallan."Voucher / Challan Date" := ChallanDate;
+                IncomeTaxChallan."Bank Code" := BankCode;
+                IncomeTaxChallan."Bank/Cash" := BankCash;
+
+                if IncomeTaxChallan."Challan Process Month" in [1, 2, 3] then
+                    IncomeTaxChallan."Quarterly Code" := IncomeTaxChallan."Quarterly Code"::Q4;
+
+                if IncomeTaxChallan."Challan Process Month" in [4, 5, 6] then
+                    IncomeTaxChallan."Quarterly Code" := IncomeTaxChallan."Quarterly Code"::Q1;
+
+                if IncomeTaxChallan."Challan Process Month" in [7, 8, 9] then
+                    IncomeTaxChallan."Quarterly Code" := IncomeTaxChallan."Quarterly Code"::Q2;
+
+                if IncomeTaxChallan."Challan Process Month" in [10, 11, 12] then
+                    IncomeTaxChallan."Quarterly Code" := IncomeTaxChallan."Quarterly Code"::Q3;
+
+                IncomeTaxChallan."Total Challan Amount" := TotalChallanAmt;
+
+                IncomeTaxChallan.Modify();
+            until IncomeTaxChallan.Next() = 0;
+    end;
+
+
+    procedure SelectChallan(LocationCode: Code[20]; SalaryPlanCode: Code[20]; SalaryYear: Code[20]; SalaryCyclicCode: Code[20]; var TotalChallanAmt: Decimal)
+    var
+        IncomeTaxChallan: Record "Income Tax Challan Details";
+    begin
+        IncomeTaxChallan.SetRange("Location Code", LocationCode);
+        IncomeTaxChallan.SetRange("Salary Plan Code", SalaryPlanCode);
+        IncomeTaxChallan.SetRange("Salary Year", SalaryYear);
+        IncomeTaxChallan.SetRange("Salary Cyclic Code", SalaryCyclicCode);
+
+        if IncomeTaxChallan.Find('-') then
+            repeat
+                IncomeTaxChallan.Post := true;
+                IncomeTaxChallan.Select := true;
+                IncomeTaxChallan.Modify();
+
+                TotalChallanAmt += IncomeTaxChallan."Total Income Tax";
+            until IncomeTaxChallan.Next() = 0;
+    end;
+
+
+    procedure DeselectChallan(LocationCode: Code[20]; SalaryPlanCode: Code[20]; SalaryYear: Code[20]; SalaryCyclicCode: Code[20])
+    var
+        IncomeTaxChallan: Record "Income Tax Challan Details";
+    begin
+        IncomeTaxChallan.SetRange("Location Code", LocationCode);
+        IncomeTaxChallan.SetRange("Salary Plan Code", SalaryPlanCode);
+        IncomeTaxChallan.SetRange("Salary Year", SalaryYear);
+        IncomeTaxChallan.SetRange("Salary Cyclic Code", SalaryCyclicCode);
+
+        if IncomeTaxChallan.Find('-') then
+            repeat
+                IncomeTaxChallan.Post := false;
+                IncomeTaxChallan.Select := false;
+                IncomeTaxChallan.Modify();
+            until IncomeTaxChallan.Next() = 0;
+    end;
+
+    procedure GetEmployeesForExemption(StartDate: Date; EndDate: Date; LocationCode: Code[20]; SalaryPlanCode: Code[20]; SalaryCycleCode: Code[20]; PayElementCode: Code[20]; FixedYesNo: Boolean; FixedAmount: Decimal)
+    var
+        Employee: Record Employee;
+        MiscAddDeductions: Record "Misc Add/Deductions";
+        PayElements: Record "Pay Elements";
+    begin
+        if (StartDate = 0D) or (EndDate = 0D) or (PayElementCode = '') then
+            Error('Enter the Start Date & End Date & Element Code');
+
+        Employee.Reset();
+        Employee.SetRange("Location Code", LocationCode);
+        Employee.SetRange("Salary Plan Code", SalaryPlanCode);
+
+        if Employee.FindSet() then
+            repeat
+                MiscAddDeductions.Init();
+                MiscAddDeductions.Year := Date2DMY(StartDate, 3);
+                MiscAddDeductions.Month := Date2DMY(StartDate, 2);
+                MiscAddDeductions."Employee No" := Employee."No.";
+                MiscAddDeductions."Payroll Start Date" := StartDate;
+                MiscAddDeductions."Payroll End Date" := EndDate;
+                MiscAddDeductions."Location Code" := LocationCode;
+                MiscAddDeductions."Salary Plan Code" := SalaryPlanCode;
+                MiscAddDeductions."Salary Cycle Code" := SalaryCycleCode;
+                MiscAddDeductions."Pay Element Code" := PayElementCode;
+                MiscAddDeductions.Name := Employee."First Name";
+                MiscAddDeductions.Amount := 0;
+
+                if FixedYesNo then
+                    MiscAddDeductions.Amount := FixedAmount;
+
+                MiscAddDeductions."Created Date" := Today;
+                MiscAddDeductions.Insert();
+
+            until Employee.Next() = 0;
+    end;
+
+
+    //MiscAddDeductionWorksheet Page procedure 
+
+    procedure CalculateEmployees(
+        StartDate: Date;
+        EndDate: Date;
+        LocationCode: Code[20];
+        SalaryPlanCode: Code[20];
+        SalaryCycleCode: Code[20];
+        PayElementCode: Code[20];
+        FixedYesNo: Boolean;
+        FixedAmount: Decimal;
+        OTYesNo: Boolean)
+    var
+        Employee: Record Employee;
+        MiscAddDeductions: Record "Misc Add/Deductions";
+        PayElements: Record "Pay Elements";
+        EmployeePayElements: Record "Employee Pay Elements";
+        LocationHRPayrollSetup: Record "Location HR & Payroll Setup";
+        LastEffectiveDate: Date;
+        OTGrossEarnings: Decimal;
+        TotalPayableDays: Integer;
+        Amount: Decimal;
+        AmountPerHour: Decimal;
+        LEmployeeNo: Code[20];
+    begin
+        // Validate input
+        if (StartDate = 0D) or (EndDate = 0D) or (PayElementCode = '') then
+            Error('Enter the Start Date & End Date & Element Code');
+
+        // Get Location Setup
+        if not LocationHRPayrollSetup.Get(LocationCode) then
+            Error('Location HR & Payroll Setup not found for %1', LocationCode);
+
+        // 1️⃣ Loop through active employees and insert records
+        Employee.Reset();
+        Employee.SetRange("Location Code", LocationCode);
+        Employee.SetRange("Salary Plan Code", SalaryPlanCode);
+        Employee.SetRange(Employee.Status, Employee.Status::Active);
+
+        if Employee.Find('-') then
+            repeat
+                MiscAddDeductions.Init();
+                MiscAddDeductions.Year := Date2DMY(StartDate, 3);
+                MiscAddDeductions.Month := Date2DMY(StartDate, 2);
+                MiscAddDeductions."Employee No" := Employee."No.";
+                MiscAddDeductions."Payroll Start Date" := StartDate;
+                MiscAddDeductions."Payroll End Date" := EndDate;
+                MiscAddDeductions."Location Code" := LocationCode;
+                MiscAddDeductions."Salary Plan Code" := SalaryPlanCode;
+                MiscAddDeductions."Salary Cycle Code" := SalaryCycleCode;
+                MiscAddDeductions."Pay Element Code" := PayElements."Pay Element Code";
+                MiscAddDeductions.Name := Employee."First Name" + ' ' + Employee.Initials;
+                MiscAddDeductions."Employee Category" := PayElements."Paid Category";
+                MiscAddDeductions."Pay Type" := PayElements."Pay Type";
+                MiscAddDeductions.Amount := 0;
+                MiscAddDeductions."Pay Category" := Employee."Employee Category";
+                MiscAddDeductions.Gender := Employee.Gender;
+
+                if FixedYesNo then
+                    MiscAddDeductions."OT Fixed Amount" := FixedAmount;
+
+                MiscAddDeductions."Created Date" := Today();
+                MiscAddDeductions.Insert();
+            until Employee.Next() = 0;
+
+        // 2️⃣ Loop again to calculate OT if OTYesNo = true
+        if OTYesNo then begin
+            EmployeePayElements.Reset();
+            EmployeePayElements.SetRange("Location Code", LocationCode);
+            EmployeePayElements.SetRange("Salary Plan Code", SalaryPlanCode);
+
+            if EmployeePayElements.Find('-') then
+                repeat
+                    LEmployeeNo := EmployeePayElements."Employee No";
+
+                    // Get last effective date
+                    EmployeePayElements.SetRange("Employee No", LEmployeeNo);
+                    EmployeePayElements.SetFilter("Effective Date", '<=%1', EndDate);
+                    if EmployeePayElements.Find('+') then
+                        LastEffectiveDate := EmployeePayElements."Effective Date";
+
+                    EmployeePayElements.SetRange("Effective Date", LastEffectiveDate);
+
+                    if EmployeePayElements.Find('-') then
+                        repeat
+                            PayElements.Get(EmployeePayElements."Pay Element Code", LocationCode, SalaryPlanCode);
+                            if PayElements."Eligible for OT" then
+                                OTGrossEarnings += EmployeePayElements.Amount;
+                        until EmployeePayElements.Next() = 0;
+
+                    TotalPayableDays := EndDate - StartDate + 1;
+
+                    // Find corresponding Misc Add/Deductions record
+                    if MiscAddDeductions.Get(LocationCode, SalaryPlanCode, SalaryCycleCode, LEmployeeNo, PayElementCode) then begin
+                        Amount := 0;
+
+                        if Employee."OT Type" = Employee."OT Type"::"Hourly Based" then
+                            if MiscAddDeductions."Total OT Hours" > 0 then begin
+                                AmountPerHour := (OTGrossEarnings / TotalPayableDays) / LocationHRPayrollSetup."No of Hours Per Day";
+                                Amount := MiscAddDeductions."Total OT Hours" * AmountPerHour * Employee."Over Time Multiplier";
+                            end;
+
+
+                        if Employee."OT Type" = Employee."OT Type"::"Fixed Amount" then
+                            Amount := MiscAddDeductions."Total OT Hours" * MiscAddDeductions."OT Fixed Amount";
+
+                        MiscAddDeductions.Amount := Amount;
+                        MiscAddDeductions.Modify();
+                    end;
+
+                until EmployeePayElements.Next() = 0;
+        end;
+    end;
+
 }
 

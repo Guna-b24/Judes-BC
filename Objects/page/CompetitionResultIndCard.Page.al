@@ -70,4 +70,38 @@ page 71085 "Competition Result Ind Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action(GetStudents)
+            {
+                Caption = 'Get Students';
+                ApplicationArea = All;
+                Image = GetSourceDoc;
+                ToolTip = 'Fetches students for this competition result.';
+
+                trigger OnAction()
+                var
+                    CoCurricularMgt: Codeunit "Co-Curricular";
+                begin
+                    CoCurricularMgt.GetStudentsIndividual(Rec."No.");
+                end;
+            }
+            action(UpdatePoints)
+            {
+                Caption = 'Update Points';
+                ApplicationArea = All;
+                Image = Calculate;
+                ToolTip = 'Checks positions and updates points for students.';
+
+                trigger OnAction()
+                var
+                    CoCurricularMgt: Codeunit "Co-Curricular";
+                begin
+                    CoCurricularMgt.UpdatePointsIndividual(Rec."No.", true);
+                end;
+            }
+        }
+    }
 }

@@ -116,4 +116,126 @@ page 70042 "Bonus Header Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action(AllEmployees)
+            {
+                Caption = 'All Employees';
+                ApplicationArea = All;
+                Image = New;
+                ToolTip = 'Creates bonus records for all eligible employees.';
+
+                trigger OnAction()
+                var
+                    BonusProcess: Codeunit "Bonus Creation";
+                begin
+                    BonusProcess."Create Bonus Records"(Rec."Bonus Id.", 'ALL');
+                    CurrPage.Update();
+                end;
+            }
+            action(BonusCreation)
+            {
+                Caption = 'Bonus Creation';
+                ApplicationArea = All;
+                Image = New;
+                ToolTip = 'Creates bonus records for all eligible employees for this bonus.';
+
+                trigger OnAction()
+                var
+                    BonusProcess: Codeunit "Bonus Creation";
+                begin
+                    if Confirm('Do you want to create bonus records for all employees?', false) then begin
+                        BonusProcess."Create Bonus Records"(Rec."Bonus Id.", 'ALL');
+                        CurrPage.Update();
+                        Message('Bonus records created successfully.');
+                    end;
+                end;
+            }
+            action(UpdateServiceMonth)
+            {
+                Caption = 'Service Month Updation';
+                ApplicationArea = All;
+                Image = Calculate;
+                ToolTip = 'Calculates and updates service years and service months for all bonus lines.';
+
+                trigger OnAction()
+                var
+                    BonusLine: Record "Bonus Line";
+                    Employee: Record Employee;
+                begin
+                    BonusLine.SetRange("Bonus Id.", Rec."Bonus Id.");
+
+                    if BonusLine.FindSet() then
+                        repeat
+                            if Employee.Get(BonusLine."Employee No") then begin
+
+                                BonusLine."Service Year" :=
+                                    Round((Today - Employee."Employment Date") / 365.2364, 1, '=');
+
+                                BonusLine."Service Month" :=
+                                    Round((Today - Employee."Employment Date") / 30.41, 1, '=');
+
+                                if BonusLine."Service Month" <= 11 then
+                                    BonusLine."Service Year" := 0;
+
+                                BonusLine.Modify();
+                            end;
+                        until BonusLine.Next() = 0;
+
+                    Message('Updated Successfully.');
+                    CurrPage.Update();
+                end;
+            }
+            action(UpdateBonusPercent)
+            {
+                Caption = 'Update Bonus %';
+                ApplicationArea = All;
+                Image = Calculate;
+                ToolTip = 'Updates bonus and ex-gratia percentages for all bonus lines.';
+
+                trigger OnAction()
+                var
+                    BonusLine: Record "Bonus Line";
+                begin
+                    BonusLine.SetRange("Bonus Id.", Rec."Bonus Id.");
+
+                    if BonusLine.FindSet() then
+                        repeat
+                            BonusLine."Bonus %" := Rec."Bonus (%)";
+                            BonusLine."Ex-Gratia %" := Rec."Ex-Gratia (%)";
+                            BonusLine.Modify();
+                        until BonusLine.Next() = 0;
+
+                    Message('Updated Successfully.');
+                    CurrPage.Update();
+                end;
+            }
+            action(UpdateYear)
+            {
+                Caption = 'Update Year';
+                ApplicationArea = All;
+                Image = Update;
+                ToolTip = 'Updates total days in a year for all bonus lines.';
+
+                trigger OnAction()
+                var
+                    BonusLine: Record "Bonus Line";
+                begin
+                    BonusLine.SetRange("Bonus Id.", Rec."Bonus Id.");
+
+                    if BonusLine.FindSet() then
+                        repeat
+                            BonusLine."Total Days In a Year" := Rec."Total Days In a Year";
+                            BonusLine.Modify();
+                        until BonusLine.Next() = 0;
+
+                    Message('Updated Successfully.');
+                    CurrPage.Update();
+                end;
+            }
+
+        }
+    }
 }

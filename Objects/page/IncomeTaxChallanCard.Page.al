@@ -1,6 +1,6 @@
 page 70131 "Income Tax Challan Card"
 {
-    PageType = Card;
+    PageType = Worksheet;
     SourceTable = "Income Tax Challan Details";
     ApplicationArea = All;
     Caption = 'Income Tax Challan Details';
@@ -63,4 +63,51 @@ page 70131 "Income Tax Challan Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("Update Challan Details")
+            {
+                Caption = 'Update Challan Details';
+                ApplicationArea = All;
+                Image = UpdateDescription;
+                ToolTip = 'Updates challan details for the filtered income tax records.';
+
+                trigger OnAction()
+                begin
+                    ChallanMgt.SelectChallan(rec."Location Code", rec."Salary Plan Code", rec."Salary Year", rec."Salary Cyclic Code", rec."Total Challan Amount");
+                end;
+            }
+
+            action("Select Challan")
+            {
+                Caption = 'Select';
+                ApplicationArea = All;
+                Image = SelectEntries;
+                ToolTip = 'Selects the challan records and marks them for posting.';
+
+                trigger OnAction()
+                begin
+                    ChallanMgt.SelectChallan(rec."Location Code", rec."Salary Plan Code", rec."Salary Year", rec."Salary Cyclic Code", rec."Total Challan Amount");
+                end;
+            }
+
+            action("Deselect Challan")
+            {
+                Caption = 'Deselect';
+                ApplicationArea = All;
+                Image = Cancel;
+                ToolTip = 'Removes the selection and posting mark from challan records.';
+
+                trigger OnAction()
+                begin
+                    ChallanMgt.SelectChallan(rec."Location Code", rec."Salary Plan Code", rec."Salary Year", rec."Salary Cyclic Code", rec."Total Challan Amount");
+                end;
+            }
+        }
+    }
+    var
+        ChallanMgt: Codeunit "Income Tax Creation / Posting";
+
 }

@@ -5,6 +5,7 @@ page 72103 "Income Tax Exemptions List"
     ApplicationArea = All;
     UsageCategory = Lists;
     Caption = 'Income Tax Exemptions';
+    CardPageId = "Income Tax Exemptions";
 
     layout
     {

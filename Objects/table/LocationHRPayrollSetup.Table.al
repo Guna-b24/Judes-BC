@@ -759,6 +759,26 @@ table 72052 "Location HR & Payroll Setup"
             ToolTip = 'Specifies whether worker-based calculation is not required.';
             DataClassification = CustomerContent;
         }
+        field(70003; "Location Logo"; Media)
+        {
+            Caption = 'Location Logo';
+            ToolTip = 'Specifies Location Logo.';
+            DataClassification = CustomerContent;
+        }
+        field(70001; "PF Logo"; Media)
+        {
+            Caption = 'PF Logo';
+            ToolTip = 'Specifies PF Logo.';
+            DataClassification = CustomerContent;
+        }
+
+        field(70002; "ESI Logo"; Media)
+        {
+            Caption = 'ESI Logo';
+            ToolTip = 'Specifies ESI Logo.';
+            DataClassification = CustomerContent;
+        }
+
     }
 
     keys

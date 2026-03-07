@@ -53,4 +53,47 @@ page 71056 "Marks Header Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            group(MarksActions)
+            {
+                Caption = 'Marks';
+
+                // Update / Mark Entry Completed
+                action(MarkEntryCompleted)
+                {
+                    Caption = 'Mark Entry Completed';
+                    ApplicationArea = All;
+                    ToolTip = 'Upadate the Mark Entry.';
+                    Image = New;
+
+                    trigger OnAction()
+                    var
+                        MarkProcessing: Codeunit "Mark Processing";
+                    begin
+                        if Confirm('Do you want to complete marks entry?', true) then
+                            MarkProcessing."Marks Entry Completed"(Rec."No.");
+                    end;
+                }
+
+                // Get Students
+                action(GetStudents)
+                {
+                    Caption = 'Get Students';
+                    ApplicationArea = All;
+                    ToolTip = 'Getting STudents No.';
+                    image = Status;
+
+                    trigger OnAction()
+                    var
+                        MarkProcessing: Codeunit "Mark Processing";
+                    begin
+                        MarkProcessing."Get Students"(Rec."No.");
+                    end;
+                }
+            }
+        }
+    }
 }

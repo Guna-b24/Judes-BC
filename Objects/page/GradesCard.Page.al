@@ -4,6 +4,7 @@ page 72062 "Grades Card"
     SourceTable = Grades;
     ApplicationArea = All;
     Caption = 'Grade';
+    UsageCategory = Administration;
 
     layout
     {
@@ -39,6 +40,12 @@ page 72062 "Grades Card"
                 field("Over Time Multiplier"; Rec."Over Time Multiplier") { ApplicationArea = All; }
                 field("Employee VPF ( Employee) %"; Rec."Employee VPF ( Employee) %") { ApplicationArea = All; }
             }
+            field(EffectiveDate; EffectiveDate)
+            {
+                Caption = 'Effective Date';
+                ApplicationArea = All;
+                ToolTip = 'Specifies the effective date used when getting pay elements.';
+            }
         }
     }
     actions
@@ -56,6 +63,26 @@ page 72062 "Grades Card"
                 RunObject = page "Pay Elements Card";
                 RunPageLink = "Salary Plan Code" = field("Salary Plan Code");
             }
+            action(GetPayElements)
+            {
+                Caption = '&Get Pay Elements';
+                ApplicationArea = All;
+                Image = GetEntries;
+                ToolTip = 'Gets the pay elements and creates grade element records for the selected grade and effective date.';
+
+                trigger OnAction()
+                begin
+                    PayrollMgt.GetPayElements(
+                        Rec."Location Code",
+                        Rec."Salary Plan Code",
+                        Rec."Grade Code",
+                        EffectiveDate);
+                end;
+            }
         }
     }
+    var
+        PayrollMgt: Codeunit "Payroll Data Creation";
+        EffectiveDate: Date;
+
 }

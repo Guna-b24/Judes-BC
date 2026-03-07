@@ -534,5 +534,70 @@ codeunit 72001 "Attendance Creation"
             until DailyAttendance.Next() = 0;
         CUGeneralFunctions.CloseWindow();
     end;
+
+    //DailyAttendance worksheet page code
+    procedure VerifyAttendance(
+       LocationCode: Code[20];
+       SalaryPlanCode: Code[20];
+       SalaryCycleCode: Code[20];
+       EmployeeNo: Code[20];
+       AttendanceVerified: Boolean)
+    var
+        DailyAttendance: Record "Daily Attendance";
+    begin
+        DailyAttendance.Reset();
+        DailyAttendance.SetRange("Location Code", LocationCode);
+        DailyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
+        DailyAttendance.SetRange("Salary Cyclic Code", SalaryCycleCode);
+        DailyAttendance.SetRange("Employee No", EmployeeNo);
+
+        if DailyAttendance.Find('-') then
+            repeat
+                DailyAttendance.Validate("Attendance Verified", AttendanceVerified);
+                DailyAttendance.Modify();
+            until DailyAttendance.Next() = 0;
+    end;
+
+    // =========================
+    // Confirm & Verify Procedure
+    // =========================
+    procedure ConfirmAndVerifyAttendance(
+        LocationCode: Code[20];
+        SalaryPlanCode: Code[20];
+        SalaryCycleCode: Code[20];
+        EmployeeNo: Code[20])
+    var
+        AttendanceVerified: Boolean;
+    begin
+        if not Confirm('Attendance Checked <Yes/No>?') then
+            exit;
+
+        AttendanceVerified := true; // Can be dynamic if needed
+        VerifyAttendance(LocationCode, SalaryPlanCode, SalaryCycleCode, EmployeeNo, AttendanceVerified);
+
+        Message('Attendance Verified Successfully!');
+    end;
+
+    // Get Punch / Shift Info Procedure
+    // =========================
+    procedure GetPunchInfo(
+        LocationCode: Code[20];
+        SalaryPlanCode: Code[20];
+        SalaryCycleCode: Code[20];
+        EmployeeNo: Code[20];
+        var ShiftCode: Code[20])
+    var
+        DailyAttendance: Record "Daily Attendance";
+    begin
+        DailyAttendance.Reset();
+        DailyAttendance.SetRange("Location Code", LocationCode);
+        DailyAttendance.SetRange("Salary Plan Code", SalaryPlanCode);
+        DailyAttendance.SetRange("Salary Cyclic Code", SalaryCycleCode);
+        DailyAttendance.SetRange("Employee No", EmployeeNo);
+
+        if DailyAttendance.FindFirst() then
+            ShiftCode := DailyAttendance."Shift Code";
+    end;
+
 }
 
