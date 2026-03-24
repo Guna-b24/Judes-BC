@@ -4,7 +4,7 @@ table 71046 Student
     Caption = 'Student';
     DataPerCompany = false;
     DataClassification = CustomerContent;
-    // DrillDownPageID = 71047;
+    DrillDownPageID = "Student List";
     LookupPageID = "Student List";
 
     fields

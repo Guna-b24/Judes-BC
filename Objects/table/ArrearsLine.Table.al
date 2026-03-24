@@ -2,7 +2,7 @@ table 72094 "Arrears Line"
 {
     Caption = 'Arrears Line';
     DataClassification = CustomerContent;
-    // DrillDownPageID = 72136;
+    DrillDownPageID = "Arrears Line List";
     LookupPageID = "Arrears Line List";
 
     fields

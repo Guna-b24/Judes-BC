@@ -2,7 +2,7 @@ table 72118 "Bonus Detailed Line"
 {
     Caption = 'Bonus Detailed Line';
     DataClassification = CustomerContent;
-    // DrillDownPageID = 72161;
+    DrillDownPageID = "Bonus Detailed Line List";
     LookupPageID = "Bonus Detailed Line List";
 
     fields

@@ -1,6 +1,8 @@
 table 71945 "Academic Points"
 {
     LookupPageId = "Academic Points List";
+    DrillDownPageId = "Academic Points List";
+    ;
 
     fields
     {

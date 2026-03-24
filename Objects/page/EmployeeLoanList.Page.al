@@ -16,6 +16,12 @@ page 72119 "Employee Loan List"
                 field("Loan Id"; Rec."Loan Id")
                 {
                     ApplicationArea = All;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
+
                 }
 
                 field("Employee No"; Rec."Employee No")

@@ -15,7 +15,13 @@ page 70033 "Appraisal Header Card"
                 field("App No."; Rec."App No.")
                 {
                     ApplicationArea = All;
-                    AssistEdit = true;
+                    //AssistEdit = true;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
+
                 }
                 field("Employee No"; Rec."Employee No")
                 {

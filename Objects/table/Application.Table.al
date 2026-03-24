@@ -1,7 +1,7 @@
 table 71002 Application
 {
     Caption = 'Application';
-    // DrillDownPageID = 71004;
+    DrillDownPageID = "Application List";
     LookupPageID = "Application List";
 
     fields
@@ -901,7 +901,7 @@ table 71002 Application
 
     trigger OnInsert()
     begin
-        if AdmissionSetup."Application No." = '' then begin
+        if "No." = '' then begin
             AdmissionSetup.Get();
             AdmissionSetup.TestField("Application No.");
             "No. Series" := AdmissionSetup."Application No.";

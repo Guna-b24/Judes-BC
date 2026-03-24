@@ -12,7 +12,16 @@ page 71025 "Student Card"
         {
             group(General)
             {
-                field("No."; Rec."No.") { ApplicationArea = All; }
+                field("No."; Rec."No.")
+                {
+                    ApplicationArea = All;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
+
+                }
                 field(Name; Rec.Name) { ApplicationArea = All; }
                 field("Name 2"; Rec."Name 2") { ApplicationArea = All; }
                 field("Academic Year"; Rec."Academic Year") { ApplicationArea = All; }

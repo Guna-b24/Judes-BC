@@ -18,6 +18,12 @@ page 71261 "Withdrawal Card"
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = All;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
+
                 }
                 field("Student No."; Rec."Student No.")
                 {

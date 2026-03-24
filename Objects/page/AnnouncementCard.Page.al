@@ -16,6 +16,12 @@ page 70017 "Announcement Card"
                 {
                     ApplicationArea = All;
                     AssistEdit = true;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
+
                 }
 
                 field("Document Type"; Rec."Document Type") { ApplicationArea = All; }

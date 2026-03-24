@@ -15,7 +15,12 @@ page 71089 "Competition Result Team Card"
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = All;
-                    AssistEdit = true;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
+
                 }
 
                 field("Competition Entry No."; Rec."Competition Entry No.")

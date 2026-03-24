@@ -11,13 +11,34 @@ page 71050 "Selection Process Card"
         {
             group(General)
             {
-                field("Selection No."; Rec."Selection No.") { }
-                field(Class; Rec.Class) { }
-                field(Curriculum; Rec.Curriculum) { }
-                field("Academic Year"; Rec."Academic Year") { }
-                field("Interview Date"; Rec."Interview Date") { }
-                field("Seats Vacant"; Rec."Seats Vacant") { }
-                field("Total Selected"; Rec."Total Selected") { }
+                field("Selection No."; Rec."Selection No.")
+                {
+                    ToolTip = 'Specifies the unique number assigned to the selection process.';
+                }
+                field(Class; Rec.Class)
+                {
+                    ToolTip = 'Specifies the class for which the selection is conducted.';
+                }
+                field(Curriculum; Rec.Curriculum)
+                {
+                    ToolTip = 'Specifies the curriculum associated with the selection process.';
+                }
+                field("Academic Year"; Rec."Academic Year")
+                {
+                    ToolTip = 'Specifies the academic year for the selection process.';
+                }
+                field("Interview Date"; Rec."Interview Date")
+                {
+                    ToolTip = 'Specifies the date on which the interview is scheduled.';
+                }
+                field("Seats Vacant"; Rec."Seats Vacant")
+                {
+                    ToolTip = 'Specifies the number of available seats.';
+                }
+                field("Total Selected"; Rec."Total Selected")
+                {
+                    ToolTip = 'Specifies the total number of candidates selected.';
+                }
             }
 
             part(Lines; "Selection Process Subpage")

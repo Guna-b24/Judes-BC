@@ -3,7 +3,7 @@ table 72090 "Processed Salary"
     Caption = 'Processed Salary';
     DataClassification = CustomerContent;
     DataCaptionFields = "Employee No";
-    // DrillDownPageID = 72124;
+    DrillDownPageID = "Processed Salary";
     LookupPageID = "Processed Salary";
 
     fields

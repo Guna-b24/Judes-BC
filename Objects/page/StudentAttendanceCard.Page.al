@@ -12,7 +12,16 @@ page 71027 "Student Attendance Card"
         {
             group(General)
             {
-                field("No."; Rec."No.") { ApplicationArea = All; }
+                field("No."; Rec."No.")
+                {
+                    ApplicationArea = All;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
+
+                }
                 field("Class Code"; Rec."Class Code") { ApplicationArea = All; }
                 field(Class; Rec.Class) { ApplicationArea = All; }
                 field(Section; Rec.Section) { ApplicationArea = All; }

@@ -48,6 +48,8 @@ table 72107 "Arrears Header Line"
             Editable = false;
             FieldClass = FlowField;
         }
+
+
     }
 
     keys

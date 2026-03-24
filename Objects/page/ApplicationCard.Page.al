@@ -16,6 +16,13 @@ page 70020 "Application Card"
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = All;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
+
+
                 }
 
                 field("Name of the pupil"; Rec."Name of the pupil")

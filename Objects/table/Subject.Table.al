@@ -3,6 +3,7 @@ table 71004 Subject
     Caption = 'Subject';
     DataClassification = CustomerContent;
     LookupPageID = "Subject List";
+    DrillDownPageId = "Subject List";
 
     fields
     {

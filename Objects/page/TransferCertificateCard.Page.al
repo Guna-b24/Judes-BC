@@ -14,6 +14,12 @@ page 71262 "Transfer Certificate Card"
             {
                 field("TC No."; Rec."TC No.")
                 {
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
+
                 }
                 field("Student No."; Rec."Student No.")
                 {

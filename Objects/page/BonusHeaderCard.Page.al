@@ -15,7 +15,13 @@ page 70042 "Bonus Header Card"
                 field("Bonus Id."; Rec."Bonus Id.")
                 {
                     ApplicationArea = All;
-                    AssistEdit = true;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
+
+
                 }
                 field("Location Code"; Rec."Location Code")
                 {

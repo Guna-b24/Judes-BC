@@ -1,7 +1,7 @@
 table 72119 "Bonus Misc Add/Deductions"
 {
     Caption = 'Bonus Misc Add/Deductions';
-    // DrillDownPageID = 72163;
+    DrillDownPageID = "Bonus Misc Add/Deductions";
     LookupPageID = "Bonus Misc Add/Deductions";
 
     fields

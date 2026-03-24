@@ -15,7 +15,12 @@ page 72130 "Revision Card"
                 field("Pay Revision Id"; Rec."Pay Revision Id")
                 {
                     ApplicationArea = All;
-                    AssistEdit = true;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
+
                 }
 
                 field("Pay Revision Processing Date"; Rec."Pay Revision Processing Date")

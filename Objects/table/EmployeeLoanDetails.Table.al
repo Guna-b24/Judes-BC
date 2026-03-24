@@ -2,7 +2,7 @@ table 72088 "Employee Loan Details"
 {
 
     Caption = 'Employee Loan Details';
-    // DrillDownPageID = 72120;
+    DrillDownPageID = "Employee Loan Details List";
     LookupPageID = "Employee Loan Details List";
 
     fields
