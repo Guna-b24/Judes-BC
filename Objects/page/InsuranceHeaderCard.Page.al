@@ -6,6 +6,7 @@ page 72091 "Insurance Header Card"
     Caption = 'Insurance Header';
     UsageCategory = Administration;
 
+
     layout
     {
         area(content)

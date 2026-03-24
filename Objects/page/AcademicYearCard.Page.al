@@ -5,6 +5,9 @@ page 70003 "Academic Year Card"
     ApplicationArea = All;
     Caption = 'Academic Year';
     UsageCategory = Administration;
+    DataCaptionFields = Code, Description;
+
+
 
     layout
     {
