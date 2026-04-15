@@ -118,6 +118,10 @@ page 70058 "Class Card Card"
                 {
                     ApplicationArea = All;
                 }
+                field("Edu. Calendar Code"; Rec."Edu. Calendar Code")
+                {
+                    ApplicationArea = All;
+                }
                 field("Portal ID"; Rec."Portal ID")
                 {
                     ApplicationArea = All;
