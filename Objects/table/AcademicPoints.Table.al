@@ -14,6 +14,7 @@ table 71945 "Academic Points"
             TableRelation = Student."No.";
             NotBlank = true;
         }
+
         field(2; "Academic Year"; Code[20])
         {
             Caption = 'Academic Year';
